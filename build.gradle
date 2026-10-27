@@ -21,6 +21,23 @@ repositories {
     mavenLocal()
 }
 
+// Forge 的传递依赖里有 net.jodah:typetools:0.6.+、log4j-api:2.11.+ 这类动态版本。
+// 动态版本缓存一过期，Gradle 配置缓存就整份失效，每次 runClient 都要重新计算几十秒。
+// 这里直接把它们替换成实际解析出来的固定版本，图里不再出现动态选择器，
+// 再配合延长动态版本缓存，配置缓存就能稳定复用。
+configurations.configureEach {
+    resolutionStrategy {
+        cacheDynamicVersionsFor 365, 'days'
+        dependencySubstitution {
+            substitute module('net.jodah:typetools') using module('net.jodah:typetools:0.6.3')
+            substitute module('org.apache.logging.log4j:log4j-api') using module('org.apache.logging.log4j:log4j-api:2.19.0')
+            substitute module('org.apache.logging.log4j:log4j-core') using module('org.apache.logging.log4j:log4j-core:2.19.0')
+            substitute module('cpw.mods:modlauncher') using module('cpw.mods:modlauncher:10.0.10')
+            substitute module('net.minecraftforge:forgespi') using module('net.minecraftforge:forgespi:7.0.1')
+        }
+    }
+}
+
 base {
     archivesName = mod_id
 }
