@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_king_crab"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:cooked_king_crab_leg"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

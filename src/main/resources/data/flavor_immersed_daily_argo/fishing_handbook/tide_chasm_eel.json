@@ -1,0 +1,13 @@
+{
+    "item":  "tide:chasm_eel",
+    "entity":  "tide:chasm_eel",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:deep_dark"
+               ],
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

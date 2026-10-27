@@ -1,0 +1,14 @@
+{
+    "item":  "starcatcher:sludge_catfish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

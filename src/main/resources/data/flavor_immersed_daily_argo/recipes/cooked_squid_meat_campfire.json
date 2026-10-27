@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_squid_meat"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:cooked_squid_meat"
+  },
+  "experience": 0.35,
+  "cookingtime": 600
+}

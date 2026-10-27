@@ -1,0 +1,18 @@
+{
+    "item":  "starcatcher:cactifish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river",
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast",
+    "activity":  [
+                     "day"
+                 ]
+}

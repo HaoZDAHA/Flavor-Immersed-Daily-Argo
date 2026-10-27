@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "pot",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily:garlic"
+          },
+          {
+            "item": "flavor_immersed_daily:tidywater"
+          },
+          {
+            "item": "flavor_immersed_daily:salt"
+          }
+        ],
+        "result": {
+          "count": 2,
+          "item": "flavor_immersed_daily_argo:garlic_mince"
+        },
+        "cookingTime": 120
+      }
+    }
+  ]
+}

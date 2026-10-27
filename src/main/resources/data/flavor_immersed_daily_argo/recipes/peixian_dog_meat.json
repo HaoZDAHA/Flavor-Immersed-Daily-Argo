@@ -1,0 +1,44 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "pot",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:raw_dog_meat"
+          },
+          {
+            "item": "flavor_immersed_daily_argo:raw_dog_meat"
+          },
+          {
+            "item": "flavor_immersed_daily:halogenbag"
+          },
+          {
+            "item": "flavor_immersed_daily:salt"
+          },
+          {
+            "item": "flavor_immersed_daily:tidywater"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:peixian_dog_meat"
+        },
+        "cookingTime": 160,
+        "experience": 0.5
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:cicada_slough"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:cicada_slough"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:oxyphylline"
+  }
+}

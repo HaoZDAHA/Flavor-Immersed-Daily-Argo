@@ -1,0 +1,24 @@
+{
+  "name": "肥水还田",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:septic_tank",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)粪便$()$(br)右键拾取；也可以吃——垫垫肚子，但保准反胃。潜行右键则把它扔出去砸人。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)化粪发酵桶$()$(br)两格宽的发酵桶，自动吸收周围 $(bold)8 格$()内的粪便存进左半，攒下的粪便会慢慢发酵成 $(bold)有机肥料$() 存进右半。右键左半放入/取出粪便，右键右半取出有机肥料。$(br)$(bold)高蛋白聚合物$() 也能放进左半，同样会发酵成有机肥料。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)沼气罐$()$(br)架在化粪桶上方，桶每发酵一次就往里存一份 $(bold)加压沼气$()，空手右键掏出一摞。$(br2)$(bold)加压沼气$()$(br)当燃料能烧 8 个物品；右键扔出去会爆炸——只炸生物，不炸方块。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蝇虫叮咬$()$(br)动物清洁度低时会染上蝇虫，用 $(bold)体外驱虫药$() 可洗去。"
+    }
+  ]
+}

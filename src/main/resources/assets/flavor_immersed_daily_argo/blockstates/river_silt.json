@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "texture=0": {
+      "model": "flavor_immersed_daily_argo:block/river_silt"
+    },
+    "texture=1": {
+      "model": "flavor_immersed_daily_argo:block/river_silt_water"
+    }
+  }
+}

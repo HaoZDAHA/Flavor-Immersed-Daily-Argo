@@ -1,0 +1,10 @@
+{
+    "item":  "tide:sleepy_carp",
+    "entity":  "tide:sleepy_carp",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "herbivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:twilight_koi",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow",
+    "activity":  [
+                     "day"
+                 ]
+}

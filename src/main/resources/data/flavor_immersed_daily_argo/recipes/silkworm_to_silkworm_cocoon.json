@@ -1,0 +1,17 @@
+{
+  "type": "flavor_immersed_daily_argo:insect_breeding",
+  "feed": {
+    "tag": "minecraft:leaves"
+  },
+  "carrier": {
+    "item": "flavor_immersed_daily_argo:insect_board"
+  },
+  "offspring_input": {
+    "item": "flavor_immersed_daily_argo:silkworm"
+  },
+  "offspring_output": {
+    "item": "flavor_immersed_daily_argo:silkworm_cocoon",
+    "count": 1
+  },
+  "time": 200
+}

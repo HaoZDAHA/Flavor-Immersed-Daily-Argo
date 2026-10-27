@@ -1,0 +1,13 @@
+{
+    "item":  "tide:blossom_bass",
+    "entity":  "tide:blossom_bass",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:cherry_grove"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

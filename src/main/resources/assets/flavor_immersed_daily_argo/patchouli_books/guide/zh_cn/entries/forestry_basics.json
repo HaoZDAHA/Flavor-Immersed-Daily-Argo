@@ -1,0 +1,28 @@
+{
+  "name": "立一片林",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:ranger_clipboard",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)划一片林$()$(br)手持 $(bold)护林员写字板$() 右键任意一株树的原木，就能把这一格所在的区块登记为你的林业网点。$(br2)一个区块只认一处网点，且区块内至少要有 $(bold)5 棵树$()——林子太稀，便算不上一片林。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)写字板界面$()$(br)手持写字板右键空气，打开网点一览：每处网点的坐标、评分与当前状况都列在上面，还能给网点取名、直接解除登记。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)评分$()$(br)新网点从 $(bold)60 分$()起步。每处理一次突发状况加 $(bold)12 分$()；事情冒头后头 $(bold)2 天$()是宽限，再拖下去每天扣 $(bold)8 分$()。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)兴盛$()$(br)评分达到 $(bold)80$()，网点即为「兴盛」，所在区块享受六项加成：作物加速、牲畜愉悦、钓鱼多宝、掉落翻倍、村民降价、挖掘时运。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)林下诸事$()$(br)每天清晨，每处网点都有 $(bold)35%$() 的概率冒出一桩突发状况。写字板会在出事时提醒你，别让林子荒着。"
+    }
+  ]
+}

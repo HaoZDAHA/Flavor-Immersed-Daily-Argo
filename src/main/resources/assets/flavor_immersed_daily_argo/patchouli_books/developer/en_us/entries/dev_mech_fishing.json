@@ -1,0 +1,28 @@
+{
+  "name": "Fishing Maths",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:fishing_rod",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Codex data is used",
+      "text": "$(thing)habitat$(), $(thing)activity$(), $(thing)alertness$() and $(thing)feeding_speed$() are not cosmetic:$(br2)$(li)Wrong habitat (fresh vs ocean) removes the fish from the pool.$(br)$(li)Wrong activity window (day / night / rain) reduces its weight.$(br)$(li)Alertness feeds the bite chance; feeding speed sets the reaction window."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Two formulas",
+      "text": "$(bold)Bite chance$() = max(0.05, 0.9 × (1 − alertness × tackle conspicuousness))$(br2)$(bold)Reaction window (s)$() = tolerance ÷ feeding speed × (1 + current resistance × bonus)$(br2)So: the warier the fish and the more conspicuous the tackle, the harder the bite; the faster it feeds, the shorter your window; more anti-current lets you hold longer."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Weight roll",
+      "text": "Weight is sampled from a normal distribution: $(thing)mean$() as the average, $(thing)sigma$() as the deviation (default mean × 0.25), then clamped to $(thing)min$()~$(thing)max$().$(br2)Every catch differs; the steelyard and display stand read the same value."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Syncing",
+      "text": "Codex, tackle and weight data load on the server only. They are pushed to clients on login and on $(thing)/reload$(), and clients rebuild them with $(bold)the same parsing code$().$(br2)What you see in the UI is exactly what the maths uses. If a change does not show up, check that the server actually reloaded."
+    }
+  ]
+}

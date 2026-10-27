@@ -1,0 +1,40 @@
+{
+  "name": "虫声满林",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:insect_net",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)捕虫网捕获$()$(br)手持 $(bold)捕虫网$() 破坏矮草、高草、蕨或大型蕨，草原有的掉落照常保留，此外每一种昆虫各有 $(bold)10%$() 的概率额外掉一只：蜜蜂、蝉、蝗虫、蚕。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)昆虫培育箱$()$(br)空手右键打开。左侧竖排 $(bold)饲料 / 载体 / 父代$()，右侧是 $(bold)子代 → 产出$()：卵放子代槽里，进度跑满就变成成虫，像作物一样慢慢长。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)成虫与再繁育$()$(br)把 $(bold)两只成虫$() 放进父代槽，子代槽留空，就能重新产卵。成虫本身也能继续向下一个阶段转化，世代由此循环。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蜜蜂$()$(br)载体用 $(bold)纸板蜂巢$()，饲料用花。$(br)蜜蜂卵 → 蜜蜂；两只蜜蜂 → 蜜蜂卵。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蝉$()$(br)载体用 $(bold)轻薄木板$()，饲料用树叶。$(br)蝉卵 → 知了猴 → 蝉蜕；两只蝉蜕 → 蝉卵。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蝗虫$()$(br)载体用 $(bold)轻薄木板$()，饲料用小麦。$(br)蝗虫卵 → 蚂蚱；两只蚂蚱 → 蝗虫卵。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蚕$()$(br)载体用 $(bold)轻薄木板$()，饲料用树叶。$(br)蚕卵 → 蚕 → 蚕茧；两只蚕茧 → 蚕卵。蚕茧也是螺丝与裁衣的原料。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)高蛋白聚合物$()$(br)任意一种昆虫的 $(bold)卵$() 或 $(bold)成虫$()（蜜蜂、知了猴、蚂蚱、蚕），在工作台里 $(bold)1 个就能做出 1 个$() 高蛋白聚合物。$(br)把它放进 $(bold)化粪发酵桶$() 的左半，就会和粪便一样慢慢发酵成 $(bold)有机肥料$()——效果等同骨粉，可以直接催熟作物、催生树苗。"
+    }
+  ]
+}

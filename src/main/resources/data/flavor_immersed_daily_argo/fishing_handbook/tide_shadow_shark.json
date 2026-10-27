@@ -1,0 +1,10 @@
+{
+    "item":  "tide:shadow_shark",
+    "entity":  "tide:shadow_shark",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

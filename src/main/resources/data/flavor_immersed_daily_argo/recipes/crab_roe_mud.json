@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "choppingboard",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:steamed_mud_crab"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:crab_roe"
+        },
+        "cookingTime": 0
+      }
+    }
+  ]
+}

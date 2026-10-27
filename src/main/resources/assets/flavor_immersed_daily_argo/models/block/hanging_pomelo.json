@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "flavor_immersed_daily_argo:block/hanging_pomelo",
+    "fruit": "flavor_immersed_daily_argo:block/hanging_pomelo",
+    "stem": "flavor_immersed_daily_argo:block/fruit_stem"
+  },
+  "elements": [
+    {
+      "from": [3, 4, 3],
+      "to": [13, 13, 13],
+      "faces": {
+        "north": {"uv": [8, 7.5, 16, 16], "texture": "#fruit"},
+        "east": {"uv": [8, 7.5, 16, 16], "texture": "#fruit"},
+        "south": {"uv": [8, 7.5, 16, 16], "texture": "#fruit"},
+        "west": {"uv": [8, 7.5, 16, 16], "texture": "#fruit"},
+        "up": {"uv": [16, 16, 8, 8], "texture": "#fruit"},
+        "down": {"uv": [16, 8, 8, 16], "texture": "#fruit"}
+      }
+    },
+    {
+      "from": [7, 13, 7],
+      "to": [9, 16, 9],
+      "faces": {
+        "north": {"uv": [0, 0, 2, 3], "texture": "#stem"},
+        "east": {"uv": [2, 0, 4, 3], "texture": "#stem"},
+        "south": {"uv": [0, 3, 2, 6], "texture": "#stem"},
+        "west": {"uv": [2, 3, 4, 6], "texture": "#stem"},
+        "up": {"uv": [6, 2, 4, 0], "texture": "#stem"},
+        "down": {"uv": [6, 2, 4, 4], "texture": "#stem"}
+      }
+    }
+  ]
+}

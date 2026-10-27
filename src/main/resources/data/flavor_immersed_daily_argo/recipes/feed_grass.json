@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:seeds"
+    },
+    {
+      "tag": "forge:seeds"
+    },
+    {
+      "tag": "forge:seeds"
+    },
+    {
+      "item": "minecraft:short_grass"
+    },
+    {
+      "item": "minecraft:short_grass"
+    },
+    {
+      "item": "minecraft:short_grass"
+    },
+    {
+      "tag": "forge:crops"
+    },
+    {
+      "tag": "forge:crops"
+    },
+    {
+      "tag": "forge:crops"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "item": "flavor_immersed_daily_argo:feed_grass"
+  }
+}

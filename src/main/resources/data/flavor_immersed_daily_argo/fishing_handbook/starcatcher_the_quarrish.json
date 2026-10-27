@@ -1,0 +1,16 @@
+{
+    "item":  "starcatcher:the_quarrish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:jungle",
+                   "minecraft:sparse_jungle",
+                   "minecraft:bamboo_jungle",
+                   "minecraft:lush_caves"
+               ],
+    "depth":  "60-72",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

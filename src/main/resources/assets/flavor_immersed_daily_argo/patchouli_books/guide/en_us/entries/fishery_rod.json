@@ -1,0 +1,20 @@
+{
+  "name": "The Nanshan Rod",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_rod",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Nanshan Rod$()$(br)The mods core tackle; press $(bold)[B]$() to open the modification screen."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Numeric Assembly$()$(br)Six part types - body, reel, line, float, sinker and bait - each carry their own stats: tension, hardness, stretch, drag, reel speed, thickness, weight, current resistance, size, conspicuousness... the feel of the rod is entirely your build."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Bait & Diet$()$(br)Herbivores take Grass Bait, carnivores Meat Bait, scavengers Rot Bait, live-prey feeders Earthworms; omnivores are not picky."
+    }
+  ]
+}

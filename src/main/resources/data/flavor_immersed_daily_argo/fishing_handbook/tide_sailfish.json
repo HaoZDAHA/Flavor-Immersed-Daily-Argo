@@ -1,0 +1,15 @@
+{
+    "item":  "tide:sailfish",
+    "entity":  "tide:sailfish",
+    "habitat":  "ocean",
+    "biomes":  [
+                   "minecraft:warm_ocean",
+                   "minecraft:lukewarm_ocean",
+                   "minecraft:deep_lukewarm_ocean"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

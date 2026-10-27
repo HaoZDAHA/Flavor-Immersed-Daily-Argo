@@ -1,0 +1,28 @@
+{
+  "name": "教程：调平衡",
+  "category": "flavor_immersed_daily_argo:dev_tutorials",
+  "icon": "minecraft:comparator",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "先分清两类参数",
+      "text": "$(bold)能改的$()：配置文件里的全部字段、$(thing)data$() 下全部 JSON、配方与标签。改完 $(thing)/reload$() 或重启即生效，不用编译。$(br2)$(bold)改不了的$()：写死在代码里的机制常量，例如状态衰减节奏、繁殖产仔数、外卖单量与结算距离、盐堆随机刻概率。这些只能改源码后重新编译。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "常量的位置",
+      "text": "$(li)畜牧：$(thing)AnimalStatsManager$() —— 衰减 600 tick、饮水 100 tick、体重 ±2%、上下限 0.7~1.3、粪便 25%、区块上限 6。$(br)$(li)繁殖：$(thing)SyringeHandler$() 与 $(thing)PregnancyHandler$() —— 妊娠 8 分钟、判定线 7、产仔 3~5。$(br)$(li)外卖：$(thing)DeliveryManager$() —— 3 单、8 分钟、200~600 格、每 10 格 1 元。$(br)$(li)盐：$(thing)SaltPanBlock$() 200 tick、$(thing)SaltPileBlock$() 1/3。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "改常量之前",
+      "text": "$(li)先确认真的必须改：多数「太肝 / 太松」都能靠经济配置与数据包调回来。$(br)$(li)改源码要重新编译、发版，并让玩家同步更新模组——对整合包来说成本很高。$(br)$(li)如果只是想让某个数值跟着难度走，优先考虑多做几套数据包，而不是改代码。$(br2)这条经验适用于所有写死常量的模组，不只是本模组。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "调试清单",
+      "text": "$(li)改完没反应：确认文件是不是放在$(bold)世界存档$()的 $(thing)datapacks$() 里，或已作为全局数据包装入。$(br)$(li)标签没生效：标签要等下一次重载，$(thing)/reload$() 后建议重进存档。$(br)$(li)配置改了没变：COMMON 配置由服务端读，单人也要重进存档。$(br)$(li)查日志：加载器会打印解析失败的条目，按日志里的文件名去改。"
+    }
+  ]
+}

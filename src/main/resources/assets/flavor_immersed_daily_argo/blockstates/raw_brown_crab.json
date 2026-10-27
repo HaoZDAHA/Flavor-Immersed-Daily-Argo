@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "flavor_immersed_daily_argo:block/raw_brown_crab"
+    },
+    "facing=east": {
+      "model": "flavor_immersed_daily_argo:block/raw_brown_crab",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "flavor_immersed_daily_argo:block/raw_brown_crab",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "flavor_immersed_daily_argo:block/raw_brown_crab",
+      "y": 270
+    }
+  }
+}

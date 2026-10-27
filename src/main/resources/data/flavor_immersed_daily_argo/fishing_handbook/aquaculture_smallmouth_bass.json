@@ -1,0 +1,16 @@
+{
+    "item":  "aquaculture:smallmouth_bass",
+    "entity":  "aquaculture:smallmouth_bass",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium",
+    "activity":  [
+                     "day"
+                 ]
+}

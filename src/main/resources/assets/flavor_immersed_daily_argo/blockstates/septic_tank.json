@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "part=left,facing=north": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_left"
+    },
+    "part=left,facing=east": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_left",
+      "y": 90
+    },
+    "part=left,facing=south": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_left",
+      "y": 180
+    },
+    "part=left,facing=west": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_left",
+      "y": 270
+    },
+    "part=right,facing=north": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_right"
+    },
+    "part=right,facing=east": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_right",
+      "y": 90
+    },
+    "part=right,facing=south": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_right",
+      "y": 180
+    },
+    "part=right,facing=west": {
+      "model": "flavor_immersed_daily_argo:block/septic_tank_right",
+      "y": 270
+    }
+  }
+}

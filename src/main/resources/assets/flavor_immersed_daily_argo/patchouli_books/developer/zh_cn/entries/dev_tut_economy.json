@@ -1,0 +1,28 @@
+{
+  "name": "教程：改经济",
+  "category": "flavor_immersed_daily_argo:dev_tutorials",
+  "icon": "flavor_immersed_daily_argo:atm",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "一、改收购价",
+      "text": "目标：让「苹果」的基准收购价变成 20 元/组。$(br2)$(bold)步骤$()$(br)1. 新建数据包，放 $(thing)data/<你的命名空间>/economic_product/apples.json$()。$(br)2. 内容：$(thing){\"entries\": [{\"item\": \"minecraft:apple\", \"price\": 20}]}$()$(br)3. 存档执行 $(thing)/reload$()，打开新闻页确认。$(br2)数据包条目优先于配置里的 $(thing)products.entries$()。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "二、加一家系统店铺",
+      "text": "目标：开一家只卖建材的店。$(br2)$(bold)步骤$()$(br)1. 新建 $(thing)data/<你的命名空间>/shop/builders.json$()。$(br)2. 写 $(thing)title$() 与 $(thing)entries$()，每项填物品或标签、数量与价格。$(br)3. $(thing)/reload$() 后去商业电脑查看。$(br2)如果条目少、又不想碰数据包，也可以直接写进配置的 $(thing)shop.extra_entries$()，它们会并成一家「配置文件商店」。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "三、改外卖菜单",
+      "text": "目标：把腐肉、蜘蛛眼从每日菜单里剔掉。$(br2)$(bold)步骤$()$(br)1. 打开 $(thing)flavor_immersed_daily_argo-economy.toml$()。$(br)2. 在 $(thing)takeout.food_blacklist$() 里逐行加入物品 id：$(br)$(thing)minecraft:rotten_flesh$()$(br)$(thing)minecraft:spider_eye$()$(br)3. 重启后生效。$(br2)注意黑名单只影响外卖菜单，不影响玩家自己吃。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "四、换外汇与限店",
+      "text": "$(li)外汇：直接改 $(thing)exchange.entries$()，或用 $(thing)/fidaeco add$() 与 $(thing)/fidaeco delete$() 快速增删，改完即存。$(br)$(li)关掉玩家开店：$(thing)shop.player_shops_enabled = false$()。$(br)$(li)限制每人店铺数：$(thing)max_shops_per_player$()，范围 0~64，填 0 等于完全禁止。$(br2)最后提醒：经济数值改动会影响已有存档的物价感受，建议先在测试存档里跑一周再上正式服。"
+    }
+  ]
+}

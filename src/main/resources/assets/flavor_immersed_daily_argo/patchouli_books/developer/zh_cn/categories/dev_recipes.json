@@ -1,0 +1,6 @@
+{
+  "name": "自定义配方",
+  "description": "昆虫培育、淤泥养殖与锅具烹饪三种配方类型。",
+  "icon": "minecraft:crafting_table",
+  "sortnum": 4
+}

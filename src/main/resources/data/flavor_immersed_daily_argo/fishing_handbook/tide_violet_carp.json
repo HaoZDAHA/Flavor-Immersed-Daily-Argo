@@ -1,0 +1,17 @@
+{
+    "item":  "tide:violet_carp",
+    "entity":  "tide:violet_carp",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:the_end",
+                   "minecraft:small_end_islands",
+                   "minecraft:end_midlands",
+                   "minecraft:end_highlands",
+                   "minecraft:end_barrens"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

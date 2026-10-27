@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "flavor_immersed_daily_argo:block/rotating_water_pipe"
+      }
+    }
+  ]
+}

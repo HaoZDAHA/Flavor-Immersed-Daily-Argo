@@ -1,0 +1,15 @@
+{
+    "item":  "aquaculture:tambaqui",
+    "entity":  "aquaculture:tambaqui",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:jungle",
+                   "minecraft:sparse_jungle",
+                   "minecraft:bamboo_jungle"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

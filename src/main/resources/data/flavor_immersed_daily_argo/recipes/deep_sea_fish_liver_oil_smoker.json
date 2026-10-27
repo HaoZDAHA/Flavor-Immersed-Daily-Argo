@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_anglerfish_liver"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:deep_sea_fish_liver_oil"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

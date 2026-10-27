@@ -1,0 +1,10 @@
+{
+  "input": "flavor_immersed_daily_argo:raw_squid",
+  "entity": "minecraft:squid",
+  "render": { "scale": 0.6, "yaw": 0.0, "y_offset": 0.05, "roll": 90.0, "x_offset": 0.0, "z_offset": 0.0 },
+  "stages": [
+    { "name": "放血", "drops": [] },
+    { "name": "剥皮", "drops": ["flavor_immersed_daily_argo:raw_squid_tentacle"] },
+    { "name": "切块", "drops": ["flavor_immersed_daily_argo:raw_squid_meat", "flavor_immersed_daily_argo:raw_squid_meat", "flavor_immersed_daily_argo:raw_squid_tentacle", "minecraft:ink_sac"] }
+  ]
+}

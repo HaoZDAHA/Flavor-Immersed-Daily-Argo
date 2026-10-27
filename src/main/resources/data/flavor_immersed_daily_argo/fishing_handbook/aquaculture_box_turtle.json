@@ -1,0 +1,14 @@
+{
+    "item":  "aquaculture:box_turtle",
+    "entity":  "aquaculture:box_turtle",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

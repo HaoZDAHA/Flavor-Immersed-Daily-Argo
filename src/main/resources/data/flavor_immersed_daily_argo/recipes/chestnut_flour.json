@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "mortar",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:chestnut"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:chestnut_flour"
+        },
+        "cookingTime": 0
+      }
+    }
+  ]
+}

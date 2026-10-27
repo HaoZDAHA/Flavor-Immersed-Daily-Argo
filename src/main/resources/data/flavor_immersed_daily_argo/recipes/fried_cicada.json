@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "fryingpan",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:cicada"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:fried_cicada"
+        },
+        "cookingTime": 100
+      }
+    }
+  ]
+}

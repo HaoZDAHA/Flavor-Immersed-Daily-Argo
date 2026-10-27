@@ -1,0 +1,14 @@
+{
+    "item":  "tide:slimy_salmon",
+    "entity":  "tide:slimy_salmon",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

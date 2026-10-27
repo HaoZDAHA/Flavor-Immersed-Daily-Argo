@@ -1,0 +1,28 @@
+{
+  "name": "教程：加内容",
+  "category": "flavor_immersed_daily_argo:dev_tutorials",
+  "icon": "flavor_immersed_daily_argo:fishing_handbook",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "一、让新鱼进图鉴",
+      "text": "假设你装了另一个钓鱼模组，想让它家的鱼也出现在南山图鉴里。$(br2)$(bold)三份文件$()$(br)1. $(thing)fishing_handbook/<鱼>.json$()：item、habitat、diet、activity 等。$(br)2. $(thing)weighing_types/<分类>.json$()：给它一个重量分布。$(br)3. $(thing)choppingboard_mob/<鱼>.json$()：砧板屠宰阶段与产物。$(br2)三份都放好，$(thing)/reload$() 后图鉴、杆秤、砧板就都能用了。$(br2)其中第 2 步还顺带决定了这条鱼能不能$(bold)按斤卖$()：写进 $(thing)weighing_types$() 就会自动出现在商业电脑「行情」页并可直接卖进收购箱，价目由配置 $(thing)weight_price$() 提供。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "二、加屠宰流程",
+      "text": "大挂钩（$(thing)butchering$()）适合「整只动物分阶段取件」：$(br2)1. 写 $(thing)input$() 为挂上去的物品。$(br)2. 按顺序写 $(thing)stages$()，每段给 $(thing)name$() 与 $(thing)drops$()。$(br)3. 需要特定刀就写 $(thing)tool$()，不写则任意刀都行。$(br)4. 需要外观就写 $(thing)model$()，指向挂架模型。$(br2)产物数组里重复几次就掉几个，不用写数量字段。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "三、加烹饪配方",
+      "text": "先在锅具里试出一个能跑的组合，再照着写 JSON：$(br2)1. 选 $(thing)appliance$()：pot / pressurecooker / steambox。$(br)2. $(thing)ingredients$() 按实际投入顺序写，标签也可以。$(br)3. $(thing)result$() 写产物与数量。$(br)4. $(thing)cookingTime$() 控制耗时，锅越高级可以给越短。$(br2)同一个产物建议三种锅各写一份，让玩家按手头设备选择。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "四、加淤泥养殖",
+      "text": "想让某种水产也能在河道淤泥里养：$(br2)1. 在 $(thing)recipe/$() 下新建文件。$(br)2. $(thing)type$() 写 $(thing)flavor_immersed_daily_argo:river_silt_farming$()。$(br)3. $(thing)input$() 放苗种，$(thing)result$() 写 $(thing)id$() 与 $(thing)count$()。$(br)4. $(thing)time$() 是成熟所需 tick，鲍鱼配方用的是 3600。$(br2)放苗、收获、饲料催熟都会自动跟着生效。"
+    }
+  ]
+}

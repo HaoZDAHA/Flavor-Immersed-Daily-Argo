@@ -1,0 +1,24 @@
+{
+  "name": "河道淤泥",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:river_silt",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)河道淤泥$()由 $(bold)纯净水$()、泥土、沙子与盐搅匀而成，一次可得两块。把它铺在水底——正上方要有水——再手持 $(bold)水产饲料$() 右键点一下，淤泥就会变得湿润，贴图也随之变化。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "湿润的淤泥才「养」得动东西：手持 $(bold)海参$()、$(bold)花蛤$()、$(bold)生蚝$()、$(bold)扇贝$()、$(bold)田螺$()、$(bold)小龙虾$()、$(bold)海肠$()、$(bold)海胆$()、$(bold)蛏子$()、$(bold)口虾蛄$()、$(bold)海蜇$()、$(bold)毛虾$() 或 $(bold)鲍鱼$() 右键，苗种便会平铺在淤泥上，慢慢长大。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "长成之后，泥面上会散落三份水产。空手或手持物品右键即可收获，淤泥退回干燥状态，再喂一次饲料就能接着养下一轮。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "养殖配方写在数据包的 $(bold)river_silt_farming$() 里（苗种、产物、耗时三项）。附属模组照同样格式添加文件，就能扩展出更多可养殖的水产。"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "林间风波",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:fire_extinguisher",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)每日一掷$()$(br)每天清晨，每处网点有 $(bold)35%$() 的概率出事，从森林火灾、蚜虫侵蚀、杂草丛生、洪水、干涸中抽一种。处理掉才能加分。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)森林火灾$()$(br)网点附近会冒出不会蔓延的林业火焰。手持 $(bold)灭火器$() 右键，向准星方向喷出泡沫，扑灭周围 $(bold)5 格$()内的火；每用一次耗 1 点耐久。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蚜虫侵蚀$()$(br)网点的树染上蚜虫。手持 $(bold)树漆$() 右键受害的树，抹去虫害即可。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)杂草丛生$()$(br)区块里疯长杂草。手持 $(bold)除草剂$() 右键喷药，清除周围 $(bold)4 格$()内的草；正好命中「杂草丛生」的网点，一并消解并加分。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)气象仪器$()$(br)放在网点区块里：风平浪静时风车悠悠转，一旦这个区块出现非常规天气（火灾、洪水、干涸、酸雨），风车就转得飞快，是最省心的预警。"
+    }
+  ]
+}

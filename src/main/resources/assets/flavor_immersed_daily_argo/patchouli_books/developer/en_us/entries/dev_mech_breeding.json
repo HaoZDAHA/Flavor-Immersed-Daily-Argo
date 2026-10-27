@@ -1,0 +1,23 @@
+{
+  "name": "Breeding & Pregnancy",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:syringe",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Two syringe uses",
+      "text": "Both use $(bold)left-click attack$(), but the event is cancelled: the animal takes no damage and is not knocked back.$(br2)$(li)$(bold)Empty syringe$(): draw genetic fluid from an animal; the tube records its species.$(br)$(li)$(bold)Filled syringe$(): inject another animal whose stats qualify, making it pregnant."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Requirements and result",
+      "text": "Conception requires all four stats $(bold)≥ 7$() (satiety, thirst, cleanliness, mood). Success applies a $(bold)8-minute$() pregnancy buff.$(br2)On expiry, the mother's four stats are zeroed and $(bold)3~5$() babies spawn at her position — the species comes from the genetic fluid, not the mother. Inject a pig with cow fluid and it gives birth to calves."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Tunable only in code",
+      "text": "These constants live in $(thing)SyringeHandler$() and $(thing)PregnancyHandler$():$(br2)$(li)$(thing)PREGNANCY_TICKS$() = 8×60×20$(br)$(li)$(thing)CONDITION_LINE$() = 7$(br)$(li)$(thing)MIN_BABIES$() / $(thing)MAX_BABIES$() = 3 / 5$(br2)Changing them requires editing the source and recompiling; neither config nor data packs can reach them."
+    }
+  ]
+}

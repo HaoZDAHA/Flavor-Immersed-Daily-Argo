@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:yellowstone_fish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:dripstone_caves"
+               ],
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

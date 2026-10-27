@@ -1,0 +1,13 @@
+{
+    "item":  "tide:warped_guppy",
+    "entity":  "tide:warped_guppy",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:warped_forest"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

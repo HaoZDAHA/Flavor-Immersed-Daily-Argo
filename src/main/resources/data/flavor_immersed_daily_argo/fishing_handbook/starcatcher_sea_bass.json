@@ -1,0 +1,24 @@
+{
+    "item":  "starcatcher:sea_bass",
+    "entity":  "starcatcher:fish",
+    "habitat":  "ocean",
+    "biomes":  [
+                   "minecraft:ocean",
+                   "minecraft:deep_ocean",
+                   "minecraft:cold_ocean",
+                   "minecraft:deep_cold_ocean",
+                   "minecraft:frozen_ocean",
+                   "minecraft:deep_frozen_ocean",
+                   "minecraft:lukewarm_ocean",
+                   "minecraft:deep_lukewarm_ocean",
+                   "minecraft:warm_ocean"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast",
+    "activity":  [
+                     "day"
+                 ]
+}

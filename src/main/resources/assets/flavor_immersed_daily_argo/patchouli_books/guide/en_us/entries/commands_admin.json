@@ -1,0 +1,36 @@
+{
+  "name": "All Commands",
+  "category": "flavor_immersed_daily_argo:commands",
+  "icon": "minecraft:command_block",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Common Notes$()$(br)Every command in this mod requires permission level 2 (OP). Angle brackets mark required arguments and a vertical bar means either option; press Tab while typing to see all completions. They work the same in single player and on a server."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/mouse spawn <true|false>$()$(br)Temporarily toggles natural spawning of wild mice. It normally follows $(thing)mouseNaturalSpawning$() in the main config, which is $(bold)false$() - so mice do not spawn by default. Running this command overrides the config on the spot, with no restart.$(br)Disabling only stops new spawns - existing mice stay and keep eating crops; mice from spawn eggs or other commands ignore the switch."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/forestry <event> [pos]$()$(br)Manually triggers one random situation at a forestry checkpoint, to verify how events and hazards are handled. Without a position the nearest checkpoint is used.$(br)Checkpoints are stored per player, so only a player can run it, not the console."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Available Events$()$(br)fire, aphids, weeds, flood, drought, hypoxia, oxygen_over, acid_rain, strong_alkali, barren_water, stench, osmosis."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/fidaeco list$()$(br)Lists every configured foreign exchange entry. With none configured it simply says the list is empty."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/fidaeco add <currency> <count> <target> <count>$()$(br)Adds an exchange entry: pay currency x count to receive target x count. The price is the note value times the count, the same as the ATM exchange tab."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/fidaeco delete <currency> <count> <target> <count>$()$(br)Removes the entry matching the arguments exactly; otherwise it reports the removal failed.$(br)Both add and delete are written to exchange.entries in the server config economy.toml, so they survive a restart."
+    }
+  ]
+}

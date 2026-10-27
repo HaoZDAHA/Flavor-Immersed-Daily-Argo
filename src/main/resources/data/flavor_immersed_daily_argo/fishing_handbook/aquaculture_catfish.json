@@ -1,0 +1,10 @@
+{
+    "item":  "aquaculture:catfish",
+    "entity":  "aquaculture:catfish",
+    "habitat":  "both",
+    "depth":  "56-68",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

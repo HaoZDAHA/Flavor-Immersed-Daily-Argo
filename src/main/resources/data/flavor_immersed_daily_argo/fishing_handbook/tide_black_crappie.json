@@ -1,0 +1,13 @@
+{
+    "item":  "tide:black_crappie",
+    "entity":  "tide:black_crappie",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

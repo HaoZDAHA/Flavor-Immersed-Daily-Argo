@@ -1,0 +1,28 @@
+{
+  "name": "Reading the Water",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:water_quality_detector",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Water Quality Detector$()$(br)Right-click the point water to measure five metrics - dissolved oxygen, pH, organic pollution, conductivity and turbidity - and a comprehensive rating. Any water disaster found is logged to the clipboard."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Five Metrics$()$(br)All run $(bold)0-100$(). For pH, 50 corresponds to neutral 7.0 and is shown on a 0-14 scale."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Disaster Thresholds$()$(br)Oxygen below 30 is hypoxia, above 90 oversaturation; pH below 30 is acid rain, above 85 strong alkali; organic below 25 is barren water, above 85 turns foul; conductivity below 20 or above 90 breaks the osmotic balance."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Comprehensive Rating$()$(br)Each metric scores full marks inside its ideal band - oxygen 45-80, pH 40-65, organic 35-70, conductivity 35-75, turbidity 25-65 - losing 2 points per point outside. Averaged: 85+ excellent, 70+ good, 50+ fair, the rest poor."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Daily Drift$()$(br)Metrics wander a little each day. Turbidity under 20 drags organic pollution down by 3; above 80 it drags oxygen down by 3 - water too clear or too murky is never good."
+    }
+  ]
+}

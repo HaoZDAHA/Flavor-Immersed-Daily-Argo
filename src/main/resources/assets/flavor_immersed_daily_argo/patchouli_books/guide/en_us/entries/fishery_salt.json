@@ -1,0 +1,20 @@
+{
+  "name": "Salt Pan",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:salt_pan",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Craft the $(bold)Salt Pan$() with a $(bold)string$() in each of the four corners and $(bold)cobblestone$() in the other five slots - four pans per craft. It starts out dry; let water touch its top face (water directly above it) and the texture turns into the wet $(bold)Salt Pan II$() state."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "About ten seconds later it drinks the water above and forms a separate $(bold)Salt Pile$() on top of itself - an independent block that then grows on its own from stage 1 up to stage 3, each pile taller than the last."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "The pile is very soft and breaks by hand: at stages 1, 2 and 3 it drops $(bold)1, 2 and 3$() salt, with a $(bold)Fortune$() bonus. Mining the pile never damages the pan - it returns to its dry state and can be reused."
+    }
+  ]
+}

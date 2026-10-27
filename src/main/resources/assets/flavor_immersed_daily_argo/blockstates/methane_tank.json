@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "flavor_immersed_daily_argo:block/methane_tank",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "flavor_immersed_daily_argo:block/methane_tank",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "flavor_immersed_daily_argo:block/methane_tank",
+      "y": 270
+    },
+    "facing=west": {
+      "model": "flavor_immersed_daily_argo:block/methane_tank"
+    }
+  }
+}

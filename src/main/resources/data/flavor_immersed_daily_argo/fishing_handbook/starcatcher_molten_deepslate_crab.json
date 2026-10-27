@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:molten_deepslate_crab",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

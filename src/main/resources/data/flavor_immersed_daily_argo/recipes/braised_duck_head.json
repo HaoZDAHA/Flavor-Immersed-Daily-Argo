@@ -1,0 +1,40 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "jar",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:roast_duck_head"
+          },
+          {
+            "item": "flavor_immersed_daily:salt"
+          },
+          {
+            "item": "flavor_immersed_daily:tidywater"
+          },
+          {
+            "item": "flavor_immersed_daily:halogenbag"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:braised_duck_head"
+        },
+        "cookingTime": 200
+      }
+    }
+  ]
+}

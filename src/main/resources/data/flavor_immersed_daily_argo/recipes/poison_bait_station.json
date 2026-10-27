@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "N",
+    "R"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "R": {
+      "item": "minecraft:rotten_flesh"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:poison_bait_station"
+  }
+}

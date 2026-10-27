@@ -1,0 +1,29 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:guava_jam"
+          },
+          {
+            "item": "flavor_immersed_daily:tidywater"
+          }
+        ],
+        "result": {
+          "count": 2,
+          "item": "flavor_immersed_daily_argo:guava_juice"
+        }
+      }
+    }
+  ]
+}

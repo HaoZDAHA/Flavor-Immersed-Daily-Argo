@@ -1,0 +1,10 @@
+{
+  "input": "flavor_immersed_daily_argo:bled_goose",
+  "output": "flavor_immersed_daily_argo:raw_dressed_goose",
+  "drops": [
+    "minecraft:feather",
+    "minecraft:feather",
+    "minecraft:feather"
+  ],
+  "name": "漂洗"
+}

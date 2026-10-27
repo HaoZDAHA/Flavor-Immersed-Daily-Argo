@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,state=1": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer"
+    },
+    "facing=east,state=1": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer",
+      "y": 90
+    },
+    "facing=south,state=1": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer",
+      "y": 180
+    },
+    "facing=west,state=1": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer",
+      "y": 270
+    },
+    "facing=north,state=2": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer2"
+    },
+    "facing=east,state=2": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer2",
+      "y": 90
+    },
+    "facing=south,state=2": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer2",
+      "y": 180
+    },
+    "facing=west,state=2": {
+      "model": "flavor_immersed_daily_argo:block/receipt_printer2",
+      "y": 270
+    }
+  }
+}

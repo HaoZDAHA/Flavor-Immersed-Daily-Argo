@@ -1,0 +1,50 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "ingredients": [
+          {
+            "tag": "forge:seeds"
+          },
+          {
+            "tag": "forge:seeds"
+          },
+          {
+            "tag": "forge:seeds"
+          },
+          {
+            "tag": "fid:meat"
+          },
+          {
+            "tag": "fid:meat"
+          },
+          {
+            "tag": "fid:meat"
+          },
+          {
+            "item": "minecraft:short_grass"
+          },
+          {
+            "item": "minecraft:short_grass"
+          },
+          {
+            "item": "minecraft:short_grass"
+          }
+        ],
+        "result": {
+          "count": 16,
+          "item": "flavor_immersed_daily_argo:feed_aquatic"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:silverfin_pike",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "flavor_immersed_daily_argo:item/straw_hat"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:worn": 1
+      },
+      "model": "flavor_immersed_daily_argo:item/straw_hat_head"
+    }
+  ]
+}

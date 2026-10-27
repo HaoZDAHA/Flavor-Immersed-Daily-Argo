@@ -1,0 +1,40 @@
+{
+  "name": "A Wood Full of Wings",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:insect_net",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Catching with a Net$()$(br)Sweep the $(bold)Insect Net$() through short grass, tall grass, ferns or large ferns. The grass drops stay as they are, and each insect - bee, cicada, locust, silkworm - has its own $(bold)10%$() chance to drop as well."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Insect Incubator$()$(br)Right-click with an empty hand. Along the left sit $(bold)Feed / Carrier / Parents$(); on the right is $(bold)Offspring -> Result$(). Put the roe in the offspring slot and it grows into an adult, just like a crop."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Adults & Breeding$()$(br)Place $(bold)two adults$() in the parent slots with the offspring slot empty to lay new roe. Adults can also grow on into the next stage, closing the cycle."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Bee$()$(br)Carrier: $(bold)Cardboard Honeycomb$(); feed: flowers.$(br)Bee roe -> bee; two bees -> bee roe."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Cicada$()$(br)Carrier: $(bold)Insect Board$(); feed: leaves.$(br)Cicada roe -> cicada -> cicada slough; two sloughs -> cicada roe."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Locust$()$(br)Carrier: $(bold)Insect Board$(); feed: wheat.$(br)Locust roe -> locust; two locusts -> locust roe."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Silkworm$()$(br)Carrier: $(bold)Insect Board$(); feed: leaves.$(br)Silkworm roe -> silkworm -> silkworm cocoon; two cocoons -> silkworm roe. Cocoons are also the source of silk for tailoring."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)High-Protein Compound$()$(br)Any insect $(bold)roe$() or $(bold)adult$() - bee, cicada, locust or silkworm - crafts into $(bold)one High-Protein Compound$() on a crafting table.$(br)Load it into the $(bold)left half$() of the $(bold)Septic Fermentation Tank$() and it ferments into $(bold)Organic Fertilizer$(), which works exactly like bonemeal for ripening crops and saplings."
+    }
+  ]
+}

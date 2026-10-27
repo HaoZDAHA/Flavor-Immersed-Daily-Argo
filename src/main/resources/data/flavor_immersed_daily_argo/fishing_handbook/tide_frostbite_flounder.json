@@ -1,0 +1,14 @@
+{
+    "item":  "tide:frostbite_flounder",
+    "entity":  "tide:frostbite_flounder",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river",
+                   "minecraft:frozen_river"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

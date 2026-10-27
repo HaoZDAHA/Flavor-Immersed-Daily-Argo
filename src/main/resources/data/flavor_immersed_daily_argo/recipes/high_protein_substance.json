@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "flavor_immersed_daily_argo:insects"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:high_protein_substance"
+  }
+}

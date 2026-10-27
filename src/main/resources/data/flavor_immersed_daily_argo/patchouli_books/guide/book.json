@@ -1,0 +1,10 @@
+{
+  "name": "item.flavor_immersed_daily_argo.guide_book",
+  "landing_text": "patchouli.flavor_immersed_daily_argo.guide.landing",
+  "model": "flavor_immersed_daily_argo:guide_book",
+  "dont_generate_book": true,
+  "custom_book_item": "flavor_immersed_daily_argo:guide_book",
+  "use_resource_pack": true,
+  "show_progress": false,
+  "version": 0
+}

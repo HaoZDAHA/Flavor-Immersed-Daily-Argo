@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "part=bottom": {
+      "model": "flavor_immersed_daily_argo:block/waterwheel"
+    },
+    "part=middle": {
+      "model": "flavor_immersed_daily_argo:block/waterwheel"
+    },
+    "part=top": {
+      "model": "flavor_immersed_daily_argo:block/waterwheel"
+    }
+  }
+}

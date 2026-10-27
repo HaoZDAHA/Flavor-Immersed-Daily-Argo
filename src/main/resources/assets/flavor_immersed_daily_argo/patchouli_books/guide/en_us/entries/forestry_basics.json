@@ -1,0 +1,28 @@
+{
+  "name": "Claiming a Woodland",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:ranger_clipboard",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Staking Your Claim$()$(br)Hold the $(bold)Ranger Clipboard$() and right-click the log of any tree to register that chunk as your forestry point.$(br2)One point per chunk, and the chunk needs at least $(bold)5 trees$() - a sparse stand is hardly a wood."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Clipboard Screen$()$(br)Right-click the air with the clipboard to open the overview: coordinates, score and current condition of every point, plus renaming and releasing."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Score$()$(br)A new point starts at $(bold)60$(). Resolving an incident grants $(bold)+12$(); after a $(bold)2-day$() grace period, neglect costs $(bold)8$() per day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Prosperity$()$(br)At $(bold)80$() the point turns prosperous, and its chunk enjoys six boons: faster crops, happier livestock, richer fishing, doubled drops, cheaper villagers and mining fortune."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Woodland Affairs$()$(br)Each morning every point has a $(bold)35%$() chance of an incident. The clipboard warns you when trouble appears - do not let the wood lie fallow."
+    }
+  ]
+}

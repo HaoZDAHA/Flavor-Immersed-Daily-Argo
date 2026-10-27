@@ -1,0 +1,67 @@
+{
+	"render_type": "minecraft:cutout",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "flavor_immersed_daily_argo:block/septic_tank",
+		"particle": "flavor_immersed_daily_argo:block/septic_tank"
+	},
+	"elements": [
+		{
+			"from": [0, 6, 1],
+			"to": [1, 10, 15],
+			"faces": {
+				"north": {"uv": [3.75, 5.75, 3.875, 6], "texture": "#0"},
+				"east": {"uv": [4.75, 5.5, 6.5, 5.75], "texture": "#0"},
+				"south": {"uv": [3.875, 5.75, 4, 6], "texture": "#0"},
+				"west": {"uv": [5.5, 4.75, 7.25, 5], "texture": "#0"},
+				"up": {"uv": [1.875, 7.5, 1.75, 5.75], "texture": "#0"},
+				"down": {"uv": [2, 5.75, 1.875, 7.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [1, 0, 1],
+			"to": [16, 14, 15],
+			"faces": {
+				"north": {"uv": [1.875, 0, 3.75, 1.75], "texture": "#0"},
+				"south": {"uv": [0, 1.75, 1.875, 3.5], "texture": "#0"},
+				"west": {"uv": [3.75, 3.5, 5.5, 5.25], "texture": "#0"},
+				"up": {"uv": [3.75, 5.25, 1.875, 3.5], "texture": "#0"},
+				"down": {"uv": [7.5, 0, 5.625, 1.75], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, 14, 5],
+			"to": [11, 16, 11],
+			"faces": {
+				"north": {"uv": [0, 6, 0.75, 6.25], "texture": "#0"},
+				"east": {"uv": [0.75, 6, 1.5, 6.25], "texture": "#0"},
+				"south": {"uv": [2.25, 6, 3, 6.25], "texture": "#0"},
+				"west": {"uv": [3, 6, 3.75, 6.25], "texture": "#0"},
+				"up": {"uv": [6.25, 4.25, 5.5, 3.5], "texture": "#0"},
+				"down": {"uv": [4.75, 5.5, 4, 6.25], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 6, 0],
+			"to": [16, 10, 1],
+			"faces": {
+				"north": {"uv": [2, 5.25, 4, 5.5], "texture": "#0"},
+				"south": {"uv": [4, 5.25, 6, 5.5], "texture": "#0"},
+				"west": {"uv": [1.625, 6, 1.75, 6.25], "texture": "#0"},
+				"up": {"uv": [9.5, 4.375, 7.5, 4.25], "texture": "#0"},
+				"down": {"uv": [9.5, 4.375, 7.5, 4.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 6, 15],
+			"to": [16, 10, 16],
+			"faces": {
+				"north": {"uv": [2, 5.5, 4, 5.75], "texture": "#0"},
+				"south": {"uv": [5.5, 1.75, 7.5, 2], "texture": "#0"},
+				"west": {"uv": [3.875, 6, 4, 6.25], "texture": "#0"},
+				"up": {"uv": [9.5, 4.625, 7.5, 4.5], "texture": "#0"},
+				"down": {"uv": [9.5, 4.625, 7.5, 4.75], "texture": "#0"}
+			}
+		}
+	]
+}

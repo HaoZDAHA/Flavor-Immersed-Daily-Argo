@@ -1,0 +1,16 @@
+{
+  "name": "饮食起居",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:feeding_trough",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)鸡窝$()$(br)禽类在里面下蛋，蛋会收进窝里的「收集的蛋」格；把蛋挪进「孵化」格，便能自行孵化。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)牧场食槽$()$(br)一格槽位，可放饲料（小麦、胡萝卜或本模组的饲料）或清水；附近饥饿或口渴的动物会自己踱过来吃。$(br2)把禽畜安顿在栏里，记得常来添食添水。"
+    }
+  ]
+}

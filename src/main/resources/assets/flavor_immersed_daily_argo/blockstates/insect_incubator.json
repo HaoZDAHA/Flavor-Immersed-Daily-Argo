@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "flavor_immersed_daily_argo:block/insect_incubator"
+    },
+    "facing=east": {
+      "model": "flavor_immersed_daily_argo:block/insect_incubator",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "flavor_immersed_daily_argo:block/insect_incubator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "flavor_immersed_daily_argo:block/insect_incubator",
+      "y": 270
+    }
+  }
+}

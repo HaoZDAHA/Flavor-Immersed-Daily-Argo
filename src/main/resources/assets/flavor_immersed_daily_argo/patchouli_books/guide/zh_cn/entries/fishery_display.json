@@ -1,0 +1,20 @@
+{
+  "name": "展示与称重",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fish_display_board",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)钓鱼展示架$()$(br)手持任意一条水产右键即可挂上，架上会画出它的活体实体模型；空手右键取回，拆掉也会原样掉落。准星对准它能看见这条鱼有多重。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)杆秤$()$(br)右键打开称重界面，把东西放上秤盘就抽一个重量。越大的鱼越压秤，特别大的还会全服通报。$(br2)称过的生鱼会记住这个斤数，卖进收购箱时按它算钱；商业电脑的「行情」页能查今日每斤收购价。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)鱼缸$()$(br)一块没有底的玻璃鱼缸，放进水里就能盛住那格水，相邻的会自动连成一片，横拼、上摞都行。"
+    }
+  ]
+}

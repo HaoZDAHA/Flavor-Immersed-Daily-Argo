@@ -1,0 +1,23 @@
+{
+  "name": "经济产物：data/economic_product",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "flavor_immersed_daily_argo:money_50",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "结构",
+      "text": "路径：$(thing)data/<命名空间>/economic_product/<任意名>.json$()。$(br2)$(br){\"entries\": [$(br)  {\"item\": \"minecraft:apple\", \"price\": 8},$(br)  {\"tag\": \"fid:fruit\", \"price\": 8}$(br)]}$(br2)$(thing)item$() 与 $(thing)tag$() 二选一，$(thing)price$() 是基准收购价，单位统一为$(bold)元 / 每组 64 个$()。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "优先级与展开",
+      "text": "$(li)合并顺序：配置文件的 $(thing)products.entries$() 先读，数据包条目后读，$(bold)同一物品以数据包为准$()。$(br)$(li)没写价格的产物回落到 $(thing)products.default_price$()。$(br)$(li)标签条目在加载期展开不了（标签尚未绑定），会在重载结束与 $(thing)TagsUpdatedEvent$() 各展开一次。$(br)$(li)代码里写死的物品优先于同名标签展开结果。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "它影响的界面",
+      "text": "经济产物只决定「新闻页的今日涨跌」这一张表：每天按基准价在 $(thing)volatility_percent$() 范围内随机出当日价，正数标涨、负数标跌，最低不会低于 0。$(br2)注意这里只是$(bold)报价$()，真正的结算仍然走店铺条目里写死的 $(thing)price$()——想让报价与店铺一致，两边都要改。"
+    }
+  ]
+}

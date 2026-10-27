@@ -1,0 +1,13 @@
+{
+    "item":  "aquaculture:carp",
+    "entity":  "aquaculture:carp",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

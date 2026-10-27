@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "given": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/husbandry.png",
+    "description": {
+      "translate": "advancements.flavor_immersed_daily_argo.guide_book.description"
+    },
+    "icon": {
+      "item": "flavor_immersed_daily_argo:guide_book"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.flavor_immersed_daily_argo.guide_book.title"
+    }
+  },
+  "requirements": [
+    [
+      "given"
+    ]
+  ],
+  "rewards": {
+    "function": "flavor_immersed_daily_argo:give_guide_book"
+  }
+}

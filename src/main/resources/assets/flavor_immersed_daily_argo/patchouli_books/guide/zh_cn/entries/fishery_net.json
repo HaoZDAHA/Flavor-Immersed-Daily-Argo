@@ -1,0 +1,16 @@
+{
+  "name": "抄网与活鱼",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_net",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)鱼抄网$()$(br)主手或副手拿着它，对着鱼右键就能抄进网兜（最多 3 条）；钓上来的活鱼会先进 $(bold)鱼护$()，没有鱼护才会飞过来让你自己捞。对着 $(bold)鱼护$() 右键可把鱼倒进去，右键方块则放出一条。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)实体鱼$()$(br)本模组的水产是能活动的实体，可以钓起、抄起、放养与陈列。"
+    }
+  ]
+}

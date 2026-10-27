@@ -1,0 +1,10 @@
+{
+    "item":  "tide:abyss_angler",
+    "entity":  "tide:abyss_angler",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "carnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "数据包目录总览",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "minecraft:chest",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "九个目录",
+      "text": "本模组在 $(thing)data/<命名空间>/$() 下读取这些目录：$(br2)$(li)$(thing)shop/$() —— 系统店铺$(br)$(li)$(thing)economic_product/$() —— 经济产物与收购价$(br)$(li)$(thing)weighing_types/$() —— 各鱼类的重量分布$(br)$(li)$(thing)fishing_handbook/$() —— 钓鱼图鉴条目$(br)$(li)$(thing)fishing_rod_parts/$() —— 钓具配件参数"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "继续",
+      "text": "$(li)$(thing)butchering/$() —— 大挂钩屠宰流程$(br)$(li)$(thing)choppingboard_mob/$() —— 砧板鱼类屠宰$(br)$(li)$(thing)basin_wash/$() —— 木盆漂洗$(br)$(li)$(thing)appraisal_supplement/$() —— 鉴定补充产物$(br)$(li)$(thing)recipe/$() —— 配方，含三种自定义类型"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "加载规则",
+      "text": "这些目录都由服务端的 $(thing)SimpleJsonResourceReloadListener$() 读取。$(br2)因为客户端读不到 $(thing)data$() 目录，所以数据只在服务端加载一份，再由登录包 / 同步包下发给客户端——多人服上只要服务端装对就行，客户端装同一个模组即可。$(br2)文件名以 $(thing)_$() 开头会被跳过；同名文件按数据包优先级覆盖。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "怎么覆盖",
+      "text": "不想动模组本体，就新建一个数据包：$(br2)$(thing)data/flavor_immersed_daily_argo/shop/my_market.json$()$(br2)只要路径与文件名一致，就会覆盖模组自带的那一份；换个新文件名则是$(bold)新增$()。配方同理由 $(thing)data/<命名空间>/recipe/$() 覆盖与新增。"
+    }
+  ]
+}

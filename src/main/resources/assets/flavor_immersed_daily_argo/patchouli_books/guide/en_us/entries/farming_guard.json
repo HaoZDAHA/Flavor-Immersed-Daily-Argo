@@ -1,0 +1,20 @@
+{
+  "name": "Watching Over the Field",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:scarecrow",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Scarecrow$()$(br)Plant it in the field: farmland within $(bold)8 blocks$() will not be trampled or dry back into dirt.$(br2)$(bold)Plain right-click$() to name it - use a $(bold)genuine player ID$() and the scarecrow takes on that player's skin (armor layer included); $(bold)sneak right-click$() or $(bold)3 hits$() take it back."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Mice$()$(br)Mice do $(bold)not$() spawn by default ($(thing)mouseNaturalSpawning$() is false). Only after you enable it in the config, or temporarily with $(thing)/mouse spawn true$(), may ripe crops spawn mice that nibble them and set their growth back one stage.$(br2)The switch only gates new spawns - existing mice keep causing trouble. See Getting Animals under Husbandry for where animals come from."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Poison Bait Station$()$(br)Right-click a scarecrow while holding it to set it at its feet (the scarecrow stays). It blocks mice from spawning within $(bold)16 blocks$(), and the station itself never breaks.$(br2)Keeping a cat nearby works too."
+    }
+  ]
+}

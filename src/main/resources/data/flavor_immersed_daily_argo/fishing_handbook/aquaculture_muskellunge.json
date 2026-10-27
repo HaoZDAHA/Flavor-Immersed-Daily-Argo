@@ -1,0 +1,13 @@
+{
+    "item":  "aquaculture:muskellunge",
+    "entity":  "aquaculture:muskellunge",
+    "habitat":  "both",
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow",
+    "activity":  [
+                     "day"
+                 ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "晒盐场",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:salt_pan",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)晒盐场$()四角各放一根$(bold)线$()、其余五格放$(bold)圆石$()，一次能做出四个。刚放下时是干燥的样子，把它的顶面泡进水里（正上方有水），贴图就会变成 $(bold)晒盐场二$() 的含水状态。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "含水约十秒后，它会自己把上方的水吸掉，并在正上方结出 $(bold)盐堆$()——那是独立的方块，接着会自己从第 1 级慢慢长到第 3 级，越往后盐堆越高。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "盐堆硬度很低，徒手就能敲：第 1、2、3 级分别掉落 $(bold)1、2、3$() 份盐，附上 $(bold)时运$() 还能多掉。只挖盐堆不会损坏晒盐场，盐田会回到干燥状态，可以反复使用。"
+    }
+  ]
+}

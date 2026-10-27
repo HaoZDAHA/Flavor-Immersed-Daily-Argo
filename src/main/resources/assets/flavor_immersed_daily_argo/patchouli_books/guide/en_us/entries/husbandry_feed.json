@@ -1,0 +1,28 @@
+{
+  "name": "The Four Feeds",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:feed_grass",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The mod offers four feeds - $(bold)Forage Feed$(), $(bold)Grain Feed$(), $(bold)Aquatic Feed$() and $(bold)Fresh Meat Feed$() - each for a different diet. Hold one and right-click an animal to feed it; which feed you use, and how many bites, both matter."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Forage Feed$(): pig, cow, sheep, goat, horse, donkey, rabbit, camel, llama, bamboo rat, bullfrog.$(br2)$(bold)Grain Feed$(): chicken, duck, goose, quail, pigeon, turkey.$(br2)Grazers on one side, grain eaters on the other - don't wave Grain Feed at a cow."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fresh Meat Feed$(): cat and wolf - they must be tamed first.$(br2)$(bold)Feed an adult$() and it enters love mode; two such animals will pair up by themselves.$(br2)$(bold)Feed a baby$() and its remaining growth time shrinks by one tenth - a few bites and it is grown."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Aquatic Feed$() works differently: $(bold)do not aim at one animal$() - just hold it and right-click. Every fish, crab, shrimp and turtle within 30 blocks is set to $(bold)spawn$(), and after 5 minutes each drops one of its kind on the spot. Babies simply grow up a step.$(br2)Those already spawning or pregnant will not eat, so one item only feeds what really needs it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "All four feeds $(bold)lure$() animals: hold the matching one and nearby animals will follow you - handy for driving them back to the pen or to the trough.$(br2)You can also put feed in a $(bold)Ranch Trough$() and let them help themselves; a drone with the $(bold)Care Module$() will even refill it for you."
+    }
+  ]
+}

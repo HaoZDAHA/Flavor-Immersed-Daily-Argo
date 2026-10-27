@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "flavor_immersed_daily_argo:block/atm"
+    },
+    "facing=east": {
+      "model": "flavor_immersed_daily_argo:block/atm",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "flavor_immersed_daily_argo:block/atm",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "flavor_immersed_daily_argo:block/atm",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Shops: data/shop",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "flavor_immersed_daily_argo:shopping_computer",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "One file, one shop",
+      "text": "Path: $(thing)data/<namespace>/shop/<shop id>.json$(). The file name is the shop id and identifies the shop — same-named files override each other.$(br2)Only two top-level fields: $(thing)title$() and $(thing)entries$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Entry fields",
+      "text": "$(li)$(thing)item$() or $(thing)tag$(): exactly one. An item id, or an item tag which expands to one entry per item.$(br)$(li)$(thing)count$(): how many items per purchase, at least 1.$(br)$(li)$(thing)price$(): the $(bold)total$() price in yuan for that purchase, not the unit price.$(br2)Entries that fail to parse are skipped and logged; the shop itself still loads."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Full example",
+      "text": "$(br){\"title\": \"Starting Market\",$(br)\"entries\": [$(br)  {\"item\": \"minecraft:apple\", \"count\": 4, \"price\": 6},$(br)  {\"tag\": \"flavor_immersed_daily_argo:livestock_spawn_eggs\", \"count\": 1, \"price\": 300}$(br)]}"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Notes",
+      "text": "$(li)A shop with no valid entries does not appear at all.$(br)$(li)Item tags are bound after the reload finishes, so tag entries are expanded again on $(thing)TagsUpdatedEvent$() — if a new tag does not show up, re-enter the world or restart.$(br)$(li)To disable a shop temporarily, rename the file with a $(thing)_$() prefix."
+    }
+  ]
+}

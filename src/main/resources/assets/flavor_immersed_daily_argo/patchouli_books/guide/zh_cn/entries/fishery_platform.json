@@ -1,0 +1,16 @@
+{
+  "name": "水上浮台",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_floating_platform",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)充气钓鱼浮台$()$(br)对着水面长按右键蓄力，拉满松手便在水上撑开一块 $(bold)5×5$() 的浮台，任何生物都能踩上去；"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "连续攻击几次就能把它收回。"
+    }
+  ]
+}

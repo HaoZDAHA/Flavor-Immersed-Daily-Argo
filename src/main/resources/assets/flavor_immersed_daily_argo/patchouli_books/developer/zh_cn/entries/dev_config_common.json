@@ -1,0 +1,28 @@
+{
+  "name": "主配置",
+  "category": "flavor_immersed_daily_argo:dev_config",
+  "icon": "minecraft:book",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "flavor_immersed_daily_argo-common.toml",
+      "text": "这是模组的主配置，类型为 COMMON，由服务端读取，客户端改了不生效。$(br2)其中真正被本模组使用的是下面这两页列出的项，其余是 NeoForge 模板生成的残留。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "有效项",
+      "text": "$(li)$(bold)giveGuideBookOnFirstJoin$()（默认 true）：玩家第一次进入存档时发一本「南山-教程卷轴」，同一名玩家只发一次。$(br)$(li)$(bold)mouseChunkLimit$()（默认 2，范围 1~64）：单个区块同时存在的田鼠上限，达到上限后该区块不再自然生成。$(br)$(li)$(bold)warnMissingParentMod$()（默认 true）：缺少前置「烟火凡人心」时，玩家登录会收到一条提示。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "自然生成开关",
+      "text": "四项决定本模组动物会不会自己刷出来，$(bold)默认全部 false$()——默认来路是网购刷怪蛋。$(br)$(li)$(bold)mouseNaturalSpawning$()：田鼠是否在成熟作物附近自然生成。$(br)$(li)$(bold)landAnimalNaturalSpawning$()：禽畜（鸭、鹅、鹌鹑、鸽、火鸡、牛蛙、竹鼠）是否在陆地上生成。$(br)$(li)$(bold)freshwaterNaturalSpawning$()：淡水水产是否在非海洋水域生成。$(br)$(li)$(bold)saltwaterNaturalSpawning$()：海水水产是否在海洋群系生成。$(br2)开关只拦自然刷新，刷怪蛋、指令与渔网给出的个体照旧存在；田鼠的指令覆盖见「管理指令」，实现细节见机制章节的「自然生成流程」。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "可以忽略的模板项",
+      "text": "$(li)$(thing)logDirtBlock$()、$(thing)magicNumber$()、$(thing)magicNumberIntroduction$()、$(thing)items$() 都是 NeoForge 示例工程留下的字段，本模组$(bold)不会读取$()，改成什么都不会影响游戏。$(br2)保留它们只是为了让配置结构稳定；如果你在整合包里做了统一规范，也可以放心保留默认值。"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:shroomfish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:mushroom_fields"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

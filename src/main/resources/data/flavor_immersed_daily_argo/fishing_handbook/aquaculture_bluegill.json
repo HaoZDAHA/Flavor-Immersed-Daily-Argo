@@ -1,0 +1,13 @@
+{
+    "item":  "aquaculture:bluegill",
+    "entity":  "aquaculture:bluegill",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

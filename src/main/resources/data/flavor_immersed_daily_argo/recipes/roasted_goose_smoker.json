@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_dressed_goose"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:roasted_goose"
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

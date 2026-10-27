@@ -1,0 +1,31 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "squeezingmachine",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:pomelo"
+          }
+        ],
+        "result": {
+          "count": 2,
+          "item": "flavor_immersed_daily_argo:pomelo_jam"
+        },
+        "cookingTime": 200
+      }
+    }
+  ]
+}

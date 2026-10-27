@@ -1,0 +1,8 @@
+{
+  "item": "flavor_immersed_daily_argo:raw_chinese_mackerel",
+  "entity": "flavor_immersed_daily_argo:chinese_mackerel",
+  "habitat": "ocean",
+  "diet": "carnivore",
+  "alertness": "high",
+  "feeding_speed": "fast"
+}

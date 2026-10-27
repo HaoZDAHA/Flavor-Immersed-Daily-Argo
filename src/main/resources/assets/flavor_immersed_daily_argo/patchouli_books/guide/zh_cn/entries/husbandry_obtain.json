@@ -1,0 +1,24 @@
+{
+  "name": "动物获取方式",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:duck_spawn_egg",
+  "sortnum": -1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)默认：上网买$()$(br)本模组新添的禽畜与水产$(bold)默认不会自然生成$()，来路是商业电脑的「网购」页。进「起点农贸市场」，货架上有三类刷怪蛋：$(br)$(li)$(bold)禽畜$()：鸭、鹅、鹌鹑、鸽、火鸡、牛蛙、竹鼠；$(br)$(li)$(bold)淡水水产$()：各类鲤科鱼、泥鳅、鲶鱼、青虾与蟹类；$(br)$(li)$(bold)海水水产$()：带鱼、金枪鱼、鲅鱼、龙虾、帝王蟹等。$(br2)买下后对着合适的地面或水面右键，就能放出活体。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)也可以自己抓$()$(br)水里放一张$(thing)捕捞渔网$()，隔一阵子会在网面正上方刷出活体水产——海洋群系出海产、其余群系出淡水；$(thing)编制麻袋$()则能装走禽类与其它动物的幼崽。详情见「捕获与装运」。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)想省事：打开自然生成$()$(br)服务器主配置 common.toml 里有三项，$(bold)默认都是 false$()：$(br)$(li)$(thing)landAnimalNaturalSpawning$()：陆地禽畜刷在草地、沙滩附近，竹林多竹鼠、沼泽与红树林多牛蛙、河岸与海滩多鸭；$(br)$(li)$(thing)freshwaterNaturalSpawning$()：淡水水产刷在河流、湖泊、沼泽等非海洋水域；$(br)$(li)$(thing)saltwaterNaturalSpawning$()：海水水产刷在海洋群系。$(br2)打开后它们会在玩家周围陆续自行出现，种类由群系和钓鱼图鉴里记的水域归属决定。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)田鼠$()$(br)田鼠同样$(bold)默认不生成$()，主配置里有 $(thing)mouseNaturalSpawning$()（默认 false）。临时想看效果，可以用 $(thing)/mouse spawn true$() 打开、$(thing)/mouse spawn false$() 关掉，不必重启。$(br2)刷怪蛋和指令放出来的田鼠不受这个开关限制；只要存在，它们照旧啃食成熟作物，单区块上限仍由 $(thing)mouseChunkLimit$() 控制。"
+    }
+  ]
+}

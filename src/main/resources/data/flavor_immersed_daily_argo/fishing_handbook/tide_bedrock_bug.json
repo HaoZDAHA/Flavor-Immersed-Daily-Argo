@@ -1,0 +1,10 @@
+{
+    "item":  "tide:bedrock_bug",
+    "entity":  "tide:bedrock_bug",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

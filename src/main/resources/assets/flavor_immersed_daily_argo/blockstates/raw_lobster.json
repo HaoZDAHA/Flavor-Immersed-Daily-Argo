@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "flavor_immersed_daily_argo:block/raw_lobster"
+    },
+    "facing=east": {
+      "model": "flavor_immersed_daily_argo:block/raw_lobster",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "flavor_immersed_daily_argo:block/raw_lobster",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "flavor_immersed_daily_argo:block/raw_lobster",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:vivid_moss",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:lush_caves"
+               ],
+    "depth":  "60-72",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

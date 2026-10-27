@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:gold_fan",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "pressurecooker",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:raw_turtle"
+          },
+          {
+            "item": "flavor_immersed_daily_argo:raw_dressed_pigeon"
+          },
+          {
+            "item": "flavor_immersed_daily:tidywater"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:turtle_pigeon_soup"
+        },
+        "cookingTime": 160
+      }
+    }
+  ]
+}

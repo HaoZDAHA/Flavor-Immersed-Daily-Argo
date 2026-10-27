@@ -1,0 +1,10 @@
+{
+    "item":  "tide:darkness_eater",
+    "entity":  "tide:darkness_eater",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

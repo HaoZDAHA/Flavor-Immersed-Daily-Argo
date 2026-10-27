@@ -1,0 +1,10 @@
+{
+    "item":  "tide:devils_hole_pupfish",
+    "entity":  "tide:devils_hole_pupfish",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "本卷怎么用",
+  "category": "flavor_immersed_daily_argo:dev_overview",
+  "icon": "flavor_immersed_daily_argo:developer_guide_book",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "写给谁",
+      "text": "这卷不是给普通玩家看的，而是写给$(bold)整合包作者$()与$(bold)服务器服主$()：目标是让你在不改源码的前提下，把这个模组的内容改成自己想要的样子。$(br2)全书分四块：能改什么（配置与数据包）、机制怎么算（代码层面的原理）、配方怎么写、以及照着做的改造教程。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "文件都在哪",
+      "text": "$(li)$(bold)配置$()：$(thing)config/flavor_immersed_daily_argo-common.toml$()、$(thing)config/flavor_immersed_daily_argo-economy.toml$()。$(br)$(li)$(bold)数据包$()：$(thing)data/<命名空间>/...$()，本模组自带内容位于 $(thing)data/flavor_immersed_daily_argo/$()。$(br)$(li)$(bold)手册文本$()：$(thing)assets/flavor_immersed_daily_argo/patchouli_books/$()（你要改手册正文时才需要动它）。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "改完怎么生效",
+      "text": "$(li)数据包：保存后执行 $(thing)/reload$() 即可。经济产物、店铺、钓鱼图鉴与称重数据在重载后会由服务端重新下发，客户端无需重开。$(br)$(li)配置：改动后重启游戏，或在单人里退出存档重进；多人服建议重启。$(br)$(li)只有「机制常量」写死在代码里（见机制原理一章），那部分需要改源码并重新编译。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "三条经验",
+      "text": "$(li)动手前先备份世界与 $(thing)data$() 目录，改 JSON 最容易犯的错是漏一个逗号。$(br)$(li)文件名以 $(thing)_$() 开头的 JSON 会被加载器跳过——想临时禁用某条内容，改个名字比删掉快。$(br)$(li)先在单人存档里试，确认无误再发到服务器。"
+    }
+  ]
+}

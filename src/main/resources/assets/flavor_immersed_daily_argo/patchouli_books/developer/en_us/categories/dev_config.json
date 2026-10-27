@@ -1,0 +1,6 @@
+{
+  "name": "Config Files",
+  "description": "The two TOML files, option by option.",
+  "icon": "minecraft:redstone",
+  "sortnum": 1
+}

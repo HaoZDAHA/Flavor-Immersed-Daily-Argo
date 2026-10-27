@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "NNN",
+    "NSN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:iron_nugget"
+    },
+    "S": {
+      "item": "minecraft:wheat_seeds"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:uav_module_care"
+  }
+}

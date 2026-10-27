@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "wok",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:raw_prawn"
+          },
+          {
+            "item": "flavor_immersed_daily_argo:raw_prawn"
+          },
+          {
+            "item": "flavor_immersed_daily:wheatflour"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:typhoon_shelter_prawn"
+        },
+        "cookingTime": 100
+      }
+    }
+  ]
+}

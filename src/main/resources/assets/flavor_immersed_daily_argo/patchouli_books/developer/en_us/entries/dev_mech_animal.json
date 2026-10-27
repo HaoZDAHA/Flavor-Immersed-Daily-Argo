@@ -1,0 +1,38 @@
+{
+  "name": "Animal Stats & Spawning",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:livestock_brush",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Four stats and weight",
+      "text": "An animal only gets a stat panel after a player has fed it: $(bold)satiety / thirst / cleanliness / mood$(), each 0~10, plus weight in kg.$(br2)The panel is inherited by offspring; a baby raised within 8 blocks of an adult that has it gains one when it grows up.$(br2)Animals without a weight standard (cats, dogs) always show 0 and hide that row."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Two cycles",
+      "text": "Everything is calculated on the server, in two cycles:$(br2)$(li)$(bold)Every 5 s (100 ticks)$(): +1 thirst if water is within 2 blocks; +1 cleanliness while in water or in rain.$(br)$(li)$(bold)Every 30 s (600 ticks)$(): -1 satiety, thirst and cleanliness, never below 0.$(br2)Feeding once: +3 satiety, +1 mood."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Mood and weight",
+      "text": "Every 30 s:$(br)$(li)All three of satiety / thirst / cleanliness ≥ 7 → mood +1.$(br)$(li)Any of them at 0 → mood -1.$(br)$(li)Otherwise mood is unchanged.$(br2)Weight follows the same check: it gains 2% of the standard weight when things are good, loses the same when bad, and is clamped between 0.7 and 1.3 times the standard."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Poop and flies",
+      "text": "Each time satiety is consumed (i.e. every 30 s decay tick) there is a 25% chance to drop manure, at most 6 piles per chunk.$(br2)When manure plus dead-animal carcasses within 3 blocks reach 3, the animal gets $(bold)fly bite$(): it lasts $(bold)forever$() and caps cleanliness at 5 with an extra -5 on each decay tick. Only flea treatment cures it; removing the manure does not help an already infected animal.$(br2)These values are hard-coded in $(thing)AnimalStatsManager$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How spawning runs",
+      "text": "All natural spawning of this mod's animals is hand-rolled in $(thing)AnimalSpawning$() from $(thing)ServerTickEvent.Post$(); it uses neither $(thing)biome_modifier$(), $(thing)SpawnPlacementRegisterEvent$() nor $(thing)add_spawns$(), so it cannot clash with the parent mod's worldgen. Field mice follow the same pattern in $(thing)MouseSpawning$().$(br2)It ticks every 400 ticks (20 s): if all three animal switches are off it returns immediately. Otherwise it walks every $(thing)ServerLevel$(), checks the $(thing)doMobSpawning$() gamerule, then rolls a 0.35 chance per player."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Placement and species",
+      "text": "$(bold)Land$(): a random column 8~32 blocks from the player, resolved with the surface heightmap. The block below must be dirt-like / sand / gravel / mud and the two blocks above must be air; 1~3 animals spawn as a group. Biome picks the species: bamboo jungle → bamboo rat, swamp / mangrove → bullfrog, river / beach → duck, otherwise a random duck, goose, quail, pigeon or turkey.$(br2)$(bold)Water$(): same random column, then $(thing)OCEAN_FLOOR$() gives the bottom block of the water column, which must actually be water. Biome names containing $(thing)ocean$() count as saltwater, everything else as freshwater. Candidates come from the fishing handbook: only entries whose $(thing)entity$() belongs to this mod, filtered by $(thing)habitat$(), preferring entries whose $(thing)biomes$() match - so a new fish joins spawning as soon as its handbook entry exists."
+    }
+  ]
+}

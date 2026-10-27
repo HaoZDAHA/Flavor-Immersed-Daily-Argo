@@ -1,0 +1,15 @@
+{
+    "item":  "tide:angelfish",
+    "entity":  "tide:angelfish",
+    "habitat":  "ocean",
+    "biomes":  [
+                   "minecraft:warm_ocean",
+                   "minecraft:lukewarm_ocean",
+                   "minecraft:deep_lukewarm_ocean"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

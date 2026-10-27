@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "W W",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:pet_nest"
+  }
+}

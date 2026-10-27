@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "O",
+    "J",
+    "D"
+  ],
+  "key": {
+    "O": {
+      "item": "flavor_immersed_daily_argo:organic_fertilizer"
+    },
+    "J": {
+      "item": "flavor_immersed_daily_argo:jinkela"
+    },
+    "D": {
+      "item": "minecraft:dirt"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:fertile_farmland"
+  }
+}

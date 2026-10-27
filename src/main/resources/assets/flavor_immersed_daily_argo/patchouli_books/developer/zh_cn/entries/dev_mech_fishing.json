@@ -1,0 +1,28 @@
+{
+  "name": "钓鱼判定原理",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:fishing_rod",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "图鉴条目参与计算",
+      "text": "图鉴里的 $(thing)habitat$()、$(thing)activity$()、$(thing)alertness$()、$(thing)feeding_speed$() 不只是展示：$(br2)$(li)栖息地不符（淡水 / 海水）就不会被抽中。$(br)$(li)活动时段不符（白天 / 夜晚 / 雨天）降低出现权重。$(br)$(li)警惕性参与咬钩概率，进食速度决定反应窗口。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "两个公式",
+      "text": "$(bold)咬钩概率$() = max(0.05, 0.9 × (1 − 警惕系数 × 钓组显眼度))$(br2)$(bold)反应窗口（秒）$() = 容错时长 ÷ 进食速度系数 × (1 + 抗流能力 × 加成)$(br2)也就是说：鱼越警惕、钓组越显眼，越难咬钩；鱼进食越快，留给你的收杆时间越短；抗流越强，鱼越难借水流挣脱。钓组显眼度由竿体、鱼线、浮漂、铅坠等配件共同决定。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "称重的随机",
+      "text": "称重按正态分布取样：以 $(thing)mean$() 为均值、$(thing)sigma$() 为标准差（省略时取均值 × 0.25），得到的结果再裁剪到 $(thing)min$()~$(thing)max$()。$(br2)因此同一种鱼每次钓上来的重量都不同，杆秤与展示架读的是同一个值。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "数据同步",
+      "text": "图鉴、配件、称重三份数据都只在服务端加载；玩家登录、执行 $(thing)/reload$() 时通过一个同步包全量下发，客户端用$(bold)同一套解析代码$()重建。$(br2)所以界面上看到的参数与真正参与计算的一定一致；改完数据包后如果界面没变，先确认服务端是否重载成功。"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "flavor_immersed_daily_argo:bee_roe",
+    "flavor_immersed_daily_argo:cicada_roe",
+    "flavor_immersed_daily_argo:locust_roe",
+    "flavor_immersed_daily_argo:silkworm_roe",
+    "flavor_immersed_daily_argo:bee",
+    "flavor_immersed_daily_argo:cicada",
+    "flavor_immersed_daily_argo:locust",
+    "flavor_immersed_daily_argo:silkworm"
+  ]
+}

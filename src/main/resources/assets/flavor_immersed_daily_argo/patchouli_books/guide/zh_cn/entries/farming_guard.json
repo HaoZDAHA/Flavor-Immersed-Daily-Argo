@@ -1,0 +1,20 @@
+{
+  "name": "守望田垄",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:scarecrow",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)稻草人$()$(br)插在田里，周围 $(bold)8 格$() 内的耕地不会被踩坏，也不会干涸成泥土。$(br2)$(bold)直接右键$() 为它取名，名字填 $(bold)正版玩家 ID$()，稻草人就会换上那位的皮肤；$(bold)潜行右键$() 或 $(bold)连打 3 下$() 即可把它收回。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)老鼠机制$()$(br)老鼠$(bold)默认不生成$()（主配置 $(thing)mouseNaturalSpawning$() 为 false）。在配置里打开，或用 $(thing)/mouse spawn true$() 临时开启之后，成熟的作物附近才会刷出老鼠，它们会偷食作物、让作物的生长阶段倒退一级。$(br2)开关只管新刷新，已经存在的老鼠照旧作恶；来路由见「禽畜饲养」里的「动物获取方式」。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)毒饵站$()$(br)对着稻草人右键即可立于它脚下（稻草人保留），罩住周围 $(bold)16 格$() 不再生成老鼠；毒饵站本身不会损坏。$(br2)在田边养猫，同样能驱赶老鼠。"
+    }
+  ]
+}

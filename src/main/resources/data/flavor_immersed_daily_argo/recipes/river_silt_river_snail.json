@@ -1,0 +1,11 @@
+{
+  "type": "flavor_immersed_daily_argo:river_silt_farming",
+  "input": {
+    "item": "flavor_immersed_daily_argo:raw_river_snail"
+  },
+  "result": {
+    "count": 3,
+    "item": "flavor_immersed_daily_argo:raw_river_snail"
+  },
+  "time": 2400
+}

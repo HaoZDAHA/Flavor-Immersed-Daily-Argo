@@ -1,0 +1,28 @@
+{
+  "name": "管理指令",
+  "category": "flavor_immersed_daily_argo:dev_commands",
+  "icon": "minecraft:command_block",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "/fidaeco",
+      "text": "管理外汇兑换条目（权限 2）：$(br2)$(li)$(thing)/fidaeco list$()：列出当前所有兑换条目$(br)$(li)$(thing)/fidaeco add <本模组货币> <数量> <其他物品> <数量>$()：新增一条$(br)$(li)$(thing)/fidaeco delete <本模组货币> <数量> <其他物品> <数量>$()：删除完全一致的一条$(br2)指令读写的就是配置里的 $(thing)exchange.entries$()，执行后会立即保存，不用重启。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/forestry",
+      "text": "给护林员写字板的网点触发一次林业事件（权限 2，仅玩家可用，因为网点是按玩家保存的）。$(br2)可用事件：$(thing)fire$()、$(thing)aphids$()、$(thing)weeds$()、$(thing)flood$()、$(thing)drought$()、$(thing)hypoxia$()、$(thing)oxygen_over$()、$(thing)acid_rain$()、$(thing)strong_alkali$()、$(thing)barren_water$()、$(thing)stench$()、$(thing)osmosis$()。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/forestry（续）",
+      "text": "不写坐标时作用于离执行者最近的一处网点；写坐标则作用于该坐标的网点：$(br2)$(thing)/forestry fire$()$(br)$(thing)/forestry flood 120 64 -30$()$(br2)水质类事件（缺氧、富氧、酸雨、强碱、死水、恶臭、渗透）走「上报」通道：把对应指标压到灾难区间，并写进写字板的水体情况。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/mouse",
+      "text": "$(thing)/mouse spawn <true|false>$()：临时覆盖田鼠在作物附近的自然生成。$(br2)没有覆盖时读主配置 $(thing)mouseNaturalSpawning$()，它$(bold)默认是 false$()，所以田鼠默认不生成；执行一次指令后，以指令值为准直到下次重启。$(br2)关闭后已存在的田鼠不会消失，只是不再新生成；单区块上限另由 $(thing)mouseChunkLimit$() 控制。刷怪蛋与 $(thing)/summon$() 放出的田鼠不受这个开关影响。"
+    }
+  ]
+}

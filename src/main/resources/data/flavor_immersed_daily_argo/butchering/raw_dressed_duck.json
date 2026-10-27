@@ -1,0 +1,39 @@
+{
+  "input": "flavor_immersed_daily_argo:raw_dressed_duck",
+  "stages": [
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "掏空",
+      "model": "flavor_immersed_daily_argo:block/bighook/duck_5",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_duck_intestine",
+        "flavor_immersed_daily_argo:raw_duck_liver",
+        "flavor_immersed_daily_argo:raw_duck_liver",
+        "flavor_immersed_daily_argo:raw_duck_heart",
+        "flavor_immersed_daily_argo:raw_duck_gizzard",
+        "flavor_immersed_daily_argo:raw_duck_gizzard"
+      ]
+    },
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "切割",
+      "model": "flavor_immersed_daily_argo:block/bighook/duck_6",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_duck_neck",
+        "flavor_immersed_daily_argo:raw_duck_wing",
+        "flavor_immersed_daily_argo:raw_duck_wing",
+        "flavor_immersed_daily_argo:raw_duck_thigh",
+        "flavor_immersed_daily_argo:raw_duck_thigh",
+        "flavor_immersed_daily_argo:raw_duck_rump",
+        "flavor_immersed_daily_argo:raw_duck_meat",
+        "flavor_immersed_daily_argo:raw_duck_meat",
+        "flavor_immersed_daily_argo:raw_duck_tongue",
+        "flavor_immersed_daily_argo:raw_duck_leg",
+        "flavor_immersed_daily_argo:raw_duck_leg",
+        "flavor_immersed_daily_argo:raw_duck_web",
+        "flavor_immersed_daily_argo:raw_duck_web",
+        "flavor_immersed_daily_argo:raw_duck_head"
+      ]
+    }
+  ]
+}

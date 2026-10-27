@@ -1,0 +1,38 @@
+{
+  "name": "畜牧状态与生成",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:livestock_brush",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "四项状态与体重",
+      "text": "每只被玩家喂过的动物才会获得状态栏：$(bold)饱食度 / 口渴度 / 清洁度 / 心情值$() 各 0~10，另有体重（kg）。$(br2)状态栏会被后代继承；在拥有状态栏的成年同类身边（8 格内）长大的幼崽，成年时也会补上。$(br2)没有体重标准的动物（猫、狗）体重恒为 0，面板上不显示这一行。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "时间节奏",
+      "text": "全部在服务端结算，两个周期：$(br2)$(li)$(bold)每 5 秒（100 tick）$()：身边 2 格内有水则口渴度 +1；泡在水里或淋雨时清洁度 +1。$(br)$(li)$(bold)每 30 秒（600 tick）$()：饱食度、口渴度、清洁度各 -1（最低 0）。$(br2)喂食一次：饱食度 +3、心情值 +1。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "心情与体重",
+      "text": "每 30 秒结算一次：$(br)$(li)三项（饱食 / 口渴 / 清洁）都 ≥ 7 → 心情值 +1。$(br)$(li)任意一项掉到 0 → 心情值 -1。$(br)$(li)其余情况心情不变。$(br2)体重和心情用同一判定：状态好就长「标准体重的 2%」，状态差就掉同样多，最终被收口在标准体重的 0.7~1.3 倍之间。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "粪便与蝇虫",
+      "text": "饱食度每消耗一次（也就是每 30 秒的衰减结算）有 25% 概率在脚下拉一份粪便，每个区块最多同时 6 份。$(br2)3 格范围内的粪便与死动物尸体合计达到 3 份时，动物会招来「蝇虫叮咬」：效果是$(bold)无限时长$()，清洁度上限被压到 5、每次结算额外 -5，只有「体外驱虫药」能清掉，清理粪便并不能治好已感染的那只。$(br2)这几个数字都写死在 $(thing)AnimalStatsManager$() 里，数据包改不到。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "自然生成流程",
+      "text": "模组动物的自然生成全部写在 $(thing)AnimalSpawning$() 的 $(thing)ServerTickEvent.Post$() 里手动刷，没有用 $(thing)biome_modifier$()、$(thing)SpawnPlacementRegisterEvent$() 或 $(thing)add_spawns$()，避免与前置模组的 worldgen 打架；田鼠沿用同样的思路，实现在 $(thing)MouseSpawning$()。$(br2)每 400 tick（20 秒）结算一次：三项动物开关全关就直接返回，否则遍历每个 $(thing)ServerLevel$()，先确认 $(thing)doMobSpawning$() 游戏规则为真，再给每名玩家掷一次 0.35 的概率。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "落点与种类",
+      "text": "$(bold)陆地$()：在玩家 8~32 格外随机取一列，用地表高度图落点，脚下须是泥土类 / 沙子 / 沙砾 / 泥巴，上方两格空气，成组刷 1~3 只。群系决定种类：竹林→竹鼠，沼泽 / 红树林→牛蛙，河流 / 沙滩→鸭，其余在鸭、鹅、鹌鹑、鸽、火鸡中随机。$(br2)$(bold)水产$()：同样取随机列，用 $(thing)OCEAN_FLOOR$() 取水柱最底格并确认是水；群系名含 $(thing)ocean$() 的走海水、其余走淡水。候选来自钓鱼手册，只取 $(thing)entity$() 属于本模组的条目，先按 $(thing)habitat$() 分淡海水，再优先挑 $(thing)biomes$() 命中的——新加的鱼只要补好手册条目就会自动参与自然生成。"
+    }
+  ]
+}

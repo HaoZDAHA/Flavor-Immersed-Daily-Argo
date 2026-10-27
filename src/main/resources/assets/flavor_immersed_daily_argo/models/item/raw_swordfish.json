@@ -1,0 +1,41 @@
+{
+  "parent": "builtin/entity",
+  "textures": {
+    "particle": "flavor_immersed_daily_argo:block/raw_swordfish"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [0, -90, 45],
+      "translation": [0, 4.0, 1.0],
+      "scale": [0.36, 0.36, 0.36]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [0, 90, -45],
+      "translation": [0, 4.0, 1.0],
+      "scale": [0.36, 0.36, 0.36]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, -90, 25],
+      "translation": [1.13, 3.2, 1.13],
+      "scale": [0.30, 0.30, 0.30]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 90, -25],
+      "translation": [-1.13, 3.2, 1.13],
+      "scale": [0.30, 0.30, 0.30]
+    },
+    "gui": {
+      "rotation": [15, 90, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.28, 0.28, 0.28]
+    },
+    "ground": {
+      "translation": [0, 1.0, 0],
+      "scale": [0.36, 0.36, 0.36]
+    },
+    "fixed": {
+      "translation": [0, 0, 0],
+      "scale": [0.28, 0.28, 0.28]
+    }
+  }
+}

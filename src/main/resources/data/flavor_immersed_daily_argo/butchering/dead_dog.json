@@ -1,0 +1,39 @@
+{
+  "input": "flavor_immersed_daily_argo:dead_dog",
+  "stages": [
+    {
+      "tool": "flavor_immersed_daily:wideedgedknife",
+      "name": "放血",
+      "model": "flavor_immersed_daily_argo:block/dead_dog_1",
+      "drops": ["flavor_immersed_daily_argo:raw_animal_blood"]
+    },
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "剥皮",
+      "model": "flavor_immersed_daily_argo:block/dead_dog_2",
+      "drops": ["minecraft:leather"]
+    },
+    {
+      "tool": "flavor_immersed_daily:bonecutterknife",
+      "name": "掏空",
+      "model": "flavor_immersed_daily_argo:block/dead_dog_3",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_animal_intestine",
+        "flavor_immersed_daily_argo:raw_animal_heart",
+        "flavor_immersed_daily_argo:raw_animal_stomach",
+        "flavor_immersed_daily_argo:raw_animal_liver",
+        "flavor_immersed_daily_argo:raw_animal_lung"
+      ]
+    },
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "切割",
+      "model": "flavor_immersed_daily_argo:block/dead_dog_4",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_dog_meat",
+        "flavor_immersed_daily_argo:raw_dog_meat",
+        "flavor_immersed_daily_argo:raw_dog_meat"
+      ]
+    }
+  ]
+}

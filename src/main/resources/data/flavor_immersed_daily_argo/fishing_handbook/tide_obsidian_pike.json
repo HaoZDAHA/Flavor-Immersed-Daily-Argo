@@ -1,0 +1,10 @@
+{
+    "item":  "tide:obsidian_pike",
+    "entity":  "tide:obsidian_pike",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

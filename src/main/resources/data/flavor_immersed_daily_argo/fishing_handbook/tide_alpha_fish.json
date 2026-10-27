@@ -1,0 +1,10 @@
+{
+    "item":  "tide:alpha_fish",
+    "entity":  "tide:alpha_fish",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

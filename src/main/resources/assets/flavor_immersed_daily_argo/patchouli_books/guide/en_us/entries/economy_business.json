@@ -1,0 +1,32 @@
+{
+  "name": "Running a Business",
+  "category": "flavor_immersed_daily_argo:economy_life",
+  "icon": "flavor_immersed_daily_argo:catering_business_license",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Opening Up$()$(br)Hang the $(bold)Catering Business License$() on a wall and right-click empty-handed to open or close. Open, it draws up to $(bold)6 customers$() who find their own seats and order."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Seat Cushion$()$(br)Right-click any block to mark it as a customer seat; right-click again or break the block to unmark. Without marked seats, customers have nowhere to sit."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Receipt Printer$()$(br)Right-click empty-handed to see today menu - $(bold)40 dishes$() drawn from every food in the mod, display only. Flip the switch to take orders; the machine prints receipts and summons delivery riders, hand them the right food for your pay."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Purchasing Box$()$(br)A $(bold)27-slot$() box. Put economic produce in and press Sell: its contents turn into banknotes at today price (per stack of 64), change returned to empty slots with the largest notes first.$(br2)One other class settles by $(bold)weight$() - a woven sack holding an animal, and any raw fish the steelyard can weigh. See Sold by Weight."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Shopping Computer$()$(br)Right-click empty-handed: browse shops, fill a cart and check out in Shopping (pay with a card in the slot); create your own shop in Manage, listing, delisting, repricing, restocking and withdrawing; the Prices tab shows today's price list for goods bought by weight."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Navigation Phone$()$(br)Sneak-right-click to unfold or fold. Unfolded, right-click to browse delivery orders and tap one to accept; the pickup bag appears at the origin, deliver it to the glowing drop point and right-click to hand it over."
+    }
+  ]
+}

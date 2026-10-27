@@ -1,0 +1,10 @@
+{
+    "item":  "tide:lapis_lanternfish",
+    "entity":  "tide:lapis_lanternfish",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

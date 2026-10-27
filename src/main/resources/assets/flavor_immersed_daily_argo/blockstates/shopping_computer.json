@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": {"model": "flavor_immersed_daily_argo:block/shopping_computer", "y": 90},
+		"facing=east": {"model": "flavor_immersed_daily_argo:block/shopping_computer", "y": 180},
+		"facing=south": {"model": "flavor_immersed_daily_argo:block/shopping_computer", "y": 270},
+		"facing=west": {"model": "flavor_immersed_daily_argo:block/shopping_computer", "y": 0}
+	}
+}

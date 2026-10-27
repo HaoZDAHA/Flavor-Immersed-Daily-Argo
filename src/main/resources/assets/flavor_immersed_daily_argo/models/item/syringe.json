@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "flavor_immersed_daily_argo:item/syringe_dna",
+      "predicate": {
+        "flavor_immersed_daily_argo:dna": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "flavor_immersed_daily_argo:item/syringe"
+  }
+}

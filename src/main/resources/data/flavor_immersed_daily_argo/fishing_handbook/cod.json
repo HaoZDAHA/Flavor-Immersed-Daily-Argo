@@ -1,0 +1,7 @@
+{
+  "item": "minecraft:cod",
+  "entity": "minecraft:cod",
+  "habitat": "ocean",
+  "order": 1,
+  "alertness": "low"
+}

@@ -1,0 +1,16 @@
+{
+    "item":  "starcatcher:pinfish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:dark_forest"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium",
+    "activity":  [
+                     "day"
+                 ]
+}

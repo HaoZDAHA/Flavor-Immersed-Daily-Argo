@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:guava_jam"
+    },
+    {
+      "item": "minecraft:ice"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "flavor_immersed_daily_argo:guava_popsicle"
+  }
+}

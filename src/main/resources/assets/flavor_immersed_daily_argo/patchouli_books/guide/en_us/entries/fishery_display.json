@@ -1,0 +1,20 @@
+{
+  "name": "Display & Weighing",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fish_display_board",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fishing Display Board$()$(br)Hold any catch and right-click to hang it; the board draws its live entity model. Right-click empty-handed to take it back - breaking the board also drops it intact. Aim at it to see how heavy that fish is."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Steelyard$()$(br)Right-click to open the weighing screen; put anything on the pan and it draws a weight. Bigger fish weigh more, and a truly huge one is announced server-wide.$(br2)A weighed fish remembers its jin and sells to the Purchasing Box at that figure; the Prices tab of the Shopping Computer lists today's price per jin."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fish Tank$()$(br)A bottomless glass tank; set it in water and it holds that water block, linking up with neighbours - tile them side by side or stack them upward."
+    }
+  ]
+}

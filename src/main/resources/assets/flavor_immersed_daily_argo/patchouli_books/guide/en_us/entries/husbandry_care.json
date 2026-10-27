@@ -1,0 +1,24 @@
+{
+  "name": "Livestock Condition & Care",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:milker",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Every animal keeps a set of $(bold)stats$(): Satiety, Thirst, Cleanliness and Mood, shown on its overhead status panel."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Milker$()$(br)Right-click an adult cow to milk it for 2-5 bottles of milk, costing 1 point of the cows Mood each time."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Brush$()$(br)Right-click any livestock to slowly raise its Mood and Cleanliness; each animal accepts a brushing only once every 20 seconds."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Flea Treatment$()$(br)Right-click an animal to use one: Cleanliness jumps to full and the $(bold)flea bites$() are washed away."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:dripfin",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:dripstone_caves"
+               ],
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

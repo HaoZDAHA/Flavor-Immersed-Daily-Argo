@@ -1,0 +1,44 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "fidworkblock"
+        },
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "fidworkblock:cooking",
+        "appliance": "pot",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:raw_crayfish"
+          },
+          {
+            "item": "flavor_immersed_daily_argo:raw_crayfish"
+          },
+          {
+            "item": "flavor_immersed_daily:tidywater"
+          },
+          {
+            "item": "flavor_immersed_daily:redrepper"
+          },
+          {
+            "item": "flavor_immersed_daily:thickbroadbeansauce"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:spicy_crayfish"
+        },
+        "cookingTime": 160,
+        "experience": 0.5
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_lobster"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:cooked_lobster_meat"
+  },
+  "experience": 0.35,
+  "cookingtime": 600
+}

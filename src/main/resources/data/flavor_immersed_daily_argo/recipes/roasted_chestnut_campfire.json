@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:chestnut"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:roasted_chestnut"
+  },
+  "experience": 0.35,
+  "cookingtime": 600
+}

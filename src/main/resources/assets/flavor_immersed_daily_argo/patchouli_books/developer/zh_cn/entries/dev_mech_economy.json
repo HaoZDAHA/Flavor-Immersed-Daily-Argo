@@ -1,0 +1,33 @@
+{
+  "name": "经济玩法原理",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:money_100",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "货币与账户",
+      "text": "纸币六种面额：1、5、10、20、50、100，面额就是它的兑换价值。$(br2)银行卡有 9 个格子用来放纸币，同时记录持卡人与账户余额；只有对着自助取款机才能把纸币存进账户、或按面额取出。$(br2)结账时从账户扣款；店铺收入也可以提现到卡里，余额不足则交易直接失败。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "收购价的单位",
+      "text": "所有收购价都按$(bold)每组 64 个$()报价，这一点在数据包 $(thing)economic_product$()、配置 $(thing)products.entries$()、新闻页上完全一致。$(br2)每日涨跌的算法是：先取基准价，再在「基准价 × $(thing)volatility_percent$()%」的范围内随机一个偏移量，结果不小于 0。当日价只用于新闻页展示，实际成交仍按店铺条目里的 $(thing)price$() 算。$(br2)按重量收购的畜类与生鱼不走这一套，见下一页。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "按重量收购",
+      "text": "有两类货物按件计价，不再凑 64 个：$(br)$(li)$(bold)编制麻袋里的畜$()：钱 = ceil( 标准体重价 + max(0, 实际体重 − 标准体重) × 每公斤加价 )。体重在装袋那一刻写进物品组件 $(thing)captured_weight$()（单位 kg）：有状态栏的取 $(thing)AnimalStats.weight$()，没有的取物种标准；猫狗没有标准，不写组件，也就卖不掉。$(br)$(li)$(bold)能称重的生鱼$()：钱 = ceil( 斤数 × 每斤价 )。斤数取组件 $(thing)weighed_weight$()，没上过秤就用该物品重量分布的均值兜底。$(br2)两套价目同样每天浮动：以配置基准价为基准，按「天 + 物种 / 物品」算一个不超过 ±20% 的确定性偏移（四舍五入到分），落在整元上时再补一点零头，所以不会出现 10.00 这种规整价。收购箱与行情页共用同一份当日价。行情页左栏生鱼、右栏畜类，两栏都按价格从高到低排，鼠标悬停时整行高亮。$(br2)凡是能称重的物品，都会从 $(thing)economic_product$() 的「每组」行情里被剔除，避免两套价目打架。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "外卖订单",
+      "text": "$(li)候选池：所有食物（排除 $(thing)food_blacklist$()），按当日种子洗牌后取前 $(bold)40$() 种，所以同一天全服菜单一致。$(br)$(li)同时在途订单上限 $(bold)3$() 单，单笔超时 $(bold)8 分钟$()。$(br)$(li)取餐点距玩家 24~80 格，送达点距玩家 200~600 格。$(br)$(li)报酬 = 送达距离 ÷ 10（四舍五入，最低 1 元），即 20~60 元。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "店铺",
+      "text": "店铺分两类：$(br)$(li)$(bold)系统店铺$()来自 $(thing)data/<命名空间>/shop/*.json$()，以及配置 $(thing)shop.extra_entries$() 合并成的「配置文件商店」。$(br)$(li)$(bold)玩家店铺$()在商业电脑里创建，受 $(thing)player_shops_enabled$() 与 $(thing)max_shops_per_player$() 限制。$(br2)条目里的 $(thing)count$() 是每笔给多少，$(thing)price$() 是每笔总价。"
+    }
+  ]
+}

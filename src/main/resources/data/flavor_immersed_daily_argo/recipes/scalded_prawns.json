@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:boiled_prawn"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:boiled_prawn"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:oyster_sauce"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:garlic_mince"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:scalded_prawns"
+  }
+}

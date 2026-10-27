@@ -1,0 +1,17 @@
+{
+    "item":  "tide:ender_glider",
+    "entity":  "tide:ender_glider",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:the_end",
+                   "minecraft:small_end_islands",
+                   "minecraft:end_midlands",
+                   "minecraft:end_highlands",
+                   "minecraft:end_barrens"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

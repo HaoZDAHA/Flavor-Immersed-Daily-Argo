@@ -1,0 +1,24 @@
+{
+  "name": "River Silt",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:river_silt",
+  "sortnum": 8,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)River Silt$() is mixed from $(bold)Tidy Water$(), dirt, sand and salt, two blocks at a time. Lay it on the riverbed - water must be above it - then right-click it with $(bold)Aquatic Feed$(); the silt turns wet and its texture changes."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Only wet silt can raise anything: right-click with a $(bold)sea cucumber$(), $(bold)clam$(), $(bold)oyster$(), $(bold)scallop$(), $(bold)river snail$(), $(bold)crayfish$(), $(bold)spoon worm$(), $(bold)sea urchin$(), $(bold)razor clam$(), $(bold)mantis shrimp$(), $(bold)jellyfish$(), $(bold)Akiami shrimp$() or $(bold)abalone$() and it settles flat on the silt, growing slowly."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Once grown, three of the catch lie scattered on the mud. Right-click (empty-handed or not) to harvest; the silt dries out, and one more feeding starts the next round."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "Farming recipes live in the $(bold)river_silt_farming$() data pack recipes (seed stock, result, grow time). Addons can drop in files of the same shape to raise more aquatic produce."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:chili_fried_mackerel_crumble"
+          },
+          {
+            "item": "flavor_immersed_daily:sacllion"
+          },
+          {
+            "item": "flavor_immersed_daily:grainspancake"
+          },
+          {
+            "item": "flavor_immersed_daily:sweetflourasuve"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:spicy_mackerel_crumble"
+        }
+      }
+    }
+  ]
+}

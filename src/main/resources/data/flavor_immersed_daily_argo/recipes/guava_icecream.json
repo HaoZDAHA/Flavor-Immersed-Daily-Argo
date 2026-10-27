@@ -1,0 +1,35 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:guava_jam"
+          },
+          {
+            "item": "flavor_immersed_daily:cream"
+          },
+          {
+            "item": "flavor_immersed_daily:sorbet"
+          },
+          {
+            "item": "flavor_immersed_daily:eggpancake"
+          }
+        ],
+        "result": {
+          "count": 2,
+          "item": "flavor_immersed_daily_argo:guava_icecream"
+        }
+      }
+    }
+  ]
+}

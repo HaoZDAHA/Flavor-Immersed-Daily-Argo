@@ -1,0 +1,8 @@
+{
+  "title": "矿物材料市场",
+  "entries": [
+    { "item": "minecraft:coal", "count": 64, "price": 100 },
+    { "item": "minecraft:iron_ingot", "count": 64, "price": 200 },
+    { "item": "minecraft:copper_ingot", "count": 64, "price": 100 }
+  ]
+}

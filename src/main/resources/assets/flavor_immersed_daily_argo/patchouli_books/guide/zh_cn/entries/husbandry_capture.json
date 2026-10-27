@@ -1,0 +1,16 @@
+{
+  "name": "捕获与装运",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:poultry_catching_net",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)编制麻袋$()$(br)右键禽类（不分大小）或其它动物的幼崽，把它装进袋子；再次右键放出。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)捕捞渔网$()$(br)放进水里当作渔网，隔一阵子会在网面正上方刷出一条水产活体——海洋群系刷海产、其余群系刷淡水。玩家能直接穿过网，其他生物不能。"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:deepslatefish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

@@ -1,0 +1,17 @@
+{
+    "item":  "tide:mantyvern",
+    "entity":  "tide:mantyvern",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:the_end",
+                   "minecraft:small_end_islands",
+                   "minecraft:end_midlands",
+                   "minecraft:end_highlands",
+                   "minecraft:end_barrens"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

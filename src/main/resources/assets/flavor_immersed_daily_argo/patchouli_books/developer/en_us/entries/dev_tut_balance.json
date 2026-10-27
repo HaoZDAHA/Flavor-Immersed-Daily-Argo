@@ -1,0 +1,28 @@
+{
+  "name": "Tutorial: Balance",
+  "category": "flavor_immersed_daily_argo:dev_tutorials",
+  "icon": "minecraft:comparator",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Two kinds of numbers",
+      "text": "$(bold)Changeable$(): every config field, every JSON under $(thing)data$(), recipes and tags. Applied with $(thing)/reload$() or a restart, no compile needed.$(br2)$(bold)Fixed$(): constants in code, such as stat decay pacing, litter size, delivery volume and distance, and the salt-pile random-tick chance. These need a source edit and recompile."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Where the constants live",
+      "text": "$(li)Livestock: $(thing)AnimalStatsManager$() — 600-tick decay, 100-tick drink, ±2% weight, 0.7~1.3 range, 25% manure, 6 per chunk.$(br)$(li)Breeding: $(thing)SyringeHandler$() and $(thing)PregnancyHandler$() — 8 minutes, line 7, 3~5 babies.$(br)$(li)Delivery: $(thing)DeliveryManager$() — 3 orders, 8 minutes, 200~600 blocks, 1 yuan per 10 blocks.$(br)$(li)Salt: $(thing)SaltPanBlock$() 200 ticks, $(thing)SaltPileBlock$() 1/3."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Before editing code",
+      "text": "$(li)Check whether you really must: most \"too grindy / too generous\" complaints can be fixed with economy config and data packs.$(br)$(li)A source edit means recompiling, releasing, and making every player update — expensive for a pack.$(br)$(li)If a value should scale with difficulty, prefer shipping several data packs over changing code.$(br2)This applies to any mod with hard-coded constants, not just this one."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Troubleshooting",
+      "text": "$(li)Nothing happened: make sure the file is inside the $(bold)world's$() $(thing)datapacks$() folder, or installed as a global pack.$(br)$(li)Tags not applied: they bind on the next reload; re-enter the world after $(thing)/reload$().$(br)$(li)Config not applied: COMMON configs are read by the server, so re-enter the world even in single player.$(br)$(li)Check the log: loaders print the file name of every entry that failed to parse."
+    }
+  ]
+}

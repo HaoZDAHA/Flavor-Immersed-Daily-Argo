@@ -1,0 +1,11 @@
+{
+  "type": "flavor_immersed_daily_argo:river_silt_farming",
+  "input": {
+    "item": "flavor_immersed_daily_argo:raw_sea_urchin"
+  },
+  "result": {
+    "count": 3,
+    "item": "flavor_immersed_daily_argo:raw_sea_urchin"
+  },
+  "time": 3600
+}

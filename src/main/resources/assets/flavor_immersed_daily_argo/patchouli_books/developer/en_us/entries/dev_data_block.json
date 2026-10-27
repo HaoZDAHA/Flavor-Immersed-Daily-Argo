@@ -1,0 +1,28 @@
+{
+  "name": "Butchering Data",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "minecraft:iron_sword",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Big hook: data/butchering",
+      "text": "Fields: $(thing)input$() (the hung item) and $(thing)stages$() (processed in order). Each stage:$(br)$(li)$(thing)tool$(): optional required knife; omit to allow any knife$(br)$(li)$(thing)name$(): prompt text$(br)$(li)$(thing)model$(): display model on the hook$(br)$(li)$(thing)drops$(): item ids produced by this stage; repeat an id to drop several"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Board: data/choppingboard_mob",
+      "text": "Fields: $(thing)input$(), $(thing)entity$() (used for rendering), $(thing)render$() and $(thing)stages$().$(br2)$(thing)render$() accepts $(thing)scale$(), $(thing)yaw$(), $(thing)y_offset$(), $(thing)roll$(), $(thing)x_offset$() and $(thing)z_offset$() to pose the fish.$(br2)Each $(thing)stages$() item has $(thing)name$() and $(thing)drops$(), e.g. scale / gut / cut, where the last stage drops segments and organs."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Basin wash: data/basin_wash",
+      "text": "Fields: $(thing)input$(), $(thing)output$() (main result), $(thing)drops$() (extra drops) and $(thing)name$() (prompt name).$(br2)Example: washing silkworm cocoons yields silk and an extra raw silkworm chrysalis."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Appraisal: data/appraisal_supplement",
+      "text": "Simplest format: $(thing){\"source item id\": [\"extra result id\", ...]}$().$(br2)When the source item is appraised, the listed items join the appraisal pool — used to add this mod's fruits to vanilla wild plants.$(br2)Example: add pomelo to the temperate wild fruit appraisal."
+    }
+  ]
+}

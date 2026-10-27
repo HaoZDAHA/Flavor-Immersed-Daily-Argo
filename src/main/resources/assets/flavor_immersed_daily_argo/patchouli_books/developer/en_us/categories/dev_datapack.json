@@ -1,0 +1,6 @@
+{
+  "name": "Data Packs",
+  "description": "Field layouts for every JSON type under data/, and how to override them.",
+  "icon": "minecraft:writable_book",
+  "sortnum": 2
+}

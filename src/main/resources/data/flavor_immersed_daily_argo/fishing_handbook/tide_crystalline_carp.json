@@ -1,0 +1,10 @@
+{
+    "item":  "tide:crystalline_carp",
+    "entity":  "tide:crystalline_carp",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "herbivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

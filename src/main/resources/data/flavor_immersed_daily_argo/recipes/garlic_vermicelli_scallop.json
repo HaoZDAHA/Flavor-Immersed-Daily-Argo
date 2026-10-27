@@ -1,0 +1,32 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "flavor_immersed_daily"
+        }
+      ],
+      "recipe":       {
+        "type": "minecraft:crafting_shapeless",
+        "category": "misc",
+        "ingredients": [
+          {
+            "item": "flavor_immersed_daily_argo:roast_scallop"
+          },
+          {
+            "item": "flavor_immersed_daily_argo:garlic_mince"
+          },
+          {
+            "item": "flavor_immersed_daily:driedvermicelli"
+          }
+        ],
+        "result": {
+          "count": 1,
+          "item": "flavor_immersed_daily_argo:garlic_vermicelli_scallop"
+        }
+      }
+    }
+  ]
+}

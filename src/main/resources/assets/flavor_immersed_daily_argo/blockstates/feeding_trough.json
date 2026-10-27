@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "content=empty,facing=north": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough"
+    },
+    "content=empty,facing=east": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough",
+      "y": 90
+    },
+    "content=empty,facing=south": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough",
+      "y": 180
+    },
+    "content=empty,facing=west": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough",
+      "y": 270
+    },
+    "content=food,facing=north": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_food"
+    },
+    "content=food,facing=east": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_food",
+      "y": 90
+    },
+    "content=food,facing=south": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_food",
+      "y": 180
+    },
+    "content=food,facing=west": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_food",
+      "y": 270
+    },
+    "content=water,facing=north": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_water"
+    },
+    "content=water,facing=east": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_water",
+      "y": 90
+    },
+    "content=water,facing=south": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_water",
+      "y": 180
+    },
+    "content=water,facing=west": {
+      "model": "flavor_immersed_daily_argo:block/feeding_trough_water",
+      "y": 270
+    }
+  }
+}

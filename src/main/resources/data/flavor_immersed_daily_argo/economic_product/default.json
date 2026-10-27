@@ -1,0 +1,13 @@
+{
+  "entries": [
+    { "tag": "fid:fruit", "price": 8 },
+    { "tag": "fid:vegetable", "price": 6 },
+    { "tag": "fid:meat", "price": 20 },
+    { "tag": "fid:egg", "price": 10 },
+    { "tag": "fid:blood", "price": 12 },
+    { "tag": "fid:pigorgans", "price": 12 },
+    { "tag": "fid:sheeporgans", "price": 12 },
+    { "tag": "fid:intestines", "price": 12 },
+    { "tag": "flavor_immersed_daily_argo:economic_products", "price": 12 }
+  ]
+}

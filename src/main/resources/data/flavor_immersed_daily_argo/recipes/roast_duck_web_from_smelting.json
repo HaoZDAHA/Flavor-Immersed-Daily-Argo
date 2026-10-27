@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_duck_web"
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:roast_duck_web"
+  }
+}

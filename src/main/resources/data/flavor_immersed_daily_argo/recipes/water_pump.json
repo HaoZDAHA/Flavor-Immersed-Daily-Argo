@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "W",
+    "P"
+  ],
+  "key": {
+    "W": {
+      "item": "flavor_immersed_daily_argo:water_pipe"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "flavor_immersed_daily_argo:water_pump"
+  }
+}

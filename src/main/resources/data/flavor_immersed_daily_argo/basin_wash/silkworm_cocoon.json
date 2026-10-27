@@ -1,0 +1,8 @@
+{
+  "input": "flavor_immersed_daily_argo:silkworm_cocoon",
+  "output": "flavor_immersed_daily_argo:silk",
+  "drops": [
+    "flavor_immersed_daily_argo:raw_silkworm_chrysalis"
+  ],
+  "name": "缫丝"
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "flavor_immersed_daily_argo:block/chicken_coop"
+    },
+    "facing=east": {
+      "model": "flavor_immersed_daily_argo:block/chicken_coop",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "flavor_immersed_daily_argo:block/chicken_coop",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "flavor_immersed_daily_argo:block/chicken_coop",
+      "y": 270
+    }
+  }
+}

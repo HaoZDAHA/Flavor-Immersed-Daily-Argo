@@ -1,0 +1,16 @@
+{
+  "name": "放牧之道",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:stock_whip",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)牧鞭$()$(br)右键一头家畜甩响鞭子，把周围 $(bold)12 格$()内的同类一起往前赶，像在后面驱赶牲口群。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)哨子$()$(br)右键吹响：附近游荡中的宠物会转为跟随，邻近已驯服的坐骑也会循声向你走来。"
+    }
+  ]
+}

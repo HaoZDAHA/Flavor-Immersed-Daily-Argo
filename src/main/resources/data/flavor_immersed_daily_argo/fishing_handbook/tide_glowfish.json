@@ -1,0 +1,10 @@
+{
+    "item":  "tide:glowfish",
+    "entity":  "tide:glowfish",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}
