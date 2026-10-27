@@ -1,0 +1,28 @@
+{
+  "name": "三种自定义配方",
+  "category": "flavor_immersed_daily_argo:dev_recipes",
+  "icon": "minecraft:crafting_table",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "昆虫培育",
+      "text": "$(thing)type: flavor_immersed_daily_argo:insect_breeding$()$(br2)字段：$(br)$(li)$(thing)feed$()：饲料，$(thing)item$() 或 $(thing)tag$()$(br)$(li)$(thing)carrier$()：载体方块/物品$(br)$(li)$(thing)offspring_input$()：放进培育箱的卵$(br)$(li)$(thing)offspring_output$()：$(thing)id$() + $(thing)count$()$(br)$(li)$(thing)time$()：耗时（tick）"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "淤泥养殖",
+      "text": "$(thing)type: flavor_immersed_daily_argo:river_silt_farming$()$(br2)字段：$(br)$(li)$(thing)input$()：$(thing)item$()，放进去的苗种$(br)$(li)$(thing)result$()：$(thing)id$() + $(thing)count$()$(br)$(li)$(thing)time$()：成熟所需 tick$(br2)示例：鲍鱼苗 3600 tick（3 分钟）后收获 3 只鲍鱼。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "锅具烹饪",
+      "text": "$(thing)type: fidworkblock:cooking$()（由前置模组提供）$(br2)字段：$(br)$(li)$(thing)appliance$()：$(thing)pot$() / $(thing)pressurecooker$() / $(thing)steambox$()$(br)$(li)$(thing)ingredients$()：材料数组，每项 $(thing)item$() 或 $(thing)tag$()$(br)$(li)$(thing)result$()：$(thing)id$() + $(thing)count$()$(br)$(li)$(thing)cookingTime$()：耗时（tick）"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "锅具示例",
+      "text": "$(br){\"type\": \"fidworkblock:cooking\",$(br)\"appliance\": \"pot\",$(br)\"ingredients\": [$(br)  {\"item\": \"flavor_immersed_daily_argo:raw_lobster\"},$(br)  {\"item\": \"flavor_immersed_daily:tidywater\"}$(br)],$(br)\"result\": {\"id\": \"flavor_immersed_daily_argo:steamed_lobster\", \"count\": 1},$(br)\"cookingTime\": 120}$(br2)同一个配方可以按三种锅各写一份，改 $(thing)appliance$() 与 $(thing)cookingTime$() 即可。"
+    }
+  ]
+}

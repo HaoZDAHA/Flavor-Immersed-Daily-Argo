@@ -1,0 +1,24 @@
+{
+  "name": "Sold by Weight",
+  "category": "flavor_immersed_daily_argo:economy_life",
+  "icon": "flavor_immersed_daily_argo:steelyard",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Two price systems$()$(br)Most things in the Purchasing Box still settle per $(bold)stack of 64$(); one other class settles by $(bold)weight$(), priced per piece and never needing 64: a $(bold)woven sack$() holding a live animal, and any $(bold)raw fish$() the steelyard can weigh."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Livestock in a sack$()$(br)Sack an animal and its tooltip gains a Weight line (in kg) - only for species with a registered weight standard; cats and dogs have none. Drop the whole sack in the Purchasing Box: price = $(bold)standard-weight price + overweight × price per kg$(), rounded up to the yuan.$(br2)So fatten the animal first: every extra kilogram pays. An animal never raised is valued at its standard weight."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Raw fish by the jin$()$(br)Every catch the steelyard can weigh is bought per $(bold)jin$(): our river fish, plus those of $(thing)Aquaculture$(), $(thing)Starcatcher$() and $(thing)Tide$() whenever those mods are installed.$(br2)Weighed fish use the recorded jin; unweighed ones can go straight in the box and are estimated at the species average. Rounded up to the yuan. Anything the steelyard cannot weigh never takes this route."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Prices tab$()$(br)The fourth tab of the Shopping Computer. Fish on the left (per jin), livestock on the right (standard price / per extra kg), $(bold)sorted high to low$() with two decimals; hover a row to highlight it.$(br2)Prices drift once per day (within 20% of the base price, never a whole yuan), the same for everyone that day - the Purchasing Box settles at exactly the numbers shown here."
+    }
+  ]
+}

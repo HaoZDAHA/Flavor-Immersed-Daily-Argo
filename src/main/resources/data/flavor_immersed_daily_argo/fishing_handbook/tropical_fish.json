@@ -1,0 +1,7 @@
+{
+  "item": "minecraft:tropical_fish",
+  "entity": "minecraft:tropical_fish",
+  "habitat": "ocean",
+  "order": 3,
+  "alertness": "low"
+}

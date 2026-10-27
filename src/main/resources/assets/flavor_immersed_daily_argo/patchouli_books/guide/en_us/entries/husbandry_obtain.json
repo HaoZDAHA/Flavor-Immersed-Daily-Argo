@@ -1,0 +1,24 @@
+{
+  "name": "Getting Animals",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:duck_spawn_egg",
+  "sortnum": -1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Default: buy online$()$(br)Poultry and aquatic animals added by this mod do $(bold)not$() spawn naturally by default. You get them from the $(thing)Online Shopping$() tab of the shopping computer. Open $(thing)Star Farm Market$() and you will find three kinds of spawn eggs:$(br)$(li)$(bold)Livestock & poultry$(): duck, goose, quail, pigeon, turkey, bullfrog, bamboo rat;$(br)$(li)$(bold)Freshwater$(): carps, loach, catfish, prawns, freshwater crabs;$(br)$(li)$(bold)Saltwater$(): hairtail, tuna, mackerel, lobster, king crab and more.$(br2)Right-click suitable ground or water with an egg to release the animal."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Or catch them yourself$()$(br)Leave a $(thing)Fishing Net$() in water and a live aquatic creature will appear just above it every so often - ocean biomes yield sea catch, other biomes freshwater. A $(thing)Woven Jute Sack$() carries poultry and other animals' young. See $(thing)Catching & Keeping$() for details."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Want them for free: enable natural spawning$()$(br)The server's main config (common.toml) has three switches, all $(bold)false$() by default:$(br)$(li)$(thing)landAnimalNaturalSpawning$(): land poultry and livestock appear on grass and near beaches - bamboo rats in bamboo jungles, bullfrogs in swamps and mangroves, ducks along rivers and beaches;$(br)$(li)$(thing)freshwaterNaturalSpawning$(): freshwater animals appear in rivers, lakes, swamps and other non-ocean water;$(br)$(li)$(thing)saltwaterNaturalSpawning$(): saltwater animals appear in ocean biomes.$(br2)Once enabled they show up around players over time, chosen by biome and by the habitat recorded in the fishing handbook."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Field mice$()$(br)Field mice are also $(bold)off$() by default via $(thing)mouseNaturalSpawning$() in the main config. To see them right away, toggle with $(thing)/mouse spawn true$() and $(thing)/mouse spawn false$() - no restart needed.$(br2)Mice from spawn eggs or commands ignore that switch. Any mouse that exists still eats mature crops, and the per-chunk cap is still $(thing)mouseChunkLimit$()."
+    }
+  ]
+}

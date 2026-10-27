@@ -1,0 +1,6 @@
+{
+  "name": "Commands",
+  "description": "Every command in this mod: mouse spawning, forestry hazard tests, exchange entries.",
+  "icon": "minecraft:command_block",
+  "sortnum": 5
+}

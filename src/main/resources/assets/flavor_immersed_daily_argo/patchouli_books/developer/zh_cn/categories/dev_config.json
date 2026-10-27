@@ -1,0 +1,6 @@
+{
+  "name": "配置文件",
+  "description": "两个 toml：主配置与经济配置，逐项说明。",
+  "icon": "minecraft:redstone",
+  "sortnum": 1
+}

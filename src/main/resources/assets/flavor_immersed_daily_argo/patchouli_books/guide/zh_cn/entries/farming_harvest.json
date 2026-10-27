@@ -1,0 +1,20 @@
+{
+  "name": "收割如意",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:sickle",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)镰刀$()$(br)手持右键田里的成熟作物，一次收割并补种周围 $(bold)3×3$() 的作物，受时运加成，每株只耗 1 点耐久。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)草帽$()$(br)戴在头上，收获作物时有概率让时运再 $(bold)+1$()。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)收割机$()$(br)开动起来，会沿途收获并补种经过的所有作物，让整片田地一路收干净。"
+    }
+  ]
+}

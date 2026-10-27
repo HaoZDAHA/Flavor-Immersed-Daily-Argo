@@ -1,0 +1,16 @@
+{
+  "name": "The Art of Herding",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:stock_whip",
+  "sortnum": 7,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Livestock Whip$()$(br)Right-click a head of livestock to crack the whip and drive the same species within $(bold)12 blocks$() forward together, herding the flock ahead of you."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Whistle$()$(br)Right-click to blow: wandering pets nearby switch to following, and tamed mounts in earshot walk toward you."
+    }
+  ]
+}

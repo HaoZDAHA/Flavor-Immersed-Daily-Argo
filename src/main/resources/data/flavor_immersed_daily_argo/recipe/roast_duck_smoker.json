@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_dressed_duck"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:roast_duck",
+    "count": 1
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

@@ -1,0 +1,27 @@
+{
+  "input": "flavor_immersed_daily_argo:raw_dressed_goose",
+  "stages": [
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "掏空",
+      "model": "flavor_immersed_daily_argo:block/bighook/goose_5",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_goose_liver",
+        "flavor_immersed_daily_argo:raw_goose_intestine"
+      ]
+    },
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "切割",
+      "model": "flavor_immersed_daily_argo:block/bighook/goose_6",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_goose_leg",
+        "flavor_immersed_daily_argo:raw_goose_leg",
+        "flavor_immersed_daily_argo:raw_goose_meat",
+        "flavor_immersed_daily_argo:raw_goose_meat",
+        "flavor_immersed_daily_argo:raw_goose_meat",
+        "flavor_immersed_daily_argo:raw_goose_meat"
+      ]
+    }
+  ]
+}

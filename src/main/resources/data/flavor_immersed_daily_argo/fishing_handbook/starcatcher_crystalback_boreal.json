@@ -1,0 +1,14 @@
+{
+    "item":  "starcatcher:crystalback_boreal",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river",
+                   "minecraft:frozen_river"
+               ],
+    "depth":  "56-68",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

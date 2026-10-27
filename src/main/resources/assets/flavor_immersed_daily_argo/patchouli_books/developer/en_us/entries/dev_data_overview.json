@@ -1,0 +1,28 @@
+{
+  "name": "Data Folder Overview",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "minecraft:chest",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "The folders",
+      "text": "The mod reads these folders under $(thing)data/<namespace>/$():$(br2)$(li)$(thing)shop/$() — system shops$(br)$(li)$(thing)economic_product/$() — market products and buy prices$(br)$(li)$(thing)weighing_types/$() — weight distributions$(br)$(li)$(thing)fishing_handbook/$() — codex entries$(br)$(li)$(thing)fishing_rod_parts/$() — tackle stats"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "And the rest",
+      "text": "$(li)$(thing)butchering/$() — big-hook carving stages$(br)$(li)$(thing)choppingboard_mob/$() — fish carving on the board$(br)$(li)$(thing)basin_wash/$() — basin washing$(br)$(li)$(thing)appraisal_supplement/$() — extra appraisal results$(br)$(li)$(thing)recipe/$() — recipes, including three custom types"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "How loading works",
+      "text": "All of these are read by server-side $(thing)SimpleJsonResourceReloadListener$()s.$(br2)Clients cannot read $(thing)data$() folders, so the data is loaded once on the server and pushed to clients on login or reload — on a server, only the server needs to be configured.$(br2)Files starting with $(thing)_$() are skipped; same-path files are overridden by pack priority."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Overriding",
+      "text": "Create a data pack instead of editing the mod jar:$(br2)$(thing)data/flavor_immersed_daily_argo/shop/my_market.json$()$(br2)Same path and name overrides the bundled file; a new name adds content. Recipes work the same way under $(thing)data/<namespace>/recipe/$()."
+    }
+  ]
+}

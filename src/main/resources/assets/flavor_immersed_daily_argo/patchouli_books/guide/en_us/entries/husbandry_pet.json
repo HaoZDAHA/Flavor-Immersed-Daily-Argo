@@ -1,0 +1,20 @@
+{
+  "name": "A Home for Pets",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:pet_nest",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Pet Nest$()$(br)Tamed cats and dogs nearby come to settle in; one nest houses one pet. Should they pass away, they reappear here the next day."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Wander Mode$()$(br)Lets a pet roam freely around its nest; blow the $(bold)Whistle$() and a wandering pet switches to following."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Pet Revival$()$(br)A pet that has settled into a nest and later dies will revive in the nest the following day."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+    "item":  "tide:spore_stalker",
+    "entity":  "tide:spore_stalker",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:mushroom_fields"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

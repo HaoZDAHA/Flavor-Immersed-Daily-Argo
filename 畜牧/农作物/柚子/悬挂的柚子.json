@@ -1,0 +1,37 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "柚子/悬挂的柚子",
+		"1": "果子把手",
+		"particle": "柚子/悬挂的柚子"
+	},
+	"elements": [
+		{
+			"from": [3, 4, 3],
+			"to": [13, 13, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2, -1, 2]},
+			"faces": {
+				"north": {"uv": [8, 7.5, 16, 16], "texture": "#0"},
+				"east": {"uv": [8, 7.5, 16, 16], "texture": "#0"},
+				"south": {"uv": [8, 7.5, 16, 16], "texture": "#0"},
+				"west": {"uv": [8, 7.5, 16, 16], "texture": "#0"},
+				"up": {"uv": [16, 16, 8, 8], "texture": "#0"},
+				"down": {"uv": [16, 8, 8, 16], "texture": "#0"}
+			}
+		},
+		{
+			"name": "果子把2",
+			"from": [7, 13, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 11, 7]},
+			"faces": {
+				"north": {"uv": [0, 0, 2, 3], "texture": "#1"},
+				"east": {"uv": [2, 0, 4, 3], "texture": "#1"},
+				"south": {"uv": [0, 3, 2, 6], "texture": "#1"},
+				"west": {"uv": [2, 3, 4, 6], "texture": "#1"},
+				"up": {"uv": [6, 2, 4, 0], "texture": "#1"},
+				"down": {"uv": [6, 2, 4, 4], "texture": "#1"}
+			}
+		}
+	]
+}

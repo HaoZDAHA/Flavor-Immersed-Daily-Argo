@@ -1,0 +1,24 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_duck_blood"
+    },
+    {
+      "item": "flavor_immersed_daily:driedvermicelli"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    },
+    {
+      "item": "flavor_immersed_daily:salt"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:duck_blood_vermicelli_soup",
+    "count": 1
+  },
+  "cookingTime": 120,
+  "experience": 0.5
+}

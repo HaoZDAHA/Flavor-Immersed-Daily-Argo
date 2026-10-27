@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"facing=north,open=false": {"model": "flavor_immersed_daily_argo:block/catering_business_license"},
+		"facing=east,open=false": {"model": "flavor_immersed_daily_argo:block/catering_business_license", "y": 90},
+		"facing=south,open=false": {"model": "flavor_immersed_daily_argo:block/catering_business_license", "y": 180},
+		"facing=west,open=false": {"model": "flavor_immersed_daily_argo:block/catering_business_license", "y": 270},
+		"facing=north,open=true": {"model": "flavor_immersed_daily_argo:block/catering_business_license"},
+		"facing=east,open=true": {"model": "flavor_immersed_daily_argo:block/catering_business_license", "y": 90},
+		"facing=south,open=true": {"model": "flavor_immersed_daily_argo:block/catering_business_license", "y": 180},
+		"facing=west,open=true": {"model": "flavor_immersed_daily_argo:block/catering_business_license", "y": 270}
+	}
+}

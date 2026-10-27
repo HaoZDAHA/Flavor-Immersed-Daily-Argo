@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:shepherds_purse"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:shepherds_purse_seeds",
+    "count": 1
+  }
+}

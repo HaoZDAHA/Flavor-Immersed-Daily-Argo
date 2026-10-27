@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:glowing_dark",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:deep_dark"
+               ],
+    "depth":  "60-72",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

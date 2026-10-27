@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:rockgill",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "56-68",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

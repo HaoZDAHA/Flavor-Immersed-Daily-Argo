@@ -1,0 +1,28 @@
+{
+  "name": "Fishing Data",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "flavor_immersed_daily_argo:fishing_handbook",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Weights: data/weighing_types",
+      "text": "Defines each fish's weight distribution in $(bold)jin$() (0.5 kg).$(br2)$(br){\"name\": \"Freshwater Fish\",$(br)\"weights\": {$(br)  \"flavor_immersed_daily_argo:raw_grass_carp\":$(br)    {\"mean\": 6.0, \"sigma\": 2.0, \"min\": 1.5, \"max\": 20.0}$(br)}}$(br2)$(thing)mean$() is the average, $(thing)sigma$() the standard deviation (defaults to 25% of the mean); the result is clamped to $(thing)min$()~$(thing)max$().$(br2)This list has a second job: anything here automatically joins the buy-by-jin market and settles at the per-jin price from $(thing)weight_price$(). Items missing from the registry (mod not installed) are skipped silently, so external fish are safe to list - the mod ships $(thing)freshwater_fish.json$() plus $(thing)aquaculture_fish$(), $(thing)starcatcher_fish$() and $(thing)tide_fish$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Codex: data/fishing_handbook",
+      "text": "One file per fish. Fields:$(br)$(li)$(thing)item$(): the caught item$(br)$(li)$(thing)entity$(): optional entity id$(br)$(li)$(thing)name$(), $(thing)description$(): display text$(br)$(li)$(thing)habitat$(): $(thing)fresh$() / $(thing)ocean$() / $(thing)both$()$(br)$(li)$(thing)diet$(): $(thing)omnivore$() / $(thing)herbivore$() / $(thing)carnivore$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Codex (continued)",
+      "text": "$(li)$(thing)activity$(): string array such as $(thing)[\"day\"]$() or $(thing)[\"night\",\"rain\"]$()$(br)$(li)$(thing)alertness$(): $(thing)low$() / $(thing)medium$() / $(thing)high$()$(br)$(li)$(thing)feeding_speed$(): same three levels, drives the bite window$(br)$(li)$(thing)struggle_tension$(): struggle tension, default 8$(br)$(li)$(thing)biomes$() and $(thing)depth$(): optional display info$(br)$(li)$(thing)order$(): codex sort order, default 0"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Tackle: data/fishing_rod_parts",
+      "text": "The six slots are line, rod, reel, bait, float and sinker; the slot decides which stats are read. Undefined stats count as 0 and affect nothing.$(br2)Available fields: $(thing)durability$(), $(thing)hardness$(), $(thing)tension$(), $(thing)stretch$(), $(thing)thickness$(), $(thing)drag$(), $(thing)reel_speed$(), $(thing)weight$(), $(thing)anti_current$(), $(thing)size$(), $(thing)set_depth$().$(br2)Example: $(thing){\"item\": \"...:rod_bamboo\", \"durability\": 80, \"tension\": 12, \"hardness\": 1}$()"
+    }
+  ]
+}

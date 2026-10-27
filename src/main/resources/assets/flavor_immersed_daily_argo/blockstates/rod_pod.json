@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": {"model": "flavor_immersed_daily_argo:block/rod_pod"},
+		"facing=east": {"model": "flavor_immersed_daily_argo:block/rod_pod", "y": 90},
+		"facing=south": {"model": "flavor_immersed_daily_argo:block/rod_pod", "y": 180},
+		"facing=west": {"model": "flavor_immersed_daily_argo:block/rod_pod", "y": 270}
+	}
+}

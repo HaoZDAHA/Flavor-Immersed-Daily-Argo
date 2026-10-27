@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "steambox",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_lobster"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:steamed_lobster",
+    "count": 1
+  },
+  "cookingTime": 200
+}

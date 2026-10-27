@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "flavor_immersed_daily_argo:king_crab_spawn_egg",
+    "flavor_immersed_daily_argo:swordfish_spawn_egg",
+    "flavor_immersed_daily_argo:hairtail_spawn_egg",
+    "flavor_immersed_daily_argo:tuna_spawn_egg",
+    "flavor_immersed_daily_argo:brown_crab_spawn_egg",
+    "flavor_immersed_daily_argo:anglerfish_spawn_egg",
+    "flavor_immersed_daily_argo:chinese_mackerel_spawn_egg",
+    "flavor_immersed_daily_argo:eel_spawn_egg",
+    "flavor_immersed_daily_argo:lobster_spawn_egg",
+    "flavor_immersed_daily_argo:sardine_spawn_egg",
+    "flavor_immersed_daily_argo:grouper_spawn_egg",
+    "flavor_immersed_daily_argo:pacific_saury_spawn_egg",
+    "flavor_immersed_daily_argo:silvery_pomfret_spawn_egg",
+    "flavor_immersed_daily_argo:japanese_halfbeak_spawn_egg"
+  ]
+}

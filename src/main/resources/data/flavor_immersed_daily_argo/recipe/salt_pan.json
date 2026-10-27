@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "#C#",
+    "CCC",
+    "#C#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:string"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:salt_pan",
+    "count": 4
+  }
+}

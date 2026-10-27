@@ -1,0 +1,5 @@
+{
+  "flavor_immersed_daily:temperatewildfruit": ["flavor_immersed_daily_argo:pomelo"],
+  "flavor_immersed_daily:wildfruitincoldzone": ["flavor_immersed_daily_argo:chestnut"],
+  "flavor_immersed_daily:tropicalwild_fruit": ["flavor_immersed_daily_argo:guava"]
+}

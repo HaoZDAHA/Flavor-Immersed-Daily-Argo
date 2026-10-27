@@ -1,0 +1,16 @@
+{
+  "name": "Hastening the Crops I",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:jinkela",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Jinkela$()$(br)Applied to farmland, it unleashes the effect of bone meal $(bold)5$() times across a $(bold)3x3$() area.$(br2)$(bold)Organic Fertilizer$()$(br)Works $(bold)exactly like$() bone meal - the honest growth booster."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Watering Can$()$(br)Right-click a water source to fill it, then $(bold)hold right-click$() on farmland to water it; crops have a chance to ripen.$(br2)$(bold)Fertile Farmland$()$(br)On random ticks it advances the crop above it by one growth stage."
+    }
+  ]
+}

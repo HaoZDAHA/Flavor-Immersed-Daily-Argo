@@ -1,0 +1,23 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "jar",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_swordfish"
+    },
+    {
+      "item": "flavor_immersed_daily:salt"
+    },
+    {
+      "item": "flavor_immersed_daily:salt"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:stinky_swordfish",
+    "count": 1
+  },
+  "cookingTime": 200
+}

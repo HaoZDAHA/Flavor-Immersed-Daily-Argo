@@ -1,0 +1,139 @@
+{
+  "variants": {
+    "facing=north,stage=0": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage0"
+    },
+    "facing=east,stage=0": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage0",
+      "y": 90
+    },
+    "facing=south,stage=0": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage0",
+      "y": 180
+    },
+    "facing=west,stage=0": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage0",
+      "y": 270
+    },
+    "facing=north,stage=1": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage1"
+    },
+    "facing=east,stage=1": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage1",
+      "y": 90
+    },
+    "facing=south,stage=1": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage1",
+      "y": 180
+    },
+    "facing=west,stage=1": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage1",
+      "y": 270
+    },
+    "facing=north,stage=2": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=2": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=2": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=2": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    },
+    "facing=north,stage=3": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=3": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=3": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=3": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    },
+    "facing=north,stage=4": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=4": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=4": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=4": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    },
+    "facing=north,stage=5": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=5": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=5": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=5": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    },
+    "facing=north,stage=6": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=6": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=6": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=6": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    },
+    "facing=north,stage=7": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=7": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=7": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=7": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    },
+    "facing=north,stage=8": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2"
+    },
+    "facing=east,stage=8": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 90
+    },
+    "facing=south,stage=8": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 180
+    },
+    "facing=west,stage=8": {
+      "model": "flavor_immersed_daily_argo:block/steamed_brown_crab_stage2",
+      "y": 270
+    }
+  }
+}

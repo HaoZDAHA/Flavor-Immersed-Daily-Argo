@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "flavor_immersed_daily_argo:grass_carp_spawn_egg",
+    "flavor_immersed_daily_argo:tench_spawn_egg",
+    "flavor_immersed_daily_argo:mandarin_fish_spawn_egg",
+    "flavor_immersed_daily_argo:loach_spawn_egg",
+    "flavor_immersed_daily_argo:pleco_spawn_egg",
+    "flavor_immersed_daily_argo:goby_spawn_egg",
+    "flavor_immersed_daily_argo:silver_carp_spawn_egg",
+    "flavor_immersed_daily_argo:tilapia_spawn_egg",
+    "flavor_immersed_daily_argo:redfin_spawn_egg",
+    "flavor_immersed_daily_argo:black_carp_spawn_egg",
+    "flavor_immersed_daily_argo:rectum_spawn_egg",
+    "flavor_immersed_daily_argo:bass_spawn_egg",
+    "flavor_immersed_daily_argo:chinese_carp_spawn_egg",
+    "flavor_immersed_daily_argo:crucian_carp_spawn_egg",
+    "flavor_immersed_daily_argo:catfish_spawn_egg",
+    "flavor_immersed_daily_argo:bighead_carp_spawn_egg",
+    "flavor_immersed_daily_argo:black_fish_spawn_egg",
+    "flavor_immersed_daily_argo:hairy_crab_spawn_egg",
+    "flavor_immersed_daily_argo:mud_crab_spawn_egg",
+    "flavor_immersed_daily_argo:prawn_spawn_egg",
+    "flavor_immersed_daily_argo:swimming_crab_spawn_egg",
+    "flavor_immersed_daily_argo:turtle_spawn_egg"
+  ]
+}

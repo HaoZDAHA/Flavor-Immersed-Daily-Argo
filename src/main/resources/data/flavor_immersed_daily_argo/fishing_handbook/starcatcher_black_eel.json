@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:black_eel",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

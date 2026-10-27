@@ -1,0 +1,28 @@
+{
+  "name": "裁云为衣",
+  "category": "flavor_immersed_daily_argo:economy_life",
+  "icon": "flavor_immersed_daily_argo:sewing_machine",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)丝绸$()$(br)由蚕茧缫出，既是修补材料，也是裁衣的底子。手持右键极短蓄力，消耗 1 份丝绸，随机修复一件已损坏护甲约 1/10 的耐久。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)缝纫机$()$(br)放置后手持空白丝绸装备右键，把它放上台面；再右键打开界面，就能开始裁制。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)四件空白丝绸$()$(br)帽子、上衣、下装、鞋子，本身防御为 0，是一块可以随意下笔的画布。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)画幅$()$(br)在展开的护甲画幅上涂色，或切到体素模式，用「方块」一格一格堆出立体花样。拖拽旋转、滚轮缩放、右键切换被挡住的面。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)着装$()$(br)把另一件真护甲「着装」进来，它的附魔、属性与耐久都会转移到丝绸上，随时可以拆卸取回。耐久见底时丝绸不会报废，只把着装数据清空，变回一块空画布。"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "multipart": [
+    {
+      "when": { "face": "floor", "facing": "north" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe", "y": 0 }
+    },
+    {
+      "when": { "face": "floor", "facing": "east" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe", "y": 90 }
+    },
+    {
+      "when": { "face": "floor", "facing": "south" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe", "y": 180 }
+    },
+    {
+      "when": { "face": "floor", "facing": "west" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe", "y": 270 }
+    },
+    {
+      "when": { "face": "wall", "facing": "north" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe_wall", "y": 0 }
+    },
+    {
+      "when": { "face": "wall", "facing": "east" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe_wall", "y": 90 }
+    },
+    {
+      "when": { "face": "wall", "facing": "south" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe_wall", "y": 180 }
+    },
+    {
+      "when": { "face": "wall", "facing": "west" },
+      "apply": { "model": "flavor_immersed_daily_argo:block/sector_water_pipe_wall", "y": 270 }
+    }
+  ]
+}

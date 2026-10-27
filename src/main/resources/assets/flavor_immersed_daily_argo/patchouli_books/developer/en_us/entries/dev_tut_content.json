@@ -1,0 +1,28 @@
+{
+  "name": "Tutorial: Content",
+  "category": "flavor_immersed_daily_argo:dev_tutorials",
+  "icon": "flavor_immersed_daily_argo:fishing_handbook",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "1. Add a fish to the codex",
+      "text": "Say another fishing mod adds fish and you want them in the Nanshan codex.$(br2)$(bold)Three files$()$(br)1. $(thing)fishing_handbook/<fish>.json$(): item, habitat, diet, activity and so on.$(br)2. $(thing)weighing_types/<group>.json$(): give it a weight distribution.$(br)3. $(thing)choppingboard_mob/<fish>.json$(): board stages and drops.$(br2)After $(thing)/reload$() the codex, steelyard and board all work.$(br2)Step 2 also decides whether the fish can be $(bold)sold by jin$(): once it is in $(thing)weighing_types$() it shows up on the Prices tab of the Shopping Computer and can go straight into the Purchasing Box, priced by $(thing)weight_price$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "2. Add a carving chain",
+      "text": "The big hook ($(thing)butchering$()) suits carcasses carved in stages:$(br2)1. Set $(thing)input$() to the hung item.$(br)2. Write $(thing)stages$() in order, each with $(thing)name$() and $(thing)drops$().$(br)3. Add $(thing)tool$() to require a specific knife; omit it to allow any.$(br)4. Add $(thing)model$() to control the hook display.$(br2)Repeat an id in the drops array to drop several; there is no count field."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "3. Add a cooking recipe",
+      "text": "Try a working combination in the pot first, then copy it into JSON:$(br2)1. Pick $(thing)appliance$(): pot, pressurecooker or steambox.$(br)2. List $(thing)ingredients$() in order; tags are allowed.$(br)3. Write $(thing)result$() with id and count.$(br)4. Set $(thing)cookingTime$(); better appliances may be faster.$(br2)Writing one copy per appliance lets players use whatever they have."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "4. Add silt farming",
+      "text": "To let an aquatic product grow in river silt:$(br2)1. Create a file under $(thing)recipe/$().$(br)2. Set $(thing)type$() to $(thing)flavor_immersed_daily_argo:river_silt_farming$().$(br)3. $(thing)input$() is the seed, $(thing)result$() has $(thing)id$() and $(thing)count$().$(br)4. $(thing)time$() is ticks to mature; the abalone recipe uses 3600.$(br2)Planting, harvesting and feed-boosting all pick it up automatically."
+    }
+  ]
+}

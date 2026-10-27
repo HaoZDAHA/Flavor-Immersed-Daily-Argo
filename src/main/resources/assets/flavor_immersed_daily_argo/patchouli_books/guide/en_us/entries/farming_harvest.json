@@ -1,0 +1,20 @@
+{
+  "name": "A Handier Harvest",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:sickle",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Sickle$()$(br)Right-click ripe crops to harvest and replant a $(bold)3x3$() area at once, with Fortune applied; each plant costs 1 durability."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Straw Hat$()$(br)Worn on the head, it has a chance to grant $(bold)+1 Fortune$() when you harvest."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Harvester$()$(br)A machine that drives along, harvesting and replanting every crop it passes."
+    }
+  ]
+}

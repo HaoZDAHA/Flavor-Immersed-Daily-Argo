@@ -1,0 +1,28 @@
+{
+  "name": "How to Use This Volume",
+  "category": "flavor_immersed_daily_argo:dev_overview",
+  "icon": "flavor_immersed_daily_argo:developer_guide_book",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Who this is for",
+      "text": "This volume is not for ordinary players. It is written for $(bold)modpack authors$() and $(bold)server owners$() who want to reshape the mod's content $(italic)without editing source code$().$(br2)The book has four parts: what you can change (config and data packs), how the mechanics are calculated, how to write recipes, and step-by-step tutorials."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Where the files are",
+      "text": "$(li)$(bold)Config$(): $(thing)config/flavor_immersed_daily_argo-common.toml$() and $(thing)config/flavor_immersed_daily_argo-economy.toml$().$(br)$(li)$(bold)Data packs$(): $(thing)data/<namespace>/...$(); the mod's own content lives in $(thing)data/flavor_immersed_daily_argo/$().$(br)$(li)$(bold)Book text$(): $(thing)assets/flavor_immersed_daily_argo/patchouli_books/$() — only needed if you want to rewrite these pages."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Making edits apply",
+      "text": "$(li)Data packs: save the file and run $(thing)/reload$(). Economy products, shops, fishing codex and weight data are re-sent by the server after reload; clients do not need to restart.$(br)$(li)Config: restart the game, or leave and re-enter the world in single player. On a server, restart it.$(br)$(li)Only the hard-coded constants (see Mechanics) require a recompile."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Three habits",
+      "text": "$(li)Back up the world and the $(thing)data$() folder before touching anything — a missing comma is the most common mistake.$(br)$(li)A JSON file whose name starts with $(thing)_$() is skipped by the loader. Renaming a file is the fastest way to temporarily disable content.$(br)$(li)Always test in a single-player world before pushing to a live server."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_akiami_shrimp"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:dried_shrimp",
+    "count": 1
+  }
+}

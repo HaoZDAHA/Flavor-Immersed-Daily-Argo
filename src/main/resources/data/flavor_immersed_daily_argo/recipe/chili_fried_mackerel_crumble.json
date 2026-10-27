@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "wok",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_mackerel_meat"
+    },
+    {
+      "item": "flavor_immersed_daily:greenpepper"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:chili_fried_mackerel_crumble",
+    "count": 1
+  },
+  "cookingTime": 100
+}

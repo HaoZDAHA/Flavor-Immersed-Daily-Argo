@@ -1,0 +1,10 @@
+{
+  "input": "flavor_immersed_daily_argo:raw_swordfish",
+  "entity": "flavor_immersed_daily_argo:swordfish",
+  "render": { "scale": 0.2, "yaw": 0.0, "y_offset": 0.05, "roll": 90.0, "x_offset": 0.0, "z_offset": 0.0 },
+  "stages": [
+    { "name": "刮鳞", "drops": [] },
+    { "name": "开膛", "drops": [] },
+    { "name": "切块", "drops": ["flavor_immersed_daily_argo:raw_swordfish_meat", "flavor_immersed_daily_argo:raw_swordfish_meat", "flavor_immersed_daily_argo:raw_swordfish_meat", "flavor_immersed_daily_argo:raw_swordfish_meat", "flavor_immersed_daily_argo:raw_fish_head", "flavor_immersed_daily_argo:raw_fish_skin", "flavor_immersed_daily_argo:fish_bone", "flavor_immersed_daily_argo:fish_bone", "flavor_immersed_daily_argo:raw_fish_liver", "flavor_immersed_daily_argo:raw_fish_swim_bladder", "flavor_immersed_daily_argo:fish_scale", "flavor_immersed_daily_argo:fish_scale", "flavor_immersed_daily_argo:fish_scale"] }
+  ]
+}

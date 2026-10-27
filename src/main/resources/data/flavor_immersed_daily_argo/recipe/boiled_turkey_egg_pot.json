@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:turkey_egg"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:boiled_turkey_egg",
+    "count": 1
+  },
+  "cookingTime": 120
+}

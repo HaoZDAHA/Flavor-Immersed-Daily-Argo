@@ -1,0 +1,6 @@
+{
+  "name": "管理指令",
+  "description": "本模组全部指令：老鼠开关、林业灾害调试、外汇兑换维护。",
+  "icon": "minecraft:command_block",
+  "sortnum": 5
+}

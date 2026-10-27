@@ -1,0 +1,20 @@
+{
+  "name": "Hastening the Crops II",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:waterwheel",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Waterwheel$()$(br)Set it on a $(bold)1-block-high$() water surface and it spins, counting as a $(bold)three-block-tall water source$(): it irrigates farmland, fills buckets, and lets you build terraces."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Pipe System$()$(br)An all-new irrigation scheme: place a $(bold)Water Pump$() at the water source, then run $(bold)Pipes$() out to the fields. Water particles spray from the pipe faces, and farmland touched by them waters its neighbours as if it were a source."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Dosing Valve$()$(br)Insert it mid-line, drop in $(bold)one Jinkela$(), and for the next $(bold)5 minutes$() the water running through carries a ripening effect.$(br2)$(bold)Rotating / Sector Pipe$()$(br)Alternative outlet shapes - sweeping in a circle or a level fan - to suit fields of any layout."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:obidontiee",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Three Recipe Types",
+  "category": "flavor_immersed_daily_argo:dev_recipes",
+  "icon": "minecraft:crafting_table",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Insect breeding",
+      "text": "$(thing)type: flavor_immersed_daily_argo:insect_breeding$()$(br2)Fields:$(br)$(li)$(thing)feed$(): item or tag$(br)$(li)$(thing)carrier$(): the carrier block/item$(br)$(li)$(thing)offspring_input$(): the roe placed in the box$(br)$(li)$(thing)offspring_output$(): $(thing)id$() + $(thing)count$()$(br)$(li)$(thing)time$(): duration in ticks"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Silt farming",
+      "text": "$(thing)type: flavor_immersed_daily_argo:river_silt_farming$()$(br2)Fields:$(br)$(li)$(thing)input$(): $(thing)item$(), the seed$(br)$(li)$(thing)result$(): $(thing)id$() + $(thing)count$()$(br)$(li)$(thing)time$(): ticks to mature$(br2)Example: abalone seed matures in 3600 ticks (3 minutes) into 3 abalone."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Cooking pots",
+      "text": "$(thing)type: fidworkblock:cooking$() (provided by the parent mod)$(br2)Fields:$(br)$(li)$(thing)appliance$(): $(thing)pot$() / $(thing)pressurecooker$() / $(thing)steambox$()$(br)$(li)$(thing)ingredients$(): array of $(thing)item$() or $(thing)tag$()$(br)$(li)$(thing)result$(): $(thing)id$() + $(thing)count$()$(br)$(li)$(thing)cookingTime$(): ticks"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Cooking example",
+      "text": "$(br){\"type\": \"fidworkblock:cooking\",$(br)\"appliance\": \"pot\",$(br)\"ingredients\": [$(br)  {\"item\": \"flavor_immersed_daily_argo:raw_lobster\"},$(br)  {\"item\": \"flavor_immersed_daily:tidywater\"}$(br)],$(br)\"result\": {\"id\": \"flavor_immersed_daily_argo:steamed_lobster\", \"count\": 1},$(br)\"cookingTime\": 120}$(br2)Write one copy per appliance and adjust $(thing)appliance$() and $(thing)cookingTime$()."
+    }
+  ]
+}

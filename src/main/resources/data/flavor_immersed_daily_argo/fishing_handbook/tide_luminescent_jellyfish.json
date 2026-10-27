@@ -1,0 +1,10 @@
+{
+    "item":  "tide:luminescent_jellyfish",
+    "entity":  "tide:luminescent_jellyfish",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

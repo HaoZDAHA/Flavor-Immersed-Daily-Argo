@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily:rice"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:raw_tuna_meat"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:tuna_sushi",
+    "count": 2
+  }
+}

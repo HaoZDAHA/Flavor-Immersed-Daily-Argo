@@ -1,0 +1,8 @@
+{
+  "values": [
+    "flavor_immersed_daily_argo:pomelo_fruiting_leaves",
+    "flavor_immersed_daily_argo:chestnut_fruiting_leaves",
+    "flavor_immersed_daily_argo:guava_fruiting_leaves"
+  ],
+  "replace": false
+}

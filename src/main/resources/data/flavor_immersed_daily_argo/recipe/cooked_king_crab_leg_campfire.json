@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_king_crab"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:cooked_king_crab_leg",
+    "count": 1
+  },
+  "experience": 0.35,
+  "cookingtime": 600
+}

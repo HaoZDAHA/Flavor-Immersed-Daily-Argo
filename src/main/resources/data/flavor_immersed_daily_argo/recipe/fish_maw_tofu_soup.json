@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_fish_swim_bladder"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    },
+    {
+      "item": "flavor_immersed_daily:picedtoufu"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:fish_maw_tofu_soup",
+    "count": 1
+  },
+  "cookingTime": 120
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Food, Drink & Shelter",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:feeding_trough",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Chicken Coop$()$(br)Poultry lay their eggs inside; collected eggs gather in their own slot, and moving them into the incubating slot gets them hatching."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Ranch Trough$()$(br)A one-slot feeder for feed (wheat, carrots, or this mods feeds) or pure water; hungry or thirsty animals nearby wander over to eat.$(br2)House them well, and remember to keep the food and water topped up."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_lobster"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:cooked_lobster_meat",
+    "count": 1
+  },
+  "experience": 0.35,
+  "cookingtime": 100
+}

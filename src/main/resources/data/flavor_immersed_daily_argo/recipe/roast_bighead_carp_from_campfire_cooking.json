@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0.0,
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_bighead_carp"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:roast_bighead_carp",
+    "count": 1
+  }
+}

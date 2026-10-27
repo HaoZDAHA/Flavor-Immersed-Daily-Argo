@@ -1,0 +1,16 @@
+{
+  "name": "The Floating Platform",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_floating_platform",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Inflatable Fishing Platform$()$(br)Hold right-click toward the water surface to inflate a $(bold)5x5$() platform any creature can stand on;"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "hit it a few times to pack it back up."
+    }
+  ]
+}

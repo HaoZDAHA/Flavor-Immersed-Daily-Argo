@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:braised_donkey_meat"
+    },
+    {
+      "item": "flavor_immersed_daily:scallionoilpancake"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:donkey_meat_burger",
+    "count": 1
+  }
+}

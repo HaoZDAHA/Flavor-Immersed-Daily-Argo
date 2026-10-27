@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:lush_pike",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:lush_caves"
+               ],
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

@@ -1,0 +1,10 @@
+{
+  "entity": "minecraft:axolotl",
+  "habitat": "fresh",
+  "biomes": [
+    "minecraft:jungle",
+    "minecraft:sparse_jungle",
+    "minecraft:bamboo_jungle"
+  ],
+  "alertness": "low"
+}

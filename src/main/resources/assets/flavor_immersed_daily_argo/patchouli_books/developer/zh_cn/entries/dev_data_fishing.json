@@ -1,0 +1,28 @@
+{
+  "name": "钓鱼数据",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "flavor_immersed_daily_argo:fishing_handbook",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "称重：data/weighing_types",
+      "text": "决定每种鱼在杆秤上的重量分布，单位是$(bold)斤$()。$(br2)$(br){\"name\": \"淡水鱼类\",$(br)\"weights\": {$(br)  \"flavor_immersed_daily_argo:raw_grass_carp\":$(br)    {\"mean\": 6.0, \"sigma\": 2.0, \"min\": 1.5, \"max\": 20.0}$(br)}}$(br2)$(thing)name$() 是分类名；$(thing)mean$() 是均值，$(thing)sigma$() 是标准差（省略时取均值的 25%），结果会被裁剪到 $(thing)min$()~$(thing)max$() 之间。$(br2)这份名单还有第二个用途：出现在这里的物品会自动进入「按斤收购」的行情，按 $(thing)weight_price$() 里的每斤价结算。注册表里不存在的物品（对应模组没装）会被静默跳过，所以可以放心把外部模组的鱼一并写进来——仓库自带 $(thing)freshwater_fish.json$() 以及 $(thing)aquaculture_fish$()、$(thing)starcatcher_fish$()、$(thing)tide_fish$() 三份。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "图鉴：data/fishing_handbook",
+      "text": "每条鱼一个文件，字段：$(br)$(li)$(thing)item$()：钓获物物品 id$(br)$(li)$(thing)entity$()：可选，对应实体$(br)$(li)$(thing)name$()、$(thing)description$()：显示名与描述（也可改用语言键）$(br)$(li)$(thing)habitat$()：$(thing)fresh$() / $(thing)ocean$() / $(thing)both$()$(br)$(li)$(thing)diet$()：$(thing)omnivore$() / $(thing)herbivore$() / $(thing)carnivore$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "图鉴（续）",
+      "text": "$(li)$(thing)activity$()：字符串数组，如 $(thing)[\"day\"]$()、$(thing)[\"night\",\"rain\"]$()$(br)$(li)$(thing)alertness$()：$(thing)low$() / $(thing)medium$() / $(thing)high$()$(br)$(li)$(thing)feeding_speed$()：同上三档，影响上钩节奏$(br)$(li)$(thing)struggle_tension$()：挣扎拉力，默认 8$(br)$(li)$(thing)biomes$()、$(thing)depth$()：可选，附加展示信息$(br)$(li)$(thing)order$()：图鉴排序，默认 0"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "配件：data/fishing_rod_parts",
+      "text": "六个改装槽依次为鱼线、竿体、线轮、鱼饵、浮漂、铅坠，槽位决定读取哪些系数；未定义的系数按 0 处理（不影响计算）。$(br2)可写字段：$(thing)durability$()、$(thing)hardness$()、$(thing)tension$()、$(thing)stretch$()、$(thing)thickness$()、$(thing)drag$()、$(thing)reel_speed$()、$(thing)weight$()、$(thing)anti_current$()、$(thing)size$()、$(thing)set_depth$()。$(br2)示例：$(thing){\"item\": \"...:rod_bamboo\", \"durability\": 80, \"tension\": 12, \"hardness\": 1}$()"
+    }
+  ]
+}

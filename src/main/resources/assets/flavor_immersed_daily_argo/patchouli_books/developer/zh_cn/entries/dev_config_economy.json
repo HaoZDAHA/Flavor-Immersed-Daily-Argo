@@ -1,0 +1,38 @@
+{
+  "name": "经济配置",
+  "category": "flavor_immersed_daily_argo:dev_config",
+  "icon": "flavor_immersed_daily_argo:atm",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "flavor_immersed_daily_argo-economy.toml",
+      "text": "经济玩法单独放在 $(thing)config/flavor_immersed_daily_argo-economy.toml$()，共五个分组：$(thing)exchange$()、$(thing)takeout$()、$(thing)shop$()、$(thing)products$()、$(thing)weight_price$()。$(br2)这是整包作者最常改的文件，建议改之前在服务器上先备份一份。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "exchange：外汇兑换",
+      "text": "$(bold)exchange.entries$()，每行一条，格式是：$(br)$(thing)本模组货币物品,数量,其他物品,数量$()$(br2)默认一条：$(br)$(thing)flavor_immersed_daily_argo:money_5,64,minecraft:emerald,1$()$(br2)意思是「64 张五元纸币换 1 个绿宝石」。写坏的行会被直接跳过，不会让整份配置失效。$(br2)也可以用 $(thing)/fidaeco$() 指令增删，指令会直接改这个文件。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "takeout：外卖菜单",
+      "text": "$(bold)takeout.food_blacklist$()，每行一个物品注册名。$(br2)被列进黑名单的食物不会出现在小票打印机的每日菜单里——用来挡住腐肉、蜘蛛眼这类「能吃但不该上桌」的东西，或者屏蔽某个附属模组的变态食物。$(br2)示例：$(thing)minecraft:rotten_flesh$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "shop：商业电脑",
+      "text": "$(li)$(bold)shop.player_shops_enabled$()（默认 true）：是否允许玩家在商业电脑里开店。$(br)$(li)$(bold)shop.max_shops_per_player$()（默认 3，范围 0~64）：每位玩家最多开几家店；填 0 等于只允许系统店铺。$(br)$(li)$(bold)shop.extra_entries$()：每行 $(thing)物品注册名,数量,价格$()，所有有效行会合并成一家「配置文件商店」，坏行忽略。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "products：经济产物",
+      "text": "$(li)$(bold)products.entries$()：每行 $(thing)物品或#标签,基准收购价$()，价格单位是「元 / 每组 64 个」，例如 $(thing)minecraft:apple,8$() 或 $(thing)#fid:fruit,8$()。$(br)$(li)$(bold)products.default_price$()（默认 8，范围 1~1000000）：没写价格的产物用这个价。$(br)$(li)$(bold)products.volatility_percent$()（默认 25，范围 0~100）：新闻页每日涨跌的上限，按基准价的百分比算；填 0 就是价格永远不动。$(br2)这里的条目会与数据包 $(thing)economic_product$() 合并，$(bold)同一物品以数据包为准$()。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "weight_price：按重量收购",
+      "text": "$(li)$(bold)weight_price.animal_entries$()：每行 $(thing)实体注册名,标准体重价,超出每公斤加价$()，默认已列好 17 种家畜家禽，例如 $(thing)minecraft:cow,900,3$()。$(br)$(li)$(bold)weight_price.fish_entries$()：每行 $(thing)物品注册名,每斤价$()，例如 $(thing)flavor_immersed_daily_argo:raw_grass_carp,6.0$()。$(br)$(li)$(bold)weight_price.fish_default_price_per_jin$()（默认 6.0）：生鱼没单独写价时用这个每斤价。$(br2)生鱼这一侧只对$(bold)能称重的物品$()生效——名单来自数据包 $(thing)weighing_types$()，所以配置里写了、但对应模组没装的鱼会被自动忽略；把外部模组的鱼写进 $(thing)weighing_types$() 即可让它们一并进入行情。"
+    }
+  ]
+}

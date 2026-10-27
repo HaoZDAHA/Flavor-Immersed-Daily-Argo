@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,heavy=false": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument"
+    },
+    "facing=east,heavy=false": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument",
+      "y": 90
+    },
+    "facing=south,heavy=false": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument",
+      "y": 180
+    },
+    "facing=west,heavy=false": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument",
+      "y": 270
+    },
+    "facing=north,heavy=true": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument"
+    },
+    "facing=east,heavy=true": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument",
+      "y": 90
+    },
+    "facing=south,heavy=true": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument",
+      "y": 180
+    },
+    "facing=west,heavy=true": {
+      "model": "flavor_immersed_daily_argo:block/weather_instrument",
+      "y": 270
+    }
+  }
+}

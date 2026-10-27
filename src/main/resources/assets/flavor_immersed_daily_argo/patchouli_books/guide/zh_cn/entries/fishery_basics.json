@@ -1,0 +1,20 @@
+{
+  "name": "垂钓入门",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_handbook",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)钓鱼手册$()$(br)查看南山钓竿可钓到的战利品图鉴，记录每种鱼的栖息水域、食性、活动时段与咬钩状态。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)新钓鱼机制$()$(br)抛出鱼钩、静候浮漂动静；咬钩后进入遛鱼阶段，需要把视角稳稳锁在浮漂上才能把鱼收入囊中。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)钓鱼动作$()$(br)收杆、泄力、锁视角，都与现实里的一捧一放颇为相似。"
+    }
+  ]
+}

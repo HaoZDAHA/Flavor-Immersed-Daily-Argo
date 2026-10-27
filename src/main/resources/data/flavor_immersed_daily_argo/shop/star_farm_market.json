@@ -1,0 +1,16 @@
+{
+  "title": "起点农贸市场",
+  "entries": [
+    { "item": "flavor_immersed_daily:temperatewildfruit", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:tropicalwild_fruit", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:wildfruitincoldzone", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:wildflowerandleaf", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:wildgrainplant", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:wildmushroomplant", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:wildseedplant", "count": 1, "price": 10 },
+    { "item": "flavor_immersed_daily:wildtuberplants", "count": 1, "price": 10 },
+    { "tag": "flavor_immersed_daily_argo:livestock_spawn_eggs", "count": 1, "price": 300 },
+    { "tag": "flavor_immersed_daily_argo:freshwater_spawn_eggs", "count": 1, "price": 80 },
+    { "tag": "flavor_immersed_daily_argo:saltwater_spawn_eggs", "count": 1, "price": 160 }
+  ]
+}

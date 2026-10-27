@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "XXX",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "flavor_immersed_daily_argo:silk"
+    }
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:blank_silk_hat",
+    "count": 1
+  }
+}

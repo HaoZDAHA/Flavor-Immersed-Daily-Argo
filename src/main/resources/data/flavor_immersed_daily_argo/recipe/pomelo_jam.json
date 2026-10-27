@@ -1,0 +1,14 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "squeezingmachine",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:pomelo"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:pomelo_jam",
+    "count": 2
+  },
+  "cookingTime": 200
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Lightening the Fieldwork",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:harrow",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Rake$()$(br)Right-click the ground to till a $(bold)3x3$() patch of farmland in one sweep - it reaches a block up or down and clears surface weeds, costing only $(bold)1$() durability per pass."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Handcart$()$(br)Place it, then right-click the cart to tow it along behind you; sneak to let go.$(br2)Hold a $(bold)chest$() and right-click the cart to expand its capacity."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+    "item":  "starcatcher:mirage_carp",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river",
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium",
+    "activity":  [
+                     "day"
+                 ]
+}

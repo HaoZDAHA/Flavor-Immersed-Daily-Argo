@@ -1,0 +1,24 @@
+{
+  "name": "The Fishing Formulas",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:steelyard",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Six Slots$()$(br)Line - Body - Reel - Bait - Float - Sinker. Any slot you leave empty counts as $(bold)0$().$(br2)$(bold)Rod Totals$()$(br)Critical durability = min(body durability, line durability), an empty side counts as 60$(br)Max tension = min(body tension, line tension), an empty side counts as 10$(br)Tolerance (sec) = 30 + reel drag x 2.0 + line stretch x 1.5 - body hardness x 1.0$(br)Reel actions = max( 3, round( 7 - reel speed + body hardness ) )$(br)Anti-current = max( 1, sinker weight + float anti-current + body hardness )$(br)Depth range = float set-depth +/- sinker weight x 0.5; an empty float counts as 64$(br)Rig conspicuousness = ( line thickness + float size ) / anti-current"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Bite$()$(br)Bite chance = max( 5%, 90% x ( 1 - fish alertness x rig conspicuousness ) )$(br2)Finer line, smaller float and a heavier sinker (stronger anti-current) all lower conspicuousness, so fish shy away less; fish near weeds or in fast water are warier still."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Fight$()$(br)Reaction time (sec) = tolerance / fish feeding speed x ( 1 + anti-current x 0.25 )$(br)Tension ratio = ceil( fish max tension / rod max tension ), minimum 1$(br2)The tension ratio is both the $(bold)critical durability$() spent per successful pull and the test for $(bold)snapping line or rod$() - a fish your tackle cannot out-pull will break it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Weighing$()$(br)Each catch is drawn from a normal distribution and clamped into range, to two decimals:$(br)weight = clamp( mean + gaussian x sigma, min, max )$(br2)Data-pack defaults: sigma = mean x 0.25, min = max( 0.1, mean - 3 x sigma ), max = mean + 3 x sigma.$(br2)$(bold)Monsters$()$(br)A weight of $(bold)30 jin$() or more is announced server-wide.$(br2)Weight is fixed the first time it is weighed - repeat weighings never change it."
+    }
+  ]
+}

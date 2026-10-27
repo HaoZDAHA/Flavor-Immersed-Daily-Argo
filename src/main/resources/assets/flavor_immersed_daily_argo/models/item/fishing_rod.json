@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/handheld_rod",
+  "textures": {
+    "layer0": "minecraft:item/fishing_rod"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "minecraft:cast": 1
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_cast"
+    },
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:body": 1
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_body_bamboo"
+    },
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:body": 2
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_body_fiberglass"
+    },
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:body": 3
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_body_carbon"
+    },
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:body": 4
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_body_resin"
+    },
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:body": 5
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_body_hardwood"
+    },
+    {
+      "predicate": {
+        "flavor_immersed_daily_argo:body": 6
+      },
+      "model": "flavor_immersed_daily_argo:item/fishing_rod_body_composite"
+    }
+  ]
+}

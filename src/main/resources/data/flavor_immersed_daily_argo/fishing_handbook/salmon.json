@@ -1,0 +1,7 @@
+{
+  "item": "minecraft:salmon",
+  "entity": "minecraft:salmon",
+  "habitat": "ocean",
+  "order": 2,
+  "alertness": "low"
+}

@@ -1,0 +1,44 @@
+{
+  "input": "flavor_immersed_daily_argo:dead_donkey",
+  "stages": [
+    {
+      "tool": "flavor_immersed_daily:wideedgedknife",
+      "name": "放血",
+      "model": "flavor_immersed_daily_argo:block/dead_donkey_1",
+      "drops": ["flavor_immersed_daily_argo:raw_animal_blood"]
+    },
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "剥皮",
+      "model": "flavor_immersed_daily_argo:block/dead_donkey_2",
+      "drops": [
+        "minecraft:leather",
+        "minecraft:leather",
+        "minecraft:leather"
+      ]
+    },
+    {
+      "tool": "flavor_immersed_daily:bonecutterknife",
+      "name": "掏空",
+      "model": "flavor_immersed_daily_argo:block/dead_donkey_3",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_animal_intestine",
+        "flavor_immersed_daily_argo:raw_animal_heart",
+        "flavor_immersed_daily_argo:raw_animal_stomach",
+        "flavor_immersed_daily_argo:raw_animal_liver",
+        "flavor_immersed_daily_argo:raw_animal_lung"
+      ]
+    },
+    {
+      "tool": "flavor_immersed_daily:sharpknife",
+      "name": "切割",
+      "model": "flavor_immersed_daily_argo:block/dead_donkey_4",
+      "drops": [
+        "flavor_immersed_daily_argo:raw_donkey_meat",
+        "flavor_immersed_daily_argo:raw_donkey_meat",
+        "flavor_immersed_daily_argo:raw_donkey_meat",
+        "flavor_immersed_daily_argo:raw_donkey_meat"
+      ]
+    }
+  ]
+}

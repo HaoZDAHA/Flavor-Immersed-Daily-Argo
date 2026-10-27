@@ -1,0 +1,13 @@
+{
+    "item":  "aquaculture:brown_shrooma",
+    "entity":  "aquaculture:brown_shrooma",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:mushroom_fields"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

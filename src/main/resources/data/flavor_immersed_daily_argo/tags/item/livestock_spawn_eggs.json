@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "flavor_immersed_daily_argo:duck_spawn_egg",
+    "flavor_immersed_daily_argo:goose_spawn_egg",
+    "flavor_immersed_daily_argo:quail_spawn_egg",
+    "flavor_immersed_daily_argo:pigeon_spawn_egg",
+    "flavor_immersed_daily_argo:turkey_spawn_egg",
+    "flavor_immersed_daily_argo:bullfrog_spawn_egg",
+    "flavor_immersed_daily_argo:bamboorat_spawn_egg",
+    "flavor_immersed_daily_argo:mouse_spawn_egg"
+  ]
+}

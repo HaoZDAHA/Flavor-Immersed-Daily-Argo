@@ -1,0 +1,18 @@
+{
+    "item":  "aquaculture:bayad",
+    "entity":  "aquaculture:bayad",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river",
+                   "minecraft:swamp",
+                   "minecraft:mangrove_swamp"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium",
+    "activity":  [
+                     "day"
+                 ]
+}

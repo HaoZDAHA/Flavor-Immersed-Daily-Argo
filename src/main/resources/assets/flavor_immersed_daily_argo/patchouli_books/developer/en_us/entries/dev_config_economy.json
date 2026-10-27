@@ -1,0 +1,38 @@
+{
+  "name": "Economy Config",
+  "category": "flavor_immersed_daily_argo:dev_config",
+  "icon": "flavor_immersed_daily_argo:atm",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "flavor_immersed_daily_argo-economy.toml",
+      "text": "All economy settings live in $(thing)config/flavor_immersed_daily_argo-economy.toml$(), in five sections: $(thing)exchange$(), $(thing)takeout$(), $(thing)shop$(), $(thing)products$() and $(thing)weight_price$().$(br2)This is the file pack authors edit most; back it up before making changes on a live server."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "exchange",
+      "text": "$(bold)exchange.entries$(), one line each:$(br2)$(thing)our currency item,count,other item,count$()$(br2)Default: $(thing)flavor_immersed_daily_argo:money_5,64,minecraft:emerald,1$()$(br2)That means 64 five-yuan notes buy 1 emerald. Broken lines are skipped without invalidating the file.$(br2)$(thing)/fidaeco$() reads and writes this list directly."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "takeout",
+      "text": "$(bold)takeout.food_blacklist$(), one item id per line.$(br2)Food listed here never appears on the receipt printer's daily menu — useful for keeping rotten flesh or spider eyes off the menu, or blocking a broken food from an add-on.$(br2)Example: $(thing)minecraft:rotten_flesh$()"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "shop",
+      "text": "$(li)$(bold)shop.player_shops_enabled$() (default true): whether players may create shops at a Shopping Computer.$(br)$(li)$(bold)shop.max_shops_per_player$() (default 3, range 0~64): shop limit per player; 0 disables player shops entirely.$(br)$(li)$(bold)shop.extra_entries$(): one $(thing)item,count,price$() per line. All valid lines merge into a single \"config shop\"; broken lines are skipped."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "products",
+      "text": "$(li)$(bold)products.entries$(): one $(thing)item or #tag,price$() per line. The price is per $(bold)stack of 64$(): $(thing)minecraft:apple,8$() or $(thing)#fid:fruit,8$().$(br)$(li)$(bold)products.default_price$() (default 8, range 1~1000000): used when an entry omits the price.$(br)$(li)$(bold)products.volatility_percent$() (default 25, range 0~100): daily price swing limit, as a percentage of the base price; 0 freezes prices.$(br2)These entries merge with the $(thing)economic_product$() data pack, and $(bold)data packs win$() on conflicts."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "weight_price",
+      "text": "$(li)$(bold)weight_price.animal_entries$(): one $(thing)entity id,standard-weight price,price per extra kg$() per line; 17 livestock and poultry entries ship as defaults, e.g. $(thing)minecraft:cow,900,3$().$(br)$(li)$(bold)weight_price.fish_entries$(): one $(thing)item id,price per jin$() per line, e.g. $(thing)flavor_immersed_daily_argo:raw_grass_carp,6.0$().$(br)$(li)$(bold)weight_price.fish_default_price_per_jin$() (default 6.0): used for fish without their own price.$(br2)The fish side only applies to $(bold)weighable items$() - the list comes from the $(thing)weighing_types$() data pack, so entries for mods that are not installed are ignored automatically. Put an external mod's fish into $(thing)weighing_types$() and they join the price list too."
+    }
+  ]
+}

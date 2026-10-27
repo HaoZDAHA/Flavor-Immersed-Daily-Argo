@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pressurecooker",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_camel_meat"
+    },
+    {
+      "item": "flavor_immersed_daily:halogenbag"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:braised_camel_meat",
+    "count": 1
+  },
+  "cookingTime": 160
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Tailoring Silk",
+  "category": "flavor_immersed_daily_argo:economy_life",
+  "icon": "flavor_immersed_daily_argo:sewing_machine",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Silk$()$(br)Reeled from silkworm cocoons, it serves both as repair material and as cloth. Hold right-click briefly to spend 1 silk and randomly repair about a tenth of one damaged armour piece."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Sewing Machine$()$(br)Place it, then right-click a blank silk garment to set it on the table; right-click again to open the interface and start tailoring."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Four Blank Silks$()$(br)Hat, tunic, leggings and boots - defence 0, each a canvas free for your brush."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The Canvas$()$(br)Paint on the unrolled armour canvas, or switch to voxel mode and stack cubes one cell at a time. Drag to rotate, scroll to zoom, right-click to reach hidden faces."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Dressing$()$(br)Fit a real piece of armour onto the silk and its enchantments, attributes and durability transfer over; undress it any time to take it back. When durability runs out the silk is not destroyed - it only sheds the dressing and returns to a blank canvas."
+    }
+  ]
+}

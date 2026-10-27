@@ -1,0 +1,16 @@
+{
+    "item":  "tide:yellow_perch",
+    "entity":  "tide:yellow_perch",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast",
+    "activity":  [
+                     "day"
+                 ]
+}

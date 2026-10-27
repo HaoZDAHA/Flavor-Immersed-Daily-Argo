@@ -1,0 +1,10 @@
+{
+    "item":  "tide:gilded_minnow",
+    "entity":  "tide:gilded_minnow",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "herbivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

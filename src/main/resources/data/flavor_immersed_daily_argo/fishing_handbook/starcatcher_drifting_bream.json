@@ -1,0 +1,16 @@
+{
+    "item":  "starcatcher:drifting_bream",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast",
+    "activity":  [
+                     "day"
+                 ]
+}

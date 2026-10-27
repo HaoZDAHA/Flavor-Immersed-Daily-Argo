@@ -1,0 +1,28 @@
+{
+  "name": "Trouble in the Woods",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:fire_extinguisher",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)A Daily Roll$()$(br)Each morning every point has a $(bold)35%$() chance of trouble: forest fire, aphids, weeds, flood or drought. Only resolved incidents earn you points."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Forest Fire$()$(br)Smouldering forestry flames break out nearby without spreading. Right-click with the $(bold)Fire Extinguisher$() to spray foam ahead of your crosshair and douse fires within $(bold)5 blocks$(); each use costs 1 durability."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Aphid Infestation$()$(br)The trees are crawling with aphids. Right-click the affected tree with $(bold)Tree Paint$() to wipe them out."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Overgrown Weeds$()$(br)Weeds run riot across the chunk. Right-click with $(bold)Herbicide$() to clear grass within $(bold)4 blocks$(); hit the overgrown point itself and the incident is resolved for points."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Weather Instrument$()$(br)Set it in the point chunk: its vane turns lazily on a calm day, but spins furiously once unusual weather (fire, flood, drought, acid rain) strikes the chunk - the easiest early warning there is."
+    }
+  ]
+}

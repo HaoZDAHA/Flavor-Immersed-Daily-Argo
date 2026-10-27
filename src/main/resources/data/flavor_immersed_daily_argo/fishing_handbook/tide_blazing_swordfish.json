@@ -1,0 +1,17 @@
+{
+    "item":  "tide:blazing_swordfish",
+    "entity":  "tide:blazing_swordfish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:nether_wastes",
+                   "minecraft:crimson_forest",
+                   "minecraft:warped_forest",
+                   "minecraft:soul_sand_valley",
+                   "minecraft:basalt_deltas"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

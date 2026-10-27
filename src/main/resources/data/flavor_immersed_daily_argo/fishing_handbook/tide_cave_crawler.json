@@ -1,0 +1,10 @@
+{
+    "item":  "tide:cave_crawler",
+    "entity":  "tide:cave_crawler",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

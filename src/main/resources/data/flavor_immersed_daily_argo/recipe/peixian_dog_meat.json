@@ -1,0 +1,27 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_dog_meat"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:raw_dog_meat"
+    },
+    {
+      "item": "flavor_immersed_daily:halogenbag"
+    },
+    {
+      "item": "flavor_immersed_daily:salt"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:peixian_dog_meat",
+    "count": 1
+  },
+  "cookingTime": 160,
+  "experience": 0.5
+}

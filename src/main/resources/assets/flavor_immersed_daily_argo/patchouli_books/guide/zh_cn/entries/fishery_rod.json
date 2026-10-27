@@ -1,0 +1,20 @@
+{
+  "name": "南山钓竿",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_rod",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)南山钓竿$()$(br)本模组的核心钓具，按 $(bold)【B】$() 键可打开改装页面。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)数值组装$()$(br)竿体、线轮、鱼线、浮漂、铅坠、鱼饵六大配件各带独立参数——拉力、硬度、延展、泄力、收线速度、粗细、重量、抗流、大小、显眼度……组装出怎样的手感，全凭你搭配。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)鱼饵与动物食性$()$(br)食草鱼用草饵、食肉鱼用肉饵、食腐鱼用腐饵、活体鱼用蚯蚓，杂食鱼不挑饵。"
+    }
+  ]
+}

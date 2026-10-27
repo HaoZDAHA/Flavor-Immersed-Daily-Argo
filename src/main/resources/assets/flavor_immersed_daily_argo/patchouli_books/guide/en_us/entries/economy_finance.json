@@ -1,0 +1,28 @@
+{
+  "name": "Coins & Accounts",
+  "category": "flavor_immersed_daily_argo:economy_life",
+  "icon": "flavor_immersed_daily_argo:atm",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Banknotes$()$(br)Six denominations: 1, 5, 10, 20, 50 and 100. Each note financial value is its face value - the amount it converts to when deposited."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Bank Card$()$(br)Right-click to open its $(bold)9 slots$() for banknotes; the card also records its owner and account balance. Only at an ATM can notes and account balance be exchanged."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)ATM$()$(br)Place it and right-click with a card: deposit notes from the card slots into the account, withdraw notes by denomination, or change the card owner here."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Foreign Exchange$()$(br)The ATM also has an Exchange tab, trading money for goods or currency per the server-configured entries. With none configured it simply says so."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Paying & Withdrawing$()$(br)Checkout at a Shopping Computer deducts from the card account, and shop revenue can be withdrawn into a card. If the balance is short, the deal falls through."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "wok",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_goose_liver"
+    },
+    {
+      "item": "flavor_immersed_daily:tomato"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:foie_gras",
+    "count": 1
+  },
+  "cookingTime": 100
+}

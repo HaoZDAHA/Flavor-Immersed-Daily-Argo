@@ -1,0 +1,16 @@
+{
+  "name": "省心的农活",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:harrow",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)耙子$()$(br)对着土地右键，一次就能翻好周围 $(bold)3×3$() 的耕地——地势高低差一格也能带到，地表的杂草一并清除，整趟只消耗 $(bold)1$() 点耐久。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)拉力木车$()$(br)放下后右键木车，它便紧跟在你身后随你行走，潜行即可松开车把。$(br2)手持 $(bold)箱子$() 对着木车右键，可以为它扩充容量。"
+    }
+  ]
+}

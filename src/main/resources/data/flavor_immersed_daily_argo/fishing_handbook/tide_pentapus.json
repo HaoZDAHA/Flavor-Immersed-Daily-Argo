@@ -1,0 +1,10 @@
+{
+    "item":  "tide:pentapus",
+    "entity":  "tide:pentapus",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

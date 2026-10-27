@@ -1,0 +1,20 @@
+{
+  "name": "自动钓鱼",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fish_protection",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)鱼护$()$(br)立在水里的网笼，附近钓上来的活鱼会直接游进笼里养着；手持 $(bold)抄网$() 右键也能把网兜里的鱼倒进来。拆掉笼子鱼就自由了。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)钓鱼箱$()$(br)没有活体形态的水产（虾蟹之类）会收进这只箱子，共 36 格，空手右键打开取用。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)竿架与自动化钓鱼$()$(br)先抛出鱼钩，再把南山钓竿架上竿架替人守竿；咬钩后提醒最近的玩家，右键取竿即可在原落点接手遛鱼，无人看管 5 分钟后钓竿自动掉落。"
+    }
+  ]
+}

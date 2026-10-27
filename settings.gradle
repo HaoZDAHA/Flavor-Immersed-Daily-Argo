@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+// 本机无法访问 maven.neoforged.net（CDN77 在国内被墙），依赖其实早已全部缓存。
+// 线上模式一旦配置缓存失效就会卡在依赖解析上 2 分钟起步，这里默认走离线构建；
+// 需要真正下载新依赖时，先临时移除本行（或改用 --refresh-dependencies 前先删掉）。
+gradle.startParameter.offline = true

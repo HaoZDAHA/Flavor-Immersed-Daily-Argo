@@ -1,0 +1,17 @@
+{
+  "type": "flavor_immersed_daily_argo:insect_breeding",
+  "feed": {
+    "tag": "minecraft:flowers"
+  },
+  "carrier": {
+    "item": "flavor_immersed_daily_argo:cardboard_honeycomb"
+  },
+  "parents": {
+    "item": "flavor_immersed_daily_argo:bee"
+  },
+  "offspring_output": {
+    "id": "flavor_immersed_daily_argo:bee_roe",
+    "count": 1
+  },
+  "time": 400
+}

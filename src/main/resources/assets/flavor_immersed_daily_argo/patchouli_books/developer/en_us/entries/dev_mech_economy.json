@@ -1,0 +1,33 @@
+{
+  "name": "Economy Mechanics",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:money_100",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Money and accounts",
+      "text": "Six banknote denominations: 1, 5, 10, 20, 50 and 100; face value equals exchange value.$(br2)A bank card has 9 slots for notes and records its owner and balance. Only at an ATM can notes be deposited or withdrawn by denomination.$(br2)Checkout debits the account; shop income can be withdrawn to a card. Insufficient balance cancels the deal."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Price units",
+      "text": "Every buy price is quoted per $(bold)stack of 64$() — the same in $(thing)economic_product$(), in $(thing)products.entries$() and on the news page.$(br2)Daily movement: take the base price, roll an offset within base × $(thing)volatility_percent$()%, never below 0. The daily price is only shown on the news page; checkout still uses the shop entry's $(thing)price$().$(br2)Livestock and raw fish bought by weight do not use this system; see the next page."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Buying by weight",
+      "text": "Two classes are priced per piece and never need 64:$(br)$(li)$(bold)Livestock in a woven sack$(): money = ceil( standard-weight price + max(0, actual weight − standard weight) × price per extra kg ). The weight is written into the item component $(thing)captured_weight$() (kg) at the moment of sacking: an animal with a stats panel uses $(thing)AnimalStats.weight$(), otherwise the species standard. Cats and dogs have no standard, so no component is written and the sack cannot be sold.$(br)$(li)$(bold)Weighable raw fish$(): money = ceil( jin × price per jin ). The jin comes from the $(thing)weighed_weight$() component; unweighed fish fall back to the mean of their weight distribution.$(br2)Both lists drift daily the same way: from the configured base price, a deterministic offset within ±20% keyed by day plus species/item (rounded to a cent), topped up with a little change when it lands on a whole yuan - so 10.00 never shows up. The Purchasing Box and the Prices tab share the same daily prices. On the Prices tab fish sit on the left and livestock on the right, both sorted high to low, and hovering a row highlights it.$(br2)Any item that can be weighed is removed from the $(thing)economic_product$() per-64 market so the two price systems never fight."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Delivery orders",
+      "text": "$(li)Candidate pool: all food items minus $(thing)food_blacklist$(), shuffled with the day's seed and cut to $(bold)40$() — the whole server sees the same menu on a given day.$(br)$(li)At most $(bold)3$() active orders; each times out after $(bold)8 minutes$().$(br)$(li)Pickup is 24~80 blocks from the player, drop-off 200~600 blocks.$(br)$(li)Pay = drop-off distance ÷ 10 (rounded, minimum 1), i.e. 20~60 yuan."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Shops",
+      "text": "Two kinds of shops:$(br)$(li)$(bold)System shops$() from $(thing)data/<namespace>/shop/*.json$(), plus the single \"config shop\" built from $(thing)shop.extra_entries$().$(br)$(li)$(bold)Player shops$() created at a Shopping Computer, limited by $(thing)player_shops_enabled$() and $(thing)max_shops_per_player$().$(br2)In an entry, $(thing)count$() is per purchase and $(thing)price$() is the total for that purchase."
+    }
+  ]
+}

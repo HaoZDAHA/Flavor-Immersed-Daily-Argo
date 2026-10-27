@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_grass_carp"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:roast_grass_carp",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "item":  "tide:deep_grouper",
+    "entity":  "tide:deep_grouper",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

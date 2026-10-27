@@ -1,0 +1,20 @@
+{
+  "name": "催熟有术 · 下",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:waterwheel",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)灌溉水车$()$(br)直接立在 $(bold)1 格高的水面$() 上便会转动，等同于一座 $(bold)三格高的水源$()：可以灌溉耕地、空桶打水，也能用来垒筑梯田。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)水管系统$()$(br)本模组农业部分全新的灌溉玩法：先在水源处放置 $(bold)水泵$()，再用 $(bold)水管$() 一路延伸到田边。水管的截面会向外喷洒水粒子，被水花沾到的耕地便如水源一般润泽四周。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)加料阀$()$(br)串在管路中段，投入 $(bold)1 颗金坷垃$()，接下来 $(bold)5 分钟$() 内流经它的水都会带上催熟之力。$(br2)$(bold)旋转水管 / 扇形水管$()$(br)是水阀出口的另两种形态，分别绕圈与水平扇形喷水，适配不同形状的田地。"
+    }
+  ]
+}

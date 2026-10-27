@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:fossilized_angelfish",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:dripstone_caves"
+               ],
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

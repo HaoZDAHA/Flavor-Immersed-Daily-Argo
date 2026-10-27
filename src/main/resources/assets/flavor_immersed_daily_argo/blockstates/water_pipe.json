@@ -1,0 +1,247 @@
+{
+  "variants": {
+    "shape=0": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight"
+    },
+    "shape=1": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight"
+    },
+    "shape=2": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight"
+    },
+    "shape=3": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight"
+    },
+    "shape=4": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_straight"
+    },
+    "shape=5": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "y": 270
+    },
+    "shape=6": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "x": 180,
+      "y": 270
+    },
+    "shape=7": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t",
+      "y": 270
+    },
+    "shape=8": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_straight"
+    },
+    "shape=9": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "y": 90
+    },
+    "shape=10": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "x": 180,
+      "y": 90
+    },
+    "shape=11": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t",
+      "y": 90
+    },
+    "shape=12": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_straight"
+    },
+    "shape=13": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t_down"
+    },
+    "shape=14": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t_down",
+      "x": 180
+    },
+    "shape=15": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_vertical_cross"
+    },
+    "shape=16": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_straight",
+      "y": 90
+    },
+    "shape=17": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "y": 180
+    },
+    "shape=18": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "x": 180,
+      "y": 180
+    },
+    "shape=19": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t",
+      "y": 180
+    },
+    "shape=20": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_l"
+    },
+    "shape=21": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "y": 270
+    },
+    "shape=22": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "x": 180,
+      "y": 180
+    },
+    "shape=23": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight_2",
+      "y": 270
+    },
+    "shape=24": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_l",
+      "y": 270
+    },
+    "shape=25": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "y": 180
+    },
+    "shape=26": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "x": 180,
+      "y": 90
+    },
+    "shape=27": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight_2",
+      "y": 180
+    },
+    "shape=28": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_t"
+    },
+    "shape=29": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "y": 270
+    },
+    "shape=30": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "x": 180,
+      "y": 90
+    },
+    "shape=31": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_all"
+    },
+    "shape=32": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_straight",
+      "y": 90
+    },
+    "shape=33": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l"
+    },
+    "shape=34": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l",
+      "x": 180
+    },
+    "shape=35": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t"
+    },
+    "shape=36": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_l",
+      "y": 90
+    },
+    "shape=37": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2"
+    },
+    "shape=38": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "x": 180,
+      "y": 270
+    },
+    "shape=39": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight_2"
+    },
+    "shape=40": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_l",
+      "y": 180
+    },
+    "shape=41": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "y": 90
+    },
+    "shape=42": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_2",
+      "x": 180
+    },
+    "shape=43": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_straight_2",
+      "y": 90
+    },
+    "shape=44": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_t",
+      "y": 180
+    },
+    "shape=45": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "y": 90
+    },
+    "shape=46": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "x": 180,
+      "y": 270
+    },
+    "shape=47": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_all"
+    },
+    "shape=48": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_straight",
+      "y": 90
+    },
+    "shape=49": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t_down",
+      "y": 90
+    },
+    "shape=50": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_t_down",
+      "x": 180,
+      "y": 90
+    },
+    "shape=51": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_vertical_cross",
+      "y": 90
+    },
+    "shape=52": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_t",
+      "y": 90
+    },
+    "shape=53": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3"
+    },
+    "shape=54": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "x": 180,
+      "y": 180
+    },
+    "shape=55": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_all"
+    },
+    "shape=56": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_horizontal_t",
+      "y": 270
+    },
+    "shape=57": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "y": 180
+    },
+    "shape=58": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_l_3",
+      "x": 180
+    },
+    "shape=59": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_all"
+    },
+    "shape=60": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_cross"
+    },
+    "shape=61": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_cross_1"
+    },
+    "shape=62": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_cross_1",
+      "x": 180
+    },
+    "shape=63": {
+      "model": "flavor_immersed_daily_argo:block/water_pipe_all"
+    }
+  }
+}

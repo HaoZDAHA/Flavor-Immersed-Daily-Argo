@@ -1,0 +1,11 @@
+{
+  "type": "flavor_immersed_daily_argo:river_silt_farming",
+  "input": {
+    "item": "flavor_immersed_daily_argo:raw_jellyfish"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:raw_jellyfish",
+    "count": 3
+  },
+  "time": 3600
+}

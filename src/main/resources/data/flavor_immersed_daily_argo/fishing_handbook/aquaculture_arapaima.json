@@ -1,0 +1,15 @@
+{
+    "item":  "aquaculture:arapaima",
+    "entity":  "aquaculture:arapaima",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:jungle",
+                   "minecraft:sparse_jungle",
+                   "minecraft:bamboo_jungle"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

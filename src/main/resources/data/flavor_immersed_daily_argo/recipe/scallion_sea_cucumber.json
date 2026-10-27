@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "wok",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_sea_cucumber"
+    },
+    {
+      "item": "flavor_immersed_daily:scallion_2"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:scallion_sea_cucumber",
+    "count": 1
+  },
+  "cookingTime": 100
+}

@@ -1,0 +1,28 @@
+{
+  "name": "钱庄银号",
+  "category": "flavor_immersed_daily_argo:economy_life",
+  "icon": "flavor_immersed_daily_argo:atm",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)钱币$()$(br)纸币共六种面额：一元、五元、十元、二十元、五十元、一百元。每张的「金融价值」就是它的面额，也就是存入账户时折算的钱数。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)银行卡$()$(br)右键直接打开卡内 $(bold)9 个槽位$() 存放纸币；卡面还记着持卡主人与账户余额。只有拿到自助取款机，才能让纸币与卡面账户互相转换。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)自助取款机$()$(br)放置后手持银行卡右键，打开这张卡的界面：把卡内槽位的纸币存入卡面账户，或按面额从账户取回纸币，也能在这里更改持卡主人。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)外汇兑换$()$(br)取款机里另有「外汇」页，按服务器配置的兑换条目用钱换物或换汇。没有配置时，该页只会提示暂无条目。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)付款与提现$()$(br)商业电脑结账时从卡面账户扣款，开店所得的营业额也可以提现到卡里。卡内余额不足，交易便做不成。"
+    }
+  ]
+}

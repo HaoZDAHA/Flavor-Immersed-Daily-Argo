@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "wok",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:boiled_prawn"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:boiled_prawn"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:braised_prawns",
+    "count": 1
+  },
+  "cookingTime": 100
+}

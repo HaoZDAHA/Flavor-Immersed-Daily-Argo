@@ -1,0 +1,23 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:dead_donkey"
+    },
+    {
+      "item": "flavor_immersed_daily:halogenbag"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    },
+    {
+      "item": "flavor_immersed_daily:salt"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:donkey_feast",
+    "count": 1
+  },
+  "cookingTime": 200
+}

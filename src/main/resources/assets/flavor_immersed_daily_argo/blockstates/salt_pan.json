@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "stage=0": {
+      "model": "flavor_immersed_daily_argo:block/salt_pan"
+    },
+    "stage=1": {
+      "model": "flavor_immersed_daily_argo:block/salt_pan_wet"
+    }
+  }
+}

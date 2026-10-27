@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_sea_urchin"
+    },
+    {
+      "item": "flavor_immersed_daily:eggliquid"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:sea_urchin_steamed_egg",
+    "count": 1
+  },
+  "cookingTime": 120
+}

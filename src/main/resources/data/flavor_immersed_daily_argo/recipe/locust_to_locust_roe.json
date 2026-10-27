@@ -1,0 +1,17 @@
+{
+  "type": "flavor_immersed_daily_argo:insect_breeding",
+  "feed": {
+    "item": "minecraft:wheat"
+  },
+  "carrier": {
+    "item": "flavor_immersed_daily_argo:insect_board"
+  },
+  "parents": {
+    "item": "flavor_immersed_daily_argo:locust"
+  },
+  "offspring_output": {
+    "id": "flavor_immersed_daily_argo:locust_roe",
+    "count": 1
+  },
+  "time": 400
+}

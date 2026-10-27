@@ -1,0 +1,63 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "flavor_immersed_daily"
+    }
+  ],
+  "type": "minecraft:tree",
+  "config": {
+    "trunk_placer": {
+      "type": "minecraft:forking_trunk_placer",
+      "base_height": 5,
+      "height_rand_a": 2,
+      "height_rand_b": 2
+    },
+    "foliage_placer": {
+      "type": "minecraft:acacia_foliage_placer",
+      "radius": 2,
+      "offset": 0
+    },
+    "minimum_size": {
+      "type": "minecraft:two_layers_feature_size",
+      "limit": 1,
+      "lower_size": 0,
+      "upper_size": 1
+    },
+    "force_dirt": false,
+    "decorators": [],
+    "ignore_vines": true,
+    "trunk_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "flavor_immersed_daily:stonebark_log",
+        "Properties": {
+          "axis": "y"
+        }
+      }
+    },
+    "foliage_provider": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "flavor_immersed_daily:stonebark_leaves"
+          },
+          "weight": 7
+        },
+        {
+          "data": {
+            "Name": "flavor_immersed_daily_argo:chestnut_fruiting_leaves"
+          },
+          "weight": 3
+        }
+      ]
+    },
+    "dirt_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:dirt"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+    "item":  "aquaculture:arrau_turtle",
+    "entity":  "aquaculture:arrau_turtle",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:jungle",
+                   "minecraft:sparse_jungle",
+                   "minecraft:bamboo_jungle"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

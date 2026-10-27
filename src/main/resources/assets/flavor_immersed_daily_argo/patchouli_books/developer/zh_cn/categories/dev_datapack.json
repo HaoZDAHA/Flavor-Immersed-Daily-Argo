@@ -1,0 +1,6 @@
+{
+  "name": "数据包定制",
+  "description": "data 目录下每一类 JSON 的字段格式与覆盖方式。",
+  "icon": "minecraft:writable_book",
+  "sortnum": 2
+}

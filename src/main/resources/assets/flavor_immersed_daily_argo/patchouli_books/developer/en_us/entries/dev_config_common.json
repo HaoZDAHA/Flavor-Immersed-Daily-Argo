@@ -1,0 +1,28 @@
+{
+  "name": "Main Config",
+  "category": "flavor_immersed_daily_argo:dev_config",
+  "icon": "minecraft:book",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "flavor_immersed_daily_argo-common.toml",
+      "text": "This is the main config. It is a COMMON config, read on the server side — editing it on a client changes nothing.$(br2)The mod actually reads the options listed on this page and the next; the rest are leftovers from the NeoForge template."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Options that matter",
+      "text": "$(li)$(bold)giveGuideBookOnFirstJoin$() (default true): give each player one Nanshan Tutorial Scroll the first time they join. Each player receives it once.$(br)$(li)$(bold)mouseChunkLimit$() (default 2, range 1~64): how many field mice may exist in one chunk. Once reached, no more spawn there.$(br)$(li)$(bold)warnMissingParentMod$() (default true): remind players on login when the parent mod is missing."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Natural spawning switches",
+      "text": "Four options decide whether this mod's animals appear on their own. All are $(bold)false$() by default — the intended source is spawn eggs bought online.$(br)$(li)$(bold)mouseNaturalSpawning$(): whether field mice spawn near mature crops.$(br)$(li)$(bold)landAnimalNaturalSpawning$(): whether poultry and livestock (duck, goose, quail, pigeon, turkey, bullfrog, bamboo rat) spawn on land.$(br)$(li)$(bold)freshwaterNaturalSpawning$(): whether freshwater animals spawn in non-ocean water.$(br)$(li)$(bold)saltwaterNaturalSpawning$(): whether saltwater animals spawn in ocean biomes.$(br2)These only gate natural spawning. Animals from spawn eggs, commands or fishing nets are unaffected; the mouse command override is covered under Admin Commands."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Safe to ignore",
+      "text": "$(li)$(thing)logDirtBlock$(), $(thing)magicNumber$(), $(thing)magicNumberIntroduction$() and $(thing)items$() come from the NeoForge example project. The mod $(bold)never reads$() them; any value is harmless.$(br2)They are kept only to keep the config layout stable, so leaving the defaults is fine."
+    }
+  ]
+}

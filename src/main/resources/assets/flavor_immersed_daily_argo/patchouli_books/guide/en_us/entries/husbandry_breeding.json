@@ -1,0 +1,16 @@
+{
+  "name": "Bloodlines & Breeding",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:syringe",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Syringe$()$(br)Attack livestock to draw its genes into the syringe; then attack an animal in $(bold)good$() condition (Satiety, Thirst, Cleanliness and Mood all 7 or above) and it conceives a young of that species, giving birth to 3-5 young on the spot eight minutes later."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Vial of Genetic Fluid$()$(br)The sealed gene sample inside the syringe, recording where it came from."
+    }
+  ]
+}

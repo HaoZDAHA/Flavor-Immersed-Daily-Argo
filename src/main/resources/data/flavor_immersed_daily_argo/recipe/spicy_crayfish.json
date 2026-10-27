@@ -1,0 +1,27 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_crayfish"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:raw_crayfish"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    },
+    {
+      "item": "flavor_immersed_daily:redrepper"
+    },
+    {
+      "item": "flavor_immersed_daily:thickbroadbeansauce"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:spicy_crayfish",
+    "count": 1
+  },
+  "cookingTime": 160,
+  "experience": 0.5
+}

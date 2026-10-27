@@ -1,0 +1,16 @@
+{
+  "name": "催熟有术 · 上",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:jinkela",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)金坷垃$()$(br)对着耕地施加，会在 $(bold)3×3$() 范围内连续施放 $(bold)5$() 次骨粉效果，催长极快。$(br2)$(bold)有机肥料$()$(br)效果与骨粉 $(bold)完全一致$()，是最朴实的催长肥。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)洒水壶$()$(br)先右键水源装满水，再对准耕地 $(bold)长按右键$() 浇灌，有概率催熟作物。$(br2)$(bold)肥沃耕地$()$(br)随机刻会让上方的作物催长一个阶段——把它当作一块会自行施肥的耕地就好。"
+    }
+  ]
+}

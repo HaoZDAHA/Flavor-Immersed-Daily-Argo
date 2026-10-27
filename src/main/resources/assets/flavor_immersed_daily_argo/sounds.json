@@ -1,0 +1,8 @@
+{
+  "harvester_attack": {
+    "subtitle": "subtitles.flavor_immersed_daily_argo.harvester_attack",
+    "sounds": [
+      "flavor_immersed_daily_argo:harvester_attack"
+    ]
+  }
+}

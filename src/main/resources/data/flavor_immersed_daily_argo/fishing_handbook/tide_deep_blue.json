@@ -1,0 +1,10 @@
+{
+    "item":  "tide:deep_blue",
+    "entity":  "tide:deep_blue",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

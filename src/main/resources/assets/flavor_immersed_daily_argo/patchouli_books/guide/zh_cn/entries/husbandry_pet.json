@@ -1,0 +1,20 @@
+{
+  "name": "宠物安居",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:pet_nest",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)宠物窝$()$(br)附近已驯服的猫狗会自己走过来安家，一只窝只住一位；它们过世后，会在次日于此重新出现。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)游荡模式$()$(br)让宠物在窝附近自由活动；$(bold)哨子$() 一响，游荡中的宠物便转为跟随。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)宠物复活$()$(br)已经在宠物窝安家的宠物离世，会在第二天于窝里复活归来。"
+    }
+  ]
+}

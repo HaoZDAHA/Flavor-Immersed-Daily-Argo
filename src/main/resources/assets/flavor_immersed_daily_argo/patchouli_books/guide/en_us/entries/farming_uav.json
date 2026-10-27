@@ -1,0 +1,24 @@
+{
+  "name": "The Aerial Helper",
+  "category": "flavor_immersed_daily_argo:farming",
+  "icon": "flavor_immersed_daily_argo:uav",
+  "sortnum": 5,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Multifunctional Drone$()$(br)Place it, bind it with the $(bold)Drone Controller$(), then right-click it to open the control panel.$(br2)Powered, it hovers and its rotors spin; cut the power and it settles gently down. On its own it only flies to the centre of its auto-range."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Drone Controller$()$(br)Right-click a drone to bind it; afterwards any right-click opens the panel - unbind, set auto-range, first-person piloting, power."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Five Modules (one module slot)$()$(br)$(bold)Care$(): auto-refills troughs with food and water, fertilizes crops, and moves eggs from coops into the incubating slot.$(br2)$(bold)Combat$(): while piloting, lets you use the item in the use slot and fire projectiles with the mouse buttons.$(br2)$(bold)Harvest$(): auto-harvests ripe crops in range into the nearest container.$(br2)$(bold)Transport$(): put a $(bold)Cardboard Box$() in the use slot and the drone flies to the centre of its range to drop the cargo, then returns.$(br2)$(bold)Highlight$(): while piloting, right-click a block to highlight it - the outline shows through blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Cardboard Box$()$(br)Cargo for transport mode; the drone delivers it, cargo and all, to the target coordinates."
+    }
+  ]
+}

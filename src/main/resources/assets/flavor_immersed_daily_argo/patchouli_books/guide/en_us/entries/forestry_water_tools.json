@@ -1,0 +1,28 @@
+{
+  "name": "Tending the Waters",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:ranging_rope",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Ranging Rope$()$(br)Hold it to see the chunk boundary underfoot, handy for judging a point range.$(br2)$(bold)Water Level Gauge$()$(br)Right-click to measure the point water level: normal is $(bold)60-66 m$(); floods run high, droughts run low - plain at a glance."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Activated Carbon$()$(br)Right-click water to release: adsorbs impurities, lowers turbidity and pulls conductivity back toward normal."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Cicada Acid / Alkaloid$()$(br)Cicada Acid neutralises alkali and lowers pH; Alkaloid neutralises acid and raises pH. One for each end of the scale."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Water Oxygenator$()$(br)Right-click water to release, and it is not consumed: it balances dissolved oxygen straight to the healthy level, curing both hypoxia and oversaturation."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Microbe Culture Dish$()$(br)Right-click water to release: beneficial microbes break down organic pollution, lowering the index - the cure for foul water."
+    }
+  ]
+}

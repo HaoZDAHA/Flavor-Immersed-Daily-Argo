@@ -1,0 +1,10 @@
+{
+    "item":  "starcatcher:molten_shrimp",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

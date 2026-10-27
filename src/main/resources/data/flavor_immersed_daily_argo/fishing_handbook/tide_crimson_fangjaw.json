@@ -1,0 +1,13 @@
+{
+    "item":  "tide:crimson_fangjaw",
+    "entity":  "tide:crimson_fangjaw",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:crimson_forest"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow"
+}

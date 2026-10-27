@@ -1,0 +1,10 @@
+{
+    "item":  "aquaculture:gar",
+    "entity":  "aquaculture:gar",
+    "habitat":  "both",
+    "depth":  "56-68",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "牲畜的状态与照料",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:milker",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "家畜家禽都有一套 $(bold)状态$()：饱食度、口渴度、清洁度与心情值，它们都写在动物头顶的状态面板上。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)挤奶器$()$(br)右键成年牛挤奶，获得 2~5 瓶牛奶，每次消耗牛 1 点心情值。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)刷毛梳子$()$(br)右键任何家畜家禽，慢慢把它刷得心情更好、身上更干净，同一只每 20 秒才吃一次刷。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)体外驱虫药$()$(br)右键动物用掉一支，清洁度直接拉满，并洗掉身上的 $(bold)蝇虫叮咬$()。"
+    }
+  ]
+}

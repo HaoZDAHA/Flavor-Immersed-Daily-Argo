@@ -1,0 +1,30 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_dressed_goose"
+    },
+    {
+      "item": "flavor_immersed_daily:dough"
+    },
+    {
+      "item": "flavor_immersed_daily:thickbroadbeansauce"
+    },
+    {
+      "item": "flavor_immersed_daily:dicedsweetpepper"
+    },
+    {
+      "item": "flavor_immersed_daily:dicedpotato"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:pot_stew_goose",
+    "count": 1
+  },
+  "cookingTime": 160,
+  "experience": 0.5
+}

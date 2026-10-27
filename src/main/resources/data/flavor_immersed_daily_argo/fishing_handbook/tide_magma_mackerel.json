@@ -1,0 +1,10 @@
+{
+    "item":  "tide:magma_mackerel",
+    "entity":  "tide:magma_mackerel",
+    "habitat":  "both",
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

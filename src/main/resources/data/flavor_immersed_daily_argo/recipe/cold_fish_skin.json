@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_fish_skin"
+    },
+    {
+      "item": "flavor_immersed_daily:vinegar"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:cold_fish_skin",
+    "count": 1
+  },
+  "cookingTime": 120
+}

@@ -1,0 +1,28 @@
+{
+  "name": "水色可观",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:water_quality_detector",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)水质检测器$()$(br)右键网点水体，测出五项指标：溶解氧、pH、有机污染、电导率、浊度，并给出综合水质。测得的水体灾难会登记到写字板。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)五项指标$()$(br)都以 $(bold)0~100$() 计。pH 一项 50 对应中性 7.0，显示时换算成 0~14 的刻度。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)灾难阈值$()$(br)溶解氧低于 30 为缺氧、高于 90 为过饱；pH 低于 30 成酸雨、高于 85 成强碱；有机污染低于 25 为贫瘠、高于 85 则发臭；电导率低于 20 或高于 90，渗透压便会失衡。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)综合水质$()$(br)五项各按理想区间打分：溶解氧 45~80、pH 40~65、有机 35~70、电导 35~75、浊度 25~65。区间内满分，越往外每差 1 点扣 2 分；五项平均后 85 以上为优、70 以上为良、50 以上为中，其余为差。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)每日漂移$()$(br)指标每天小幅游走。浊度低于 20 会把有机污染压低 3 点，高于 80 则把溶解氧压低 3 点——水太清或太浑，都不是好事。"
+    }
+  ]
+}

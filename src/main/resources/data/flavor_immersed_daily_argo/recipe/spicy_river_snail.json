@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_river_snail"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    },
+    {
+      "item": "flavor_immersed_daily:chillipowder"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:spicy_river_snail",
+    "count": 1
+  },
+  "cookingTime": 120
+}

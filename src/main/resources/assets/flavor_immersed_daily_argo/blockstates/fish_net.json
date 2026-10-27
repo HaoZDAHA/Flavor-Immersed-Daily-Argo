@@ -1,0 +1,210 @@
+{
+	"multipart": [
+		{
+			"when": {"bottom": "true", "north": "false", "east": "false", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net"
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "false", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net6"
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "false", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net4"
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "false", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net7"
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "true", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net4",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "true", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net7",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "false", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net4",
+				"y": 180
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "false", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net7",
+				"y": 180
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "false", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net4",
+				"y": 270
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "false", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net7",
+				"y": 270
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "false", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net5"
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "false", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net8"
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "true", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net5",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "true", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net8",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "false", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net1"
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "false", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net9"
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "true", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net1",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "true", "south": "false", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net9",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "true", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net1",
+				"y": 180
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "true", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net9",
+				"y": 180
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "false", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net1",
+				"y": 270
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "false", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net9",
+				"y": 270
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "true", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net2"
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "true", "south": "false", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net10"
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "true", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net2",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "true", "south": "true", "west": "false"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net10",
+				"y": 90
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "false", "east": "true", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net2",
+				"y": 180
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "false", "east": "true", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net10",
+				"y": 180
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "false", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net2",
+				"y": 270
+			}
+		},
+		{
+			"when": {"bottom": "false", "north": "true", "east": "false", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net10",
+				"y": 270
+			}
+		},
+		{
+			"when": {"bottom": "true", "north": "true", "east": "true", "south": "true", "west": "true"},
+			"apply": {
+				"model": "flavor_immersed_daily_argo:block/fish_net3"
+			}
+		}
+	]
+}

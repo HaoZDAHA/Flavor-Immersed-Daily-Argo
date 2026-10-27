@@ -1,0 +1,17 @@
+{
+    "item":  "starcatcher:glowstone_seeker",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "biomes":  [
+                   "minecraft:nether_wastes",
+                   "minecraft:crimson_forest",
+                   "minecraft:warped_forest",
+                   "minecraft:soul_sand_valley",
+                   "minecraft:basalt_deltas"
+               ],
+    "depth":  "58-70",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

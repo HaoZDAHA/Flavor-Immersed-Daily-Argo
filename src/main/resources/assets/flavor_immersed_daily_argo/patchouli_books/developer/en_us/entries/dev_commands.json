@@ -1,0 +1,28 @@
+{
+  "name": "Admin Commands",
+  "category": "flavor_immersed_daily_argo:dev_commands",
+  "icon": "minecraft:command_block",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "/fidaeco",
+      "text": "Manage exchange entries (permission level 2):$(br2)$(li)$(thing)/fidaeco list$() — list every entry$(br)$(li)$(thing)/fidaeco add <our currency> <count> <other item> <count>$() — add one$(br)$(li)$(thing)/fidaeco delete <our currency> <count> <other item> <count>$() — remove an exact match$(br2)It reads and writes $(thing)exchange.entries$() and saves immediately."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/forestry",
+      "text": "Trigger a forestry event on a ranger board node (permission 2, player only — nodes are stored per player).$(br2)Events: $(thing)fire$(), $(thing)aphids$(), $(thing)weeds$(), $(thing)flood$(), $(thing)drought$(), $(thing)hypoxia$(), $(thing)oxygen_over$(), $(thing)acid_rain$(), $(thing)strong_alkali$(), $(thing)barren_water$(), $(thing)stench$(), $(thing)osmosis$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/forestry (cont.)",
+      "text": "Without coordinates it targets the nearest node; with coordinates it targets that node:$(br2)$(thing)/forestry fire$()$(br)$(thing)/forestry flood 120 64 -30$()$(br2)Water-quality events (hypoxia, oxygen over, acid rain, strong alkali, barren water, stench, osmosis) use the reporting channel: they push the matching metric into the disaster range and record it on the board."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/mouse",
+      "text": "$(thing)/mouse spawn <true|false>$() temporarily overrides natural field-mouse spawning near crops.$(br2)With no override it reads $(thing)mouseNaturalSpawning$() from the main config, which is $(bold)false$() by default - so mice do not spawn unless enabled. Once the command runs, its value wins until the next restart.$(br2)Turning it off does not remove existing mice, it only stops new ones; the per-chunk cap is controlled separately by $(thing)mouseChunkLimit$(). Mice from spawn eggs or $(thing)/summon$() ignore the switch."
+    }
+  ]
+}

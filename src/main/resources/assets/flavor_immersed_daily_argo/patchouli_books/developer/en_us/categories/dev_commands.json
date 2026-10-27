@@ -1,0 +1,6 @@
+{
+  "name": "Commands",
+  "description": "Economy, forestry and mouse-spawn management commands.",
+  "icon": "minecraft:command_block",
+  "sortnum": 5
+}

@@ -1,0 +1,36 @@
+{
+  "name": "全部指令",
+  "category": "flavor_immersed_daily_argo:commands",
+  "icon": "minecraft:command_block",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)通用说明$()$(br)本模组所有指令都需要 $(bold)权限等级 2$()（OP）。参数里的尖括号是必填项，竖线表示二选一；输入时按 Tab 可以补全查看全部可选项。指令不区分玩家与服务器，单人存档同样可用。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/mouse spawn <true|false>$()$(br)临时开关野外老鼠的自然生成。默认由主配置 $(thing)mouseNaturalSpawning$() 决定，而它是 $(bold)false$()，所以田鼠默认不生成；执行这条指令可以当场覆盖配置，不用重启。$(br)关闭只是不再刷新，已经存在的老鼠不会被清除，仍会继续啃食作物；刷怪蛋与其它指令生成的田鼠也不受这个开关限制。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/forestry <事件> [坐标]$()$(br)手动给林业网点触发一次随机情况，用来验证各类事件与灾害的处理流程。省略坐标时作用于离你最近的一处网点。$(br)网点按玩家保存，所以只能由玩家执行，控制台不行。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)可用事件$()$(br)fire 森林火灾、aphids 蚜虫、weeds 杂草、flood 洪水、drought 干涸、hypoxia 水体缺氧、oxygen_over 氧过饱、acid_rain 酸雨、strong_alkali 强碱、barren_water 贫瘠、stench 发臭、osmosis 渗透压失衡。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/fidaeco list$()$(br)列出当前全部外汇兑换条目，没有配置时会提示为空。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/fidaeco add <货币物品> <数量> <目标物品> <数量>$()$(br)新增一条外汇兑换：支付「货币物品 × 数量」，换取「目标物品 × 数量」。价格按货币面额乘数量计算，与自助取款机外汇页一致。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)/fidaeco delete <货币物品> <数量> <目标物品> <数量>$()$(br)删除与参数完全相同的兑换条目，参数不符则提示删除失败。$(br)新增与删除都会写入服务器配置 economy.toml 的 exchange.entries，重启后依然生效。"
+    }
+  ]
+}

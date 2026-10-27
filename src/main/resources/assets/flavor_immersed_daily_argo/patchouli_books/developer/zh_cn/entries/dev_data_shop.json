@@ -1,0 +1,28 @@
+{
+  "name": "商店：data/shop",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "flavor_immersed_daily_argo:shopping_computer",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "一个文件 = 一家店",
+      "text": "路径：$(thing)data/<命名空间>/shop/<店铺id>.json$()。文件名就是店铺 id，也是判断「是不是同一家店」的依据——同名文件会互相覆盖。$(br2)顶层只有两个字段：$(thing)title$()（店里显示的标题，玩家店铺可直接写中文）与 $(thing)entries$()（条目数组）。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "条目字段",
+      "text": "$(li)$(thing)item$() 或 $(thing)tag$()：二选一。写物品注册名，或者写物品标签（展开成标签内每个物品各一条）。$(br)$(li)$(thing)count$()：一次购买给多少个，至少 1。$(br)$(li)$(thing)price$()：这一笔的$(bold)总价$()（元），不是单价。$(br2)解析失败的条目会被跳过并记日志，不会影响整家店。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "完整示例",
+      "text": "$(br){\"title\": \"起点农贸市场\",$(br)\"entries\": [$(br)  {\"item\": \"minecraft:apple\", \"count\": 4, \"price\": 6},$(br)  {\"tag\": \"flavor_immersed_daily_argo:livestock_spawn_eggs\", \"count\": 1, \"price\": 300}$(br)]}"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "几点注意",
+      "text": "$(li)条目全部无效时这家店不会出现在商业电脑里。$(br)$(li)标签订阅是在资源重载结束后才绑定的，所以标签条目由 $(thing)TagsUpdatedEvent$() 二次展开——用 $(thing)/reload$() 时看不到新标签，先重进存档或重启服务器。$(br)$(li)想临时关闭一家店，把文件名改成 $(thing)_$() 开头即可。"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+    "item":  "starcatcher:crystalback_minnow",
+    "entity":  "starcatcher:fish",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river",
+                   "minecraft:frozen_river"
+               ],
+    "depth":  "58-70",
+    "diet":  "herbivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast",
+    "activity":  [
+                     "day"
+                 ]
+}

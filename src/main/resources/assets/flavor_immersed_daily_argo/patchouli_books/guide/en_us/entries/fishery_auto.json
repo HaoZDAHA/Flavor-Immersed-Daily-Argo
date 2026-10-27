@@ -1,0 +1,20 @@
+{
+  "name": "Automated Angling",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fish_protection",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fish Keeper$()$(br)A netted cage planted in water. Live fish caught nearby swim right into the cage; you can also pour fish from the $(bold)Dip Net$() in by right-clicking. Breaking the cage sets them free."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fishing Box$()$(br)Catches without a living form (shrimp, crabs and the like) land in this 36-slot box; right-click empty-handed to open it."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Rod Holder & Automating Angling$()$(br)Cast the hook first, then set the Nanshan rod on the holder to watch it for you. On a bite it alerts the nearest player, who can right-click to take the rod and carry on the fight from the original spot; left unattended for 5 minutes, the rod drops."
+    }
+  ]
+}

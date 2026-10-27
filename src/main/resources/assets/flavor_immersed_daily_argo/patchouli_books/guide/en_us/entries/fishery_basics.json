@@ -1,0 +1,20 @@
+{
+  "name": "Angling Basics",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_handbook",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fishing Handbook$()$(br)A codex of everything the Nanshan rod can catch, recording each fish habitat, diet, active hours and catch status."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)The New Angling System$()$(br)Cast the hook and wait for the float to stir; once a fish bites you enter the fighting stage, holding your gaze steady on the float to reel it in."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Casting & Fighting$()$(br)Reeling, giving line, locking your gaze - it plays out much like a real tug-of-war."
+    }
+  ]
+}

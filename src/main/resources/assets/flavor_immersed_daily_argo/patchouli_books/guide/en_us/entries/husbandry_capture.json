@@ -1,0 +1,16 @@
+{
+  "name": "Catching & Keeping",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:poultry_catching_net",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Woven Jute Sack$()$(br)Right-click poultry (any size) or another animals young to bag it; right-click again to release."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Fishing Net$()$(br)Set it in water as a fishing net; every so often a live aquatic creature spawns just above its surface - ocean biomes yield sea catch, other biomes yield freshwater. Players can walk straight through it; other creatures cannot."
+    }
+  ]
+}

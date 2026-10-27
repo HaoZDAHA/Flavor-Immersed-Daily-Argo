@@ -1,0 +1,16 @@
+{
+  "name": "Dip Net & Living Fish",
+  "category": "flavor_immersed_daily_argo:fishery",
+  "icon": "flavor_immersed_daily_argo:fishing_net",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Dip Net$()$(br)Hold it in your main or off hand and right-click a fish to scoop it into the net (up to 3). A caught fish goes into a nearby $(bold)Fish Keeper$() first and only flies over when there is none. Right-click a $(bold)Fish Keeper$() to pour the net in, or right-click a block to release one."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Living Fish$()$(br)This mods aquatic catch are live entities - they can be caught, netted, kept and displayed."
+    }
+  ]
+}

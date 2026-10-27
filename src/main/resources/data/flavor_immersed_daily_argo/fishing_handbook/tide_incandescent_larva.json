@@ -1,0 +1,10 @@
+{
+    "item":  "tide:incandescent_larva",
+    "entity":  "tide:incandescent_larva",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "omnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

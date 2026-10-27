@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:organic_fertilizer"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:organic_fertilizer"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:organic_fertilizer"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:organic_fertilizer"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:organic_fertilizer"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:jinkela",
+    "count": 8
+  }
+}

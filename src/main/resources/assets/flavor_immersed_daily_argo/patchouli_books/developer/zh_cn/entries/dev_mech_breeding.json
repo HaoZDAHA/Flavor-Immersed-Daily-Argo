@@ -1,0 +1,23 @@
+{
+  "name": "繁殖与妊娠",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:syringe",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "针管的两种用法",
+      "text": "两步都走$(bold)左键攻击$()，但事件被取消，动物不会掉血也不会被打退：$(br2)$(li)$(bold)空针管$()：扎一只动物，抽到「筒装生物遗传液」，记录的是它的物种。$(br)$(li)$(bold)有遗传液的针管$()：扎另一只状态达标的动物，让它怀孕。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "受孕条件与结果",
+      "text": "受孕要求四项链$(bold)全部 ≥ 7$()（饱食、口渴、清洁、心情）。成功后挂上「妊娠」buff，持续 $(bold)8 分钟$()。$(br2)到期时母体的四项状态被一次清零，然后在原地生下 $(bold)3~5 只$()幼崽——生什么不看母体，只看遗传液里记的物种。给猪扎牛的遗传液，它就生小牛。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "可调与不可调",
+      "text": "这些常量写在 $(thing)SyringeHandler$() 与 $(thing)PregnancyHandler$() 里：$(br2)$(li)妊娠时长 $(thing)PREGNANCY_TICKS$() = 8×60×20$(br)$(li)受孕判定线 $(thing)CONDITION_LINE$() = 7$(br)$(li)产仔数 $(thing)MIN_BABIES$() / $(thing)MAX_BABIES$() = 3 / 5$(br2)要改必须改源码重编译，数据包与配置都覆盖不到。"
+    }
+  ]
+}

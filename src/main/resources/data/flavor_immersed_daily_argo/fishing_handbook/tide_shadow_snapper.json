@@ -1,0 +1,10 @@
+{
+    "item":  "tide:shadow_snapper",
+    "entity":  "tide:shadow_snapper",
+    "habitat":  "both",
+    "depth":  "64-76",
+    "diet":  "carnivore",
+    "struggle_tension":  5,
+    "alertness":  "low",
+    "feeding_speed":  "fast"
+}

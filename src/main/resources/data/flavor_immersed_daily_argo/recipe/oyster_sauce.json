@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pressurecooker",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_oyster"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    },
+    {
+      "item": "flavor_immersed_daily:salt"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:oyster_sauce",
+    "count": 2
+  },
+  "cookingTime": 120
+}

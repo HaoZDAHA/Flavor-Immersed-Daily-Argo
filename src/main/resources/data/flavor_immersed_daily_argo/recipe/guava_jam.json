@@ -1,0 +1,14 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "squeezingmachine",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:guava"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:guava_jam",
+    "count": 2
+  },
+  "cookingTime": 200
+}

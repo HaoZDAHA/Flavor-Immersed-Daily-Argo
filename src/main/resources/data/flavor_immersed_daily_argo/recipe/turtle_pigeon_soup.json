@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pressurecooker",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_turtle"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:raw_dressed_pigeon"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:turtle_pigeon_soup",
+    "count": 1
+  },
+  "cookingTime": 160
+}

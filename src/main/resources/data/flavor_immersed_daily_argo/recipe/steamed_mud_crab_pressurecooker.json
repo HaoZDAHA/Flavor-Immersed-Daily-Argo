@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pressurecooker",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_mud_crab"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:steamed_mud_crab",
+    "count": 1
+  },
+  "cookingTime": 120
+}

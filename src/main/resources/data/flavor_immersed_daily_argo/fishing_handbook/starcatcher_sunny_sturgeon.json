@@ -1,0 +1,13 @@
+{
+    "item":  "starcatcher:sunny_sturgeon",
+    "entity":  "starcatcher:fish",
+    "habitat":  "both",
+    "depth":  "56-68",
+    "diet":  "carnivore",
+    "struggle_tension":  7,
+    "alertness":  "low",
+    "feeding_speed":  "slow",
+    "activity":  [
+                     "day"
+                 ]
+}

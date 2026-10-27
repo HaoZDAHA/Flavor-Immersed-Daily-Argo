@@ -1,0 +1,23 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pot",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_rabbit_head"
+    },
+    {
+      "item": "flavor_immersed_daily:redrepper"
+    },
+    {
+      "item": "flavor_immersed_daily:greenpepper"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:spicy_rabbit_head",
+    "count": 1
+  },
+  "cookingTime": 120
+}

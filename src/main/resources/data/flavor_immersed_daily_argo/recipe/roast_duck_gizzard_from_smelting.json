@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": {
+    "item": "flavor_immersed_daily_argo:raw_duck_gizzard"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:roast_duck_gizzard",
+    "count": 1
+  }
+}

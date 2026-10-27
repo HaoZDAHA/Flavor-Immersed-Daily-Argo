@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "flavor_immersed_daily_argo:block/river_silt_1"
+  }
+}

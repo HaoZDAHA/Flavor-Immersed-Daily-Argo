@@ -1,0 +1,28 @@
+{
+  "name": "Tutorial: Economy",
+  "category": "flavor_immersed_daily_argo:dev_tutorials",
+  "icon": "flavor_immersed_daily_argo:atm",
+  "sortnum": 0,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "1. Change a buy price",
+      "text": "Goal: make an apple worth 20 per stack.$(br2)$(bold)Steps$()$(br)1. Create $(thing)data/<your namespace>/economic_product/apples.json$().$(br)2. Content: $(thing){\"entries\": [{\"item\": \"minecraft:apple\", \"price\": 20}]}$().$(br)3. Run $(thing)/reload$() and check the news page.$(br2)Data pack entries take priority over $(thing)products.entries$() in config."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "2. Add a system shop",
+      "text": "Goal: open a shop that only sells building blocks.$(br2)$(bold)Steps$()$(br)1. Create $(thing)data/<your namespace>/shop/builders.json$().$(br)2. Write $(thing)title$() and $(thing)entries$(), each with item or tag, count and price.$(br)3. Run $(thing)/reload$(), then open a Shopping Computer.$(br2)For a few items you can also use $(thing)shop.extra_entries$() in config; they merge into one \"config shop\"."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "3. Edit the delivery menu",
+      "text": "Goal: keep rotten flesh and spider eyes off the menu.$(br2)$(bold)Steps$()$(br)1. Open $(thing)flavor_immersed_daily_argo-economy.toml$().$(br)2. Add ids to $(thing)takeout.food_blacklist$(), one per line:$(br)$(thing)minecraft:rotten_flesh$()$(br)$(thing)minecraft:spider_eye$()$(br)3. Restart.$(br2)The blacklist only affects the delivery menu, not what players can eat."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "4. Exchange and shop limits",
+      "text": "$(li)Exchange: edit $(thing)exchange.entries$(), or use $(thing)/fidaeco add$() and $(thing)/fidaeco delete$(); changes save instantly.$(br)$(li)Disable player shops: $(thing)shop.player_shops_enabled = false$().$(br)$(li)Limit shops per player: $(thing)max_shops_per_player$(), range 0~64; 0 forbids them entirely.$(br2)Remember: price changes affect how existing worlds feel, so run them on a test server first."
+    }
+  ]
+}

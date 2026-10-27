@@ -1,0 +1,10 @@
+{
+    "item":  "tide:iron_tetra",
+    "entity":  "tide:iron_tetra",
+    "habitat":  "both",
+    "depth":  "60-72",
+    "diet":  "carnivore",
+    "struggle_tension":  6,
+    "alertness":  "low",
+    "feeding_speed":  "medium"
+}

@@ -1,0 +1,8 @@
+{
+  "item": "flavor_immersed_daily_argo:raw_king_crab",
+  "entity": "flavor_immersed_daily_argo:king_crab",
+  "habitat": "ocean",
+  "diet": "scavenger",
+  "alertness": "low",
+  "feeding_speed": "slow"
+}

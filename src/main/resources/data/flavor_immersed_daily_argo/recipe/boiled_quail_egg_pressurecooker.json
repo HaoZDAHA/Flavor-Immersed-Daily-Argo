@@ -1,0 +1,17 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "pressurecooker",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:quail_egg"
+    },
+    {
+      "item": "flavor_immersed_daily:tidywater"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:boiled_quail_egg",
+    "count": 1
+  },
+  "cookingTime": 120
+}

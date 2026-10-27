@@ -1,0 +1,23 @@
+{
+  "name": "Products: data/economic_product",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "flavor_immersed_daily_argo:money_50",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Structure",
+      "text": "Path: $(thing)data/<namespace>/economic_product/<any name>.json$().$(br2)$(br){\"entries\": [$(br)  {\"item\": \"minecraft:apple\", \"price\": 8},$(br)  {\"tag\": \"fid:fruit\", \"price\": 8}$(br)]}$(br2)$(thing)item$() or $(thing)tag$(), plus $(thing)price$() — the base buy price per $(bold)stack of 64$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Priority and expansion",
+      "text": "$(li)Config $(thing)products.entries$() is read first, then data packs; $(bold)data packs win$() for the same item.$(br)$(li)Entries without a price fall back to $(thing)products.default_price$().$(br)$(li)Tag entries cannot be expanded during the listener pass, so they expand once at the end of reload and again on $(thing)TagsUpdatedEvent$()."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "What it drives",
+      "text": "These products only drive the daily price table on the news page: each day a price is rolled within $(thing)volatility_percent$() of the base price, marked as up or down and never below 0.$(br2)This is a $(bold)quote$(); actual checkout still uses the $(thing)price$() written in shop entries — change both if you want them to agree."
+    }
+  ]
+}

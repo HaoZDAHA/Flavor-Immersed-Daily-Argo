@@ -1,0 +1,28 @@
+{
+  "name": "屠宰与加工数据",
+  "category": "flavor_immersed_daily_argo:dev_datapack",
+  "icon": "minecraft:iron_sword",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "大挂钩：data/butchering",
+      "text": "字段：$(thing)input$()（挂上去的物品）、$(thing)stages$()（按顺序处理的阶段数组）。每阶段：$(br)$(li)$(thing)tool$()：可选，要求手持的刀；省略表示任意刀$(br)$(li)$(thing)name$()：阶段提示文字$(br)$(li)$(thing)model$()：挂架上的显示模型$(br)$(li)$(thing)drops$()：这一阶段产出的物品 id 数组，重复写几个就掉几个"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "砧板：data/choppingboard_mob",
+      "text": "字段：$(thing)input$()、$(thing)entity$()（渲染用实体）、$(thing)render$()、$(thing)stages$()。$(br2)$(thing)render$() 里可以调 $(thing)scale$()、$(thing)yaw$()、$(thing)y_offset$()、$(thing)roll$()、$(thing)x_offset$()、$(thing)z_offset$()，让鱼摆正。$(br2)$(thing)stages$() 每项是 $(thing)name$() + $(thing)drops$()，例如「刮鳞 / 开膛 / 切块」，切块阶段掉鱼段与鱼杂。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "木盆漂洗：data/basin_wash",
+      "text": "字段：$(thing)input$()（要洗的物品）、$(thing)output$()（主产物）、$(thing)drops$()（额外掉落数组）、$(thing)name$()（提示名）。$(br2)示例：蚕茧漂洗出丝绸，并额外掉生蚕蛹。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "鉴定补充：data/appraisal_supplement",
+      "text": "格式最简单：$(thing){\"来源物品id\": [\"补充产物id\", ...]}$()。$(br2)当玩家鉴定某个来源物品时，这里列出的产物会一并进入鉴定结果池，用来给原生作物补上本模组的果实。$(br2)示例：温带野果的鉴定结果里追加柚子。"
+    }
+  ]
+}

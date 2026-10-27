@@ -1,0 +1,20 @@
+{
+  "type": "fidworkblock:cooking",
+  "appliance": "wok",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:raw_spoon_worm"
+    },
+    {
+      "item": "flavor_immersed_daily:greenpepper"
+    },
+    {
+      "item": "flavor_immersed_daily:rice"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:spoon_worm_rice",
+    "count": 1
+  },
+  "cookingTime": 100
+}

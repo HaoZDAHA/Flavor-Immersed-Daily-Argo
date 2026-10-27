@@ -1,0 +1,11 @@
+{
+  "type": "flavor_immersed_daily_argo:river_silt_farming",
+  "input": {
+    "item": "flavor_immersed_daily_argo:raw_clam"
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:raw_clam",
+    "count": 3
+  },
+  "time": 2400
+}

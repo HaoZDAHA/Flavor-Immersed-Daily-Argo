@@ -1,0 +1,28 @@
+{
+  "name": "调水有方",
+  "category": "flavor_immersed_daily_argo:forestry",
+  "icon": "flavor_immersed_daily_argo:ranging_rope",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)测距绳$()$(br)拿在手里就能看见脚下区块的边界，方便判断网点范围。$(br2)$(bold)水位尺$()$(br)右键测量网点水位：正常 $(bold)60~66 米$()；洪水会明显偏高，干涸则明显偏低，一眼便知。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)活性炭颗粒$()$(br)右键水体投放：吸附杂质、降低浊度，并把电导率往正常区间拉。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)蝉蜕酸 / 生物碱$()$(br)蝉蜕酸中和碱性、降低 pH；生物碱中和酸性、升高 pH。一酸一碱，专治两头的水体偏差。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)水体供氧机$()$(br)右键水体投放，且不会消耗：把溶解氧直接平衡到适宜水平，缺氧、过饱都归它管。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)水体菌种培养皿$()$(br)右键水体投放：有益菌群分解有机污染，把有机污染指数降下来，专治水体发臭。"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+    "item":  "tide:bull_shark",
+    "entity":  "tide:bull_shark",
+    "habitat":  "fresh",
+    "biomes":  [
+                   "minecraft:river"
+               ],
+    "depth":  "58-70",
+    "diet":  "carnivore",
+    "struggle_tension":  8,
+    "alertness":  "low",
+    "feeding_speed":  "slow",
+    "activity":  [
+                     "day"
+                 ]
+}

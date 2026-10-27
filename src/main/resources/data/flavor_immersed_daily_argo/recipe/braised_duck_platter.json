@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_head"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_web"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_intestine"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_gizzard"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_neck"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_leg"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:braised_duck_tongue"
+    }
+  ],
+  "result": {
+    "id": "flavor_immersed_daily_argo:braised_duck_platter",
+    "count": 1
+  }
+}

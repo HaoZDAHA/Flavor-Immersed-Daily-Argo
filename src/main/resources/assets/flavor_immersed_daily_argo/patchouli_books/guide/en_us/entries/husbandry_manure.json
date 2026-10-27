@@ -1,0 +1,24 @@
+{
+  "name": "Manure into Fertilizer",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:septic_tank",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Manure$()$(br)Right-click to pick up. You can even eat it - it fills the belly a little, but you will regret it. Sneak right-click to throw it at someone."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Septic Fermenter$()$(br)A two-wide barrel: it absorbs manure within $(bold)8 blocks$() into its left half, where it slowly ferments into $(bold)Organic Fertilizer$() in the right half. Right-click the left half to add or remove manure, the right half to take fertilizer.$(br)$(bold)High-Protein Compound$() can go into the left half too and ferments the same way."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Gas Tank$()$(br)Set atop the fermenter; each fermentation stows one unit of $(bold)Pressurized Biogas$(). Right-click with an empty hand to draw a stack.$(br2)$(bold)Pressurized Biogas$()$(br)Burns as fuel for 8 items; thrown, it explodes - harming only creatures, never blocks."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)Flea Bites$()$(br)Animals with low Cleanliness catch fleas; use a $(bold)Flea Treatment$() to wash them off."
+    }
+  ]
+}

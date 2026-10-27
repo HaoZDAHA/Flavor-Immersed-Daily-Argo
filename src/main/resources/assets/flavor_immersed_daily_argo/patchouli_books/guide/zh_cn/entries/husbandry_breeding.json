@@ -1,0 +1,16 @@
+{
+  "name": "血脉繁衍",
+  "category": "flavor_immersed_daily_argo:husbandry",
+  "icon": "flavor_immersed_daily_argo:syringe",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)针管$()$(br)攻击家畜即可抽走它的基因，封装进针管；再攻击状态 $(bold)不错$() 的动物（饱食、口渴、清洁、心情都 ≥ 7），它就会怀上那种生物的崽，八分钟后在原地生下 3~5 只幼崽。"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(bold)筒装生物遗传液$()$(br)针管里封存的那一管基因，记录着它的遗传来源。"
+    }
+  ]
+}

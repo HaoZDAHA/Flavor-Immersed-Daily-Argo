@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": {"model": "flavor_immersed_daily_argo:block/fish_display_board"},
+		"facing=east": {"model": "flavor_immersed_daily_argo:block/fish_display_board", "y": 90},
+		"facing=south": {"model": "flavor_immersed_daily_argo:block/fish_display_board", "y": 180},
+		"facing=west": {"model": "flavor_immersed_daily_argo:block/fish_display_board", "y": 270}
+	}
+}

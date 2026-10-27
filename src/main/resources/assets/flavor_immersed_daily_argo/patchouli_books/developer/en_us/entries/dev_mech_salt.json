@@ -1,0 +1,28 @@
+{
+  "name": "Salt & Silt",
+  "category": "flavor_immersed_daily_argo:dev_mechanics",
+  "icon": "flavor_immersed_daily_argo:salt_pan",
+  "sortnum": 4,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "title": "Salt pan",
+      "text": "The pan has two states: $(thing)stage=0$() dry, $(thing)stage=1$() wet.$(br2)When water is directly above it — or flows in and triggers a neighbour update — it turns wet and schedules a $(bold)200-tick (10 s)$() delay. When the delay ends it clears the water above; if that space is now air, the pan returns to dry and a separate Salt Pile block appears above it."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Salt pile",
+      "text": "The pile is its own block with $(thing)stage$() 0~2. It grows on $(bold)random ticks$(): the block above must be air, and each random tick has a 1/3 chance to advance one stage.$(br2)Breaking it drops 1 / 2 / 3 salt depending on stage, with Fortune. Breaking the pile $(bold)never$() breaks the pan below. Only when the pan itself is removed does the pile drop, so nothing is left floating."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "River silt",
+      "text": "River silt is a block entity acting as a farming bed: right-click with a farmable aquatic product to plant. The seed, result and total time all come from a $(thing)river_silt_farming$() recipe.$(br2)Growth advances by $(bold)+1 per tick$(); it is mature once growth reaches the recipe's $(thing)time$() and cannot be harvested before that."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Fertilising and placement",
+      "text": "Using aquatic feed on silt speeds it up: growth is pushed forward, and reaching the total time matures it.$(br2)Planted items get a small horizontal offset and a random heading, so a bed never looks like a straight line — this is purely visual and does not affect any check."
+    }
+  ]
+}

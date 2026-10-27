@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "W",
+    "B"
+  ],
+  "key": {
+    "W": {
+      "item": "flavor_immersed_daily_argo:water_pump"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "id": "flavor_immersed_daily_argo:dosing_tube",
+    "count": 1
+  }
+}
