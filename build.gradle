@@ -14,11 +14,20 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = mod_version
+// 版本号跟随导出日期（yyyy.MM.dd），产物名形如：
+// flavor_immersed_daily_argo-1.20.1-forge-2026.10.28.jar
+// 需要指定日期时加 -Pexport_date=2026.10.28
+def exportDateFormat = new java.text.SimpleDateFormat('yyyy.MM.dd')
+def exportDate = exportDateFormat.format(new Date())
+// 覆盖 gradle.properties 里的 mod_version，mods.toml 与产物名统一用导出日期
+mod_version = exportDate
+version = exportDate
 group = mod_group_id
 
 repositories {
     mavenLocal()
+    // libs-repo 是本地 Maven 仓库，装的是开发时要一起跑、但本模组不依赖的模组
+    maven { url = uri("${projectDir}/libs-repo") }
 }
 
 // Forge 的传递依赖里有 net.jodah:typetools:0.6.+、log4j-api:2.11.+ 这类动态版本。
@@ -39,7 +48,34 @@ configurations.configureEach {
 }
 
 base {
-    archivesName = mod_id
+    // 产物前缀：模组id-MC版本-加载器，后面再接 -<导出日期>
+    archivesName = "${mod_id}-${minecraft_version}-forge"
+}
+
+// jar 的日期放到执行时才计算，避免 Gradle 配置缓存把某一天的日期锁死；
+// 同时把日期登记成任务输入，换了一天就会重新打一次包，保证包名永远是当天日期。
+tasks.named('jar', Jar).configure {
+    def overrideDate = project.findProperty('export_date')?.toString()
+    def namePrefix = "${mod_id}-${minecraft_version}-forge"
+    def libsDir = layout.buildDirectory.dir('libs')
+    def currentDate = {
+        overrideDate != null
+                ? overrideDate
+                : new java.text.SimpleDateFormat('yyyy.MM.dd').format(new Date())
+    }
+    inputs.property('exportDate', currentDate)
+    doFirst {
+        String date = currentDate()
+        String target = "${namePrefix}-${date}.jar"
+        def dir = libsDir.get().asFile
+        // 清掉其他日期的旧产物，build/libs 里只留当天这一份
+        dir.listFiles()?.each { f ->
+            if (f.isFile() && f.name.startsWith(namePrefix + '-') && f.name != target) {
+                f.delete()
+            }
+        }
+        archiveFileName.set(target)
+    }
 }
 
 // Mojang ships Java 17 to end users in 1.20.1, so mods should target Java 17.
@@ -133,6 +169,11 @@ obfuscation {
 }
 
 dependencies {
+    // 开发时一起装载的模组：只进运行时类路径，不参与编译，也不会写进发布依赖。
+    modRuntimeOnly "fidlibs:flavor_immersed_daily:2026.10.13"
+    modRuntimeOnly "fidlibs:jei:15.74.0.230"
+    modRuntimeOnly "fidlibs:patchouli:85"
+
     // If you wish to declare dependencies against mods, make sure to use the 'mod*' configurations so that they're remapped.
 	// See https://github.com/neoforged/ModDevGradle/blob/main/LEGACY.md#remapping-mod-dependencies for more information.
 	

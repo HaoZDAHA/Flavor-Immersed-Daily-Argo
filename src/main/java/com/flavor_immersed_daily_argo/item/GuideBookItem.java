@@ -69,7 +69,10 @@ public class GuideBookItem extends Item {
         try {
             Class<?> apiClass = Class.forName("vazkii.patchouli.api.PatchouliAPI");
             Object api = apiClass.getMethod("get").invoke(null);
-            apiClass.getMethod("openBookGUI", ServerPlayer.class, ResourceLocation.class).invoke(api, player, bookId);
+            // openBookGUI 定义在 PatchouliAPI$IPatchouliAPI 接口上，PatchouliAPI 本身没有这个方法，
+            // 必须从接口（或 get() 返回的实现类）上查找，否则会抛 NoSuchMethodException 且被静默吞掉，表现为右键无反应
+            Class<?> apiInterface = Class.forName("vazkii.patchouli.api.PatchouliAPI$IPatchouliAPI");
+            apiInterface.getMethod("openBookGUI", ServerPlayer.class, ResourceLocation.class).invoke(api, player, bookId);
         } catch (ReflectiveOperationException ignored) {
 // 没装 Patchouli 或版本不匹配时静默跳过
         }

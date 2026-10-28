@@ -89,6 +89,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     private EditBox shopNameField;
     private EditBox priceField;
 
+// 鼠标悬停的商店条目，画完所有页面后统一弹出物品提示
+    private ItemStack hoveredStack = ItemStack.EMPTY;
+
 // 银行卡选择面板的状态
     private int pickerMode = PICKER_NONE;
     private final List<Integer> cardSlots = new ArrayList<>();
@@ -151,12 +154,28 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
                     rebuild();
                 });
                 this.priceField = field(this.priceField, RIGHT_X, 52, RIGHT_W, 18);
-                button("gui.flavor_immersed_daily_argo.market.list_item", RIGHT_X, 76, RIGHT_W, 16,
-                        () -> sendManage(ShopManagePacket.Action.ADD_ENTRY, 0));
+// 输入框里的数字直接作为上架价格，不用先上架再改价
+                button("gui.flavor_immersed_daily_argo.market.list_item", RIGHT_X, 76, RIGHT_W, 16, () -> {
+                    int listed = price();
+                    if (listed <= 0) {
+                        ShopClientData.applyResult(false,
+                                Component.translatable("gui.flavor_immersed_daily_argo.market.price_required"));
+                        return;
+                    }
+                    sendManage(ShopManagePacket.Action.ADD_ENTRY, listed);
+                });
                 button("gui.flavor_immersed_daily_argo.market.delist", RIGHT_X, 94, RIGHT_W, 16,
                         () -> sendManage(ShopManagePacket.Action.REMOVE_ENTRY, 0));
-                button("gui.flavor_immersed_daily_argo.market.set_price", RIGHT_X, 112, RIGHT_W, 16,
-                        () -> sendManage(ShopManagePacket.Action.SET_PRICE, price()));
+// 改价同样走输入框，空值或不合法时给出提示
+                button("gui.flavor_immersed_daily_argo.market.set_price", RIGHT_X, 112, RIGHT_W, 16, () -> {
+                    int repriced = price();
+                    if (repriced <= 0) {
+                        ShopClientData.applyResult(false,
+                                Component.translatable("gui.flavor_immersed_daily_argo.market.price_required"));
+                        return;
+                    }
+                    sendManage(ShopManagePacket.Action.SET_PRICE, repriced);
+                });
                 button("gui.flavor_immersed_daily_argo.market.restock", RIGHT_X, 130, RIGHT_W, 16,
                         () -> sendManage(ShopManagePacket.Action.RESTOCK, 0));
                 button("gui.flavor_immersed_daily_argo.market.withdraw", RIGHT_X, 148, RIGHT_W, 16,
@@ -324,6 +343,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     @Override
     public void render(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
         super.render(gui, mouseX, mouseY, partialTick);
+        this.hoveredStack = ItemStack.EMPTY;
         switch (this.page) {
             case 1 -> renderShopping(gui, mouseX, mouseY);
             case 2 -> renderShop(gui, mouseX, mouseY);
@@ -332,6 +352,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
         }
         if (this.pickerMode != PICKER_NONE) {
             renderCardPicker(gui, mouseX, mouseY);
+        } else if (!this.hoveredStack.isEmpty()) {
+// 悬停在商店条目上时，弹出该物品的原版提示（名字、附魔、食物属性等）
+            gui.renderTooltip(font, this.hoveredStack, mouseX, mouseY);
         }
 // 服务端回执：结账成功 / 失败原因直接画在窗口里（容器界面打开时看不见 actionBar）
         Component note = ShopClientData.feedback();
@@ -391,7 +414,7 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
 
 // 新闻页：今日经济产物涨跌，从长得最高排到跌得最狠。
 //
-// 一行一样产物：图标 + 名称 + 今日收购价 + 涨跌（元 / 每组）。数据由服务端算好下发，
+// 一行一样产物：图标 + 名称 + 今日收购价 + 涨跌（元/组）。数据由服务端算好下发，
 // 同一天全服一致。
     private void renderNews(GuiGraphics gui, int mouseX, int mouseY) {
         List<EconomicNews> news = ShopClientData.news();
@@ -645,6 +668,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
             int y = topPos + LIST_TOP + row * ROW_H;
             boolean hovered = inRow(mouseX, mouseY, RIGHT_X, RIGHT_W, row);
             GuiStyle.row(gui, leftPos + RIGHT_X, y, RIGHT_W, ROW_H - 2, hovered, false);
+            if (hovered) {
+                this.hoveredStack = new ItemStack(entry.item(), Math.max(1, entry.count()));
+            }
 
             gui.renderItem(new ItemStack(entry.item()), leftPos + RIGHT_X + 2, y + 2);
             gui.drawString(font, "x" + entry.count(), leftPos + RIGHT_X + 21, y + 3, GuiStyle.TEXT);
@@ -670,8 +696,11 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
     private void renderManageEntries(GuiGraphics gui, int mouseX, int mouseY, Shop shop) {
         List<ShopEntry> entries = shop.entries();
         if (entries.isEmpty()) {
-            gui.drawString(font, Component.translatable("gui.flavor_immersed_daily_argo.market.drag_item_hint"),
-                    leftPos + LIST_X + 2, topPos + LIST_TOP + 4, GuiStyle.TEXT_DIM);
+// 按左列宽度折行，避免长提示压到右侧的按钮上
+            var hint = font.split(Component.translatable("gui.flavor_immersed_daily_argo.market.drag_item_hint"), LIST_W - 4);
+            for (int i = 0; i < hint.size(); i++) {
+                gui.drawString(font, hint.get(i), leftPos + LIST_X + 2, topPos + LIST_TOP + 4 + i * 10, GuiStyle.TEXT_DIM);
+            }
             return;
         }
         this.entryScroll = Mth.clamp(this.entryScroll, 0, Math.max(0, entries.size() - LIST_ROWS));
@@ -686,6 +715,9 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
             boolean selected = index == this.selectedEntry;
             boolean hovered = inRow(mouseX, mouseY, LIST_X, LIST_W, row);
             GuiStyle.row(gui, leftPos + LIST_X, y, LIST_W, ROW_H - 2, hovered, selected);
+            if (hovered) {
+                this.hoveredStack = new ItemStack(entry.item(), Math.max(1, entry.count()));
+            }
             gui.renderItem(new ItemStack(entry.item()), leftPos + LIST_X + 2, y + 2);
             gui.drawString(font, "x" + entry.count(), leftPos + LIST_X + 21, y + 3, GuiStyle.TEXT);
             String price = "¥" + entry.price();
