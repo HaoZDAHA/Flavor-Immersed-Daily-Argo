@@ -825,9 +825,9 @@ public final class ModItems {
 
 // 工具与杂项
 
-// 东篱钓竿（无耐久限制）
+// 东篱钓竿（无耐久限制，不可堆叠）
     public static final DeferredHolder<Item, ModFishingRodItem> MOD_FISHING_ROD =
-            REGISTRY.register("fishing_rod", () -> new ModFishingRodItem(new Item.Properties()));
+            REGISTRY.register("fishing_rod", () -> new ModFishingRodItem(new Item.Properties().stacksTo(1)));
 
 // 抄网
     public static final DeferredHolder<Item, FishingNetItem> FISHING_NET =

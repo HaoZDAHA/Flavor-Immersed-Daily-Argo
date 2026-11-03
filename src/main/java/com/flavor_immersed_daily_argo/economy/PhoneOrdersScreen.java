@@ -1,9 +1,11 @@
 package com.flavor_immersed_daily_argo.economy;
 
+import com.flavor_immersed_daily_argo.client.GuiStyle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -17,45 +19,66 @@ import java.util.List;
 // 「取消」按钮（点它把这单整个作废）。点已接单的行内别处可选中 / 取消选中追踪——HUD 指南针优先指
 // 向被追踪的那条。
 //
-// 与护林员写字板一致，界面覆写 #renderBackground 改画纯色遮罩，
-// 因此世界不会糊成一片（不触发原版的模糊后处理）。订单多了可以滚轮翻页。
+// 画风模仿外卖软件：明黄顶栏 + 白卡片 + 橙色金额，面板与卡片都是圆角；底部提示按面板宽度自动折行，
+// 不会撑出界面。界面覆写 #renderBackground 改画纯色遮罩，因此世界不会糊成一片。
 public class PhoneOrdersScreen extends Screen {
 
     private static final int PANEL_WIDTH = 320;
-    private static final int ROW_HEIGHT = 46;
-    private static final int HEADER_HEIGHT = 34;
-    private static final int FOOTER_HEIGHT = 20;
-// 面板上下各留出的边距
-    private static final int PANEL_VERTICAL_MARGIN = 40;
+    private static final int ROW_HEIGHT = 48;
+    private static final int HEADER_HEIGHT = 38;
+// 顶栏实际显示的黄色高度（下面一段被白色盖掉，只留上面圆角）
+    private static final int HEADER_BAND = 28;
+    private static final int PANEL_VERTICAL_MARGIN = 36;
+    private static final int PANEL_SIDE_MARGIN = 12;
+// 面板圆角
+    private static final int PANEL_CORNER = 12;
 
-    private static final int BUTTON_WIDTH = 52;
-    private static final int BUTTON_HEIGHT = 18;
-    private static final int SIDE_MARGIN = 10;
+    private static final int BUTTON_WIDTH = 56;
+    private static final int BUTTON_HEIGHT = 20;
+    private static final int SIDE_MARGIN = 12;
 
-// 行内文字 / 「下一个目标」箭头相对面板左边缘的缩进
-    private static final int TEXT_INDENT = 16;
-    private static final int ARROW_INDENT = 5;
+// 行内文字的缩进
+    private static final int TEXT_INDENT = 7;
+    private static final int ARROW_INDENT = 6;
+// 右侧留给「配送费 / 时间」的横向宽度
+    private static final int RIGHT_TEXT_ROOM = 78;
 
-    private static final int COLOR_SCRIM = 0x66000000;
-    private static final int COLOR_PANEL = 0xF0151515;
-    private static final int COLOR_BORDER = 0xFF3D3D3D;
-    private static final int COLOR_DIVIDER = 0xFF2A2A2A;
-    private static final int COLOR_ROW_HOVER = 0x30FFFFFF;
-    private static final int COLOR_TITLE = 0xFFE8C36A;
-    private static final int COLOR_TEXT = 0xFFDDDDDD;
-    private static final int COLOR_DIM = 0xFF9A9A9A;
-    private static final int COLOR_MONEY = 0xFF6FD06F;
-    private static final int COLOR_ACCEPT = 0xFF2E7D32;
-    private static final int COLOR_ACCEPT_TEXT = 0xFFFFFFFF;
-    private static final int COLOR_ACCEPTED = 0x40000000;
-    private static final int COLOR_ACCEPTED_TEXT = 0xFF6E6E6E;
-    private static final int COLOR_CANCEL = 0xFF9E3226;
-    private static final int COLOR_CANCEL_HOVER = 0xFFBD4535;
-    private static final int COLOR_CANCEL_TEXT = 0xFFFFFFFF;
-// 已接单里「下一个该去的点」那一行的高亮色
-    private static final int COLOR_TARGET = 0xFFE8C36A;
-// 正在追踪的那一行的底衬
-    private static final int COLOR_TRACKED_BG = 0x18E8C36A;
+    private static final int COLOR_SCRIM = 0x5A000000;
+    private static final int COLOR_PANEL = 0xFCFFFFFF;
+    private static final int COLOR_SHADOW = 0x33000000;
+// 美团黄
+    private static final int COLOR_HEADER = 0xFFFFD100;
+    private static final int COLOR_TITLE = 0xFF2B2B2B;
+    private static final int COLOR_TEXT = 0xFF2F2F2F;
+    private static final int COLOR_DIM = 0xFF8C8C8C;
+    private static final int COLOR_MONEY = 0xFFFF6A00;
+    private static final int COLOR_DIVIDER = 0x11000000;
+
+// 白卡片
+    private static final int COLOR_CARD = 0xFFFFFFFF;
+    private static final int COLOR_CARD_BORDER = 0x14000000;
+    private static final int COLOR_CARD_HOVER = 0xFFFFF8DE;
+    private static final int COLOR_CARD_HOVER_BORDER = 0x4DF5A623;
+
+// 正在追踪的那一整行：淡黄底 + 左侧金条
+    private static final int COLOR_TRACKED_BG = 0xFFFFF5C7;
+    private static final int COLOR_TARGET = 0xFFE0A200;
+
+// 接单按钮：黄到橙黄的渐变
+    private static final int COLOR_ACCEPT_TOP = 0xFFFFE066;
+    private static final int COLOR_ACCEPT_BOTTOM = 0xFFFFC400;
+    private static final int COLOR_ACCEPT_BORDER = 0x40C99900;
+    private static final int COLOR_ACCEPT_TEXT = 0xFF2B2B2B;
+
+// 已接单标记
+    private static final int COLOR_ACCEPTED_BG = 0x1FF5A623;
+    private static final int COLOR_ACCEPTED_TEXT = 0xFF9A7B2E;
+
+// 取消按钮：白底细边，文字红
+    private static final int COLOR_CANCEL_FILL = 0xFFFFFAF8;
+    private static final int COLOR_CANCEL_FILL_HOVER = 0xFFFFEDE8;
+    private static final int COLOR_CANCEL_BORDER = 0x66D9482F;
+    private static final int COLOR_CANCEL_TEXT = 0xFFD93025;
 
 // 已接单那行右上：上面一小块「已接单」标、下面一颗「取消」按钮，叠着放
     private static final int ACCEPTED_CHIP_HEIGHT = 16;
@@ -103,9 +126,23 @@ public class PhoneOrdersScreen extends Screen {
 
 // 版式
 
+// 面板宽度：窄屏时收一点，别贴边
+    private int panelWidth() {
+        return Math.min(PANEL_WIDTH, this.width - PANEL_SIDE_MARGIN * 2);
+    }
+
+// 提示文字按面板宽度折行，行数决定底栏高度
+    private List<FormattedCharSequence> hintLines() {
+        return this.font.split(Component.translatable(KEY_HINT), panelWidth() - 28);
+    }
+
+    private int footerHeight() {
+        return 8 + Math.max(1, hintLines().size()) * 10;
+    }
+
 // 屏幕放得下的行数（至少一行）
     private int maxRows() {
-        int available = this.height - PANEL_VERTICAL_MARGIN - HEADER_HEIGHT - FOOTER_HEIGHT;
+        int available = this.height - PANEL_VERTICAL_MARGIN - HEADER_HEIGHT - footerHeight();
         return Math.max(1, available / ROW_HEIGHT);
     }
 
@@ -119,11 +156,11 @@ public class PhoneOrdersScreen extends Screen {
     }
 
     private int panelHeight() {
-        return HEADER_HEIGHT + Math.max(1, visibleRows()) * ROW_HEIGHT + FOOTER_HEIGHT;
+        return HEADER_HEIGHT + Math.max(1, visibleRows()) * ROW_HEIGHT + footerHeight();
     }
 
     private int panelLeft() {
-        return (this.width - PANEL_WIDTH) / 2;
+        return (this.width - panelWidth()) / 2;
     }
 
     private int panelTop() {
@@ -147,14 +184,14 @@ public class PhoneOrdersScreen extends Screen {
 
         int left = panelLeft();
         int top = panelTop();
+        int width = panelWidth();
         int height = panelHeight();
-        graphics.fill(left, top, left + PANEL_WIDTH, top + height, COLOR_PANEL);
-        graphics.fill(left, top, left + PANEL_WIDTH, top + 1, COLOR_BORDER);
-        graphics.fill(left, top + height - 1, left + PANEL_WIDTH, top + height, COLOR_BORDER);
-        graphics.fill(left, top, left + 1, top + height, COLOR_BORDER);
-        graphics.fill(left + PANEL_WIDTH - 1, top, left + PANEL_WIDTH, top + height, COLOR_BORDER);
 
-        graphics.drawCenteredString(this.font, this.title, this.width / 2, top + 12, COLOR_TITLE);
+// 投影 + 白色圆角面板
+        GuiStyle.roundedRect(graphics, left - 2, top + 1, width + 4, height + 4, PANEL_CORNER + 2, COLOR_SHADOW);
+        GuiStyle.roundedRect(graphics, left - 1, top - 1, width + 2, height + 2, PANEL_CORNER + 1, 0x1A000000);
+        GuiStyle.roundedRect(graphics, left, top, width, height, PANEL_CORNER, COLOR_PANEL);
+        drawHeader(graphics, left, top, width);
 
         long gameTime = this.minecraft == null || this.minecraft.level == null
                 ? 0L : this.minecraft.level.getGameTime();
@@ -163,39 +200,66 @@ public class PhoneOrdersScreen extends Screen {
         double playerZ = player == null ? 0.0D : player.getZ();
 
         if (this.orders.isEmpty()) {
-            graphics.drawCenteredString(this.font, Component.translatable(KEY_EMPTY),
-                    this.width / 2, listTop() + 14, COLOR_DIM);
+            drawCentered(graphics, Component.translatable(KEY_EMPTY),
+                    left + width / 2, listTop() + 18, COLOR_DIM);
         } else {
             int first = this.scroll;
             int last = Math.min(this.orders.size(), first + visibleRows());
             for (int i = first; i < last; i++) {
-                renderOrder(graphics, this.orders.get(i), left, listTop() + (i - first) * ROW_HEIGHT,
-                        gameTime, i, mouseX, mouseY, playerX, playerZ);
+                renderOrder(graphics, this.orders.get(i), left, width,
+                        listTop() + (i - first) * ROW_HEIGHT, gameTime, i, mouseX, mouseY, playerX, playerZ);
             }
             if (this.orders.size() > visibleRows()) {
-                graphics.drawString(this.font, "▲", left + PANEL_WIDTH - 11, top + HEADER_HEIGHT - 9, COLOR_DIM, false);
-                graphics.drawString(this.font, "▼", left + PANEL_WIDTH - 11, top + height - FOOTER_HEIGHT - 1, COLOR_DIM, false);
+                graphics.drawString(this.font, "▲", left + width - 13, top + HEADER_HEIGHT - 10, COLOR_DIM, false);
+                graphics.drawString(this.font, "▼", left + width - 13,
+                        top + height - footerHeight() - 2, COLOR_DIM, false);
             }
         }
 
-        graphics.drawCenteredString(this.font, Component.translatable(KEY_HINT),
-                this.width / 2, top + height - 15, COLOR_DIM);
+        drawHint(graphics, left, top, width, height);
     }
 
-    private void renderOrder(GuiGraphics graphics, PhoneOrderView view, int left, int rowTop,
+// 明黄顶栏：只保留上方两个圆角，下沿压平接白色内容区
+    private void drawHeader(GuiGraphics graphics, int left, int top, int width) {
+        GuiStyle.roundedRect(graphics, left, top, width, HEADER_BAND + PANEL_CORNER, PANEL_CORNER, COLOR_HEADER);
+        graphics.fill(left, top + HEADER_BAND, left + width, top + HEADER_BAND + PANEL_CORNER, COLOR_PANEL);
+        drawCentered(graphics, this.title, left + width / 2, top + 9, COLOR_TITLE);
+// 顶栏下沿一道淡分隔
+        graphics.fill(left + 10, top + HEADER_BAND, left + width - 10, top + HEADER_BAND + 1, COLOR_DIVIDER);
+    }
+
+// 底部提示：按宽度折行后逐行居中，绝不溢出面板
+    private void drawHint(GuiGraphics graphics, int left, int top, int width, int height) {
+        List<FormattedCharSequence> lines = hintLines();
+        int y = top + height - footerHeight() + 5;
+        for (FormattedCharSequence line : lines) {
+            int x = left + (width - this.font.width(line)) / 2;
+            graphics.drawString(this.font, line, x, y, COLOR_DIM, false);
+            y += 10;
+        }
+    }
+
+    private void renderOrder(GuiGraphics graphics, PhoneOrderView view, int left, int width, int rowTop,
                              long gameTime, int index, int mouseX, int mouseY,
                              double playerX, double playerZ) {
         DeliveryOrder order = view.order();
         boolean tracked = view.accepted() && order.id() == NavPhoneClientData.trackedId();
-        if (index > this.scroll) {
-            graphics.fill(left + 8, rowTop, left + PANEL_WIDTH - 8, rowTop + 1, COLOR_DIVIDER);
-        }
+        boolean hovered = isInsideRow(mouseX, mouseY, left, width, rowTop);
+
+// 每单一张白卡片；追踪中的换成淡黄底 + 左侧金条，没接单的悬停时泛黄
+        int cardX = left + 6;
+        int cardW = width - 12;
+        int cardY = rowTop + 2;
+        int cardH = ROW_HEIGHT - 4;
         if (tracked) {
-// 正在追踪：整行淡金底衬 + 左侧一道金条
-            graphics.fill(left + 2, rowTop + 1, left + PANEL_WIDTH - 2, rowTop + ROW_HEIGHT - 1, COLOR_TRACKED_BG);
-            graphics.fill(left + 2, rowTop + 1, left + 4, rowTop + ROW_HEIGHT - 1, COLOR_TARGET);
-        } else if (!view.accepted() && isInsideRow(mouseX, mouseY, left, rowTop)) {
-            graphics.fill(left + 2, rowTop + 1, left + PANEL_WIDTH - 2, rowTop + ROW_HEIGHT - 1, COLOR_ROW_HOVER);
+            GuiStyle.roundedRect(graphics, cardX, cardY, cardW, cardH, 8, COLOR_TRACKED_BG);
+            GuiStyle.roundedRect(graphics, cardX + 1, cardY + 6, 3, cardH - 12, 2, COLOR_TARGET);
+        } else if (hovered && !view.accepted()) {
+            GuiStyle.roundedRect(graphics, cardX, cardY, cardW, cardH, 8, COLOR_CARD_HOVER_BORDER);
+            GuiStyle.roundedRect(graphics, cardX + 1, cardY + 1, cardW - 2, cardH - 2, 7, COLOR_CARD_HOVER);
+        } else {
+            GuiStyle.roundedRect(graphics, cardX, cardY, cardW, cardH, 8, COLOR_CARD_BORDER);
+            GuiStyle.roundedRect(graphics, cardX + 1, cardY + 1, cardW - 2, cardH - 2, 7, COLOR_CARD);
         }
 
 // 出发地：都显示玩家到它的距离
@@ -210,51 +274,66 @@ public class PhoneOrdersScreen extends Screen {
                 : Component.translatable(KEY_DIST_ROUTE,
                         blocksBetween(order.originX(), order.originZ(), order.destX(), order.destZ()));
 
-// 已接单：下一个该去的点高亮（还没取货是出发地，已取货是目的地）
-        drawStop(graphics, left, rowTop + 8, origin, originDist, view.accepted() && !view.pickedUp());
-        drawStop(graphics, left, rowTop + 26, dest, destDist, view.accepted() && view.pickedUp());
+        int buttonLeft = left + width - SIDE_MARGIN - BUTTON_WIDTH;
+        int textLeft = cardX + TEXT_INDENT + (tracked ? 4 : 0);
+        int textLimit = Math.max(40, buttonLeft - RIGHT_TEXT_ROOM - textLeft);
 
-        int buttonLeft = left + PANEL_WIDTH - SIDE_MARGIN - BUTTON_WIDTH;
+// 已接单：下一个该去的点高亮（还没取货是出发地，已取货是目的地）
+        drawStop(graphics, textLeft, textLimit, rowTop + 9, origin, originDist,
+                view.accepted() && !view.pickedUp());
+        drawStop(graphics, textLeft, textLimit, rowTop + 26, dest, destDist,
+                view.accepted() && view.pickedUp());
+
         String reward = Component.translatable(KEY_REWARD, order.money()).getString();
-        graphics.drawString(this.font, reward, buttonLeft - 10 - this.font.width(reward), rowTop + 8,
+        int rightEdge = buttonLeft - 8;
+        graphics.drawString(this.font, reward, rightEdge - this.font.width(reward), rowTop + 9,
                 COLOR_MONEY, false);
         String time = formatTime(order.remaining(gameTime));
-        graphics.drawString(this.font, time, buttonLeft - 10 - this.font.width(time), rowTop + 26,
+        graphics.drawString(this.font, time, rightEdge - this.font.width(time), rowTop + 26,
                 COLOR_DIM, false);
 
-        int buttonTop = rowTop + (ROW_HEIGHT - BUTTON_HEIGHT) / 2;
         if (view.accepted()) {
 // 已接的单：上面一小块「已接单」标，下面一颗「取消」按钮
             int chipTop = acceptedChipTop(rowTop);
-            graphics.fill(buttonLeft, chipTop, buttonLeft + BUTTON_WIDTH, chipTop + ACCEPTED_CHIP_HEIGHT,
-                    COLOR_ACCEPTED);
-            graphics.drawCenteredString(this.font, Component.translatable(KEY_ACCEPTED),
+            GuiStyle.roundedRect(graphics, buttonLeft, chipTop, BUTTON_WIDTH, ACCEPTED_CHIP_HEIGHT, 8,
+                    COLOR_ACCEPTED_BG);
+            drawCentered(graphics, Component.translatable(KEY_ACCEPTED),
                     buttonLeft + BUTTON_WIDTH / 2, chipTop + 4, COLOR_ACCEPTED_TEXT);
 
             int cancelTop = acceptedCancelTop(rowTop);
-            boolean hovered = isInsideButton(mouseX, mouseY, buttonLeft, cancelTop,
+            boolean cancelHover = isInsideButton(mouseX, mouseY, buttonLeft, cancelTop,
                     BUTTON_WIDTH, BUTTON_HEIGHT);
-            graphics.fill(buttonLeft, cancelTop, buttonLeft + BUTTON_WIDTH, cancelTop + BUTTON_HEIGHT,
-                    hovered ? COLOR_CANCEL_HOVER : COLOR_CANCEL);
-            graphics.drawCenteredString(this.font, Component.translatable(KEY_CANCEL),
-                    buttonLeft + BUTTON_WIDTH / 2, cancelTop + 5, COLOR_CANCEL_TEXT);
+            GuiStyle.roundedRect(graphics, buttonLeft, cancelTop, BUTTON_WIDTH, BUTTON_HEIGHT, 9,
+                    COLOR_CANCEL_BORDER);
+            GuiStyle.roundedRect(graphics, buttonLeft + 1, cancelTop + 1, BUTTON_WIDTH - 2,
+                    BUTTON_HEIGHT - 2, 8, cancelHover ? COLOR_CANCEL_FILL_HOVER : COLOR_CANCEL_FILL);
+            drawCentered(graphics, Component.translatable(KEY_CANCEL),
+                    buttonLeft + BUTTON_WIDTH / 2, cancelTop + 6, COLOR_CANCEL_TEXT);
         } else {
-            graphics.fill(buttonLeft, buttonTop, buttonLeft + BUTTON_WIDTH, buttonTop + BUTTON_HEIGHT, COLOR_ACCEPT);
-            graphics.drawCenteredString(this.font, Component.translatable(KEY_ACCEPT),
-                    buttonLeft + BUTTON_WIDTH / 2, buttonTop + 5, COLOR_ACCEPT_TEXT);
+            int buttonTop = rowTop + (ROW_HEIGHT - BUTTON_HEIGHT) / 2;
+            GuiStyle.roundedRect(graphics, buttonLeft, buttonTop, BUTTON_WIDTH, BUTTON_HEIGHT, 10,
+                    COLOR_ACCEPT_BORDER);
+            GuiStyle.roundedGradient(graphics, buttonLeft + 1, buttonTop + 1, BUTTON_WIDTH - 2,
+                    BUTTON_HEIGHT - 2, 9, COLOR_ACCEPT_TOP, COLOR_ACCEPT_BOTTOM);
+            drawCentered(graphics, Component.translatable(KEY_ACCEPT),
+                    buttonLeft + BUTTON_WIDTH / 2, buttonTop + 6, COLOR_ACCEPT_TEXT);
         }
     }
 
-// 画一行「地点 + 距离」；是「下一个目标」就用高亮色、并在最左加个箭头
-    private void drawStop(GuiGraphics graphics, int left, int y, Component coord, Component dist,
+// 居中文字：不带阴影，避免出现重影
+    private void drawCentered(GuiGraphics graphics, Component text, int centerX, int y, int color) {
+        graphics.drawString(this.font, text, centerX - this.font.width(text) / 2, y, color, false);
+    }
+
+// 画一行「地点 · 距离」；是「下一个目标」就用深金色，并在最左加个箭头
+    private void drawStop(GuiGraphics graphics, int x, int limit, int y, Component coord, Component dist,
                           boolean nextTarget) {
         if (nextTarget) {
-            graphics.drawString(this.font, "▶", left + ARROW_INDENT, y, COLOR_TARGET, false);
+            graphics.drawString(this.font, "▶", x - ARROW_INDENT - 1, y, COLOR_TARGET, false);
         }
-        int x = left + TEXT_INDENT;
-        graphics.drawString(this.font, coord, x, y, nextTarget ? COLOR_TARGET : COLOR_TEXT, false);
-        graphics.drawString(this.font, dist, x + this.font.width(coord) + 6, y,
-                nextTarget ? COLOR_TARGET : COLOR_DIM, false);
+        String text = coord.getString() + "  " + dist.getString();
+        Component line = Component.literal(this.font.plainSubstrByWidth(text, limit));
+        graphics.drawString(this.font, line, x, y, nextTarget ? COLOR_TARGET : COLOR_TEXT, false);
     }
 
 // 两点之间的水平距离（格）
@@ -281,16 +360,17 @@ public class PhoneOrdersScreen extends Screen {
                 && mouseY >= top && mouseY < top + height;
     }
 
-    private boolean isInsideRow(double mouseX, double mouseY, int left, int rowTop) {
-        return mouseX >= left && mouseX < left + PANEL_WIDTH
-                && mouseY >= rowTop && mouseY < rowTop + ROW_HEIGHT;
+    private boolean isInsideRow(double mouseX, double mouseY, int left, int width, int rowTop) {
+        return mouseX >= left + 6 && mouseX < left + width - 6
+                && mouseY >= rowTop + 2 && mouseY < rowTop + ROW_HEIGHT - 2;
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
             int left = panelLeft();
-            int buttonLeft = left + PANEL_WIDTH - SIDE_MARGIN - BUTTON_WIDTH;
+            int width = panelWidth();
+            int buttonLeft = left + width - SIDE_MARGIN - BUTTON_WIDTH;
             int first = this.scroll;
             int last = Math.min(this.orders.size(), first + visibleRows());
             for (int i = first; i < last; i++) {
@@ -303,12 +383,12 @@ public class PhoneOrdersScreen extends Screen {
                         PacketDistributor.sendToServer(new PhoneCancelOrderPacket(view.order().id()));
                         return true;
                     }
-                    if (isInsideRow(mouseX, mouseY, left, rowTop)) {
+                    if (isInsideRow(mouseX, mouseY, left, width, rowTop)) {
                         long id = view.order().id();
                         NavPhoneClientData.setTracked(NavPhoneClientData.trackedId() == id ? 0L : id);
                         return true;
                     }
-                } else if (isInsideRow(mouseX, mouseY, left, rowTop)) {
+                } else if (isInsideRow(mouseX, mouseY, left, width, rowTop)) {
                     PacketDistributor.sendToServer(new PhoneAcceptOrderPacket(view.order().id()));
                     return true;
                 }

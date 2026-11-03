@@ -10,7 +10,10 @@ import com.flavor_immersed_daily_argo.recipe.RiverSiltFarmingRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
@@ -26,9 +29,33 @@ public class FIDAJEIPlugin implements IModPlugin {
     private static final ResourceLocation UID =
             ResourceLocation.fromNamespaceAndPath(flavor_immersed_daily_argo.MODID, "jei_plugin");
 
+// 保存 JEI 运行时，供订单实体按 R 打开配方
+    private static IJeiRuntime runtime;
+
     @Override
     public ResourceLocation getPluginUid() {
         return UID;
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime runtime) {
+        FIDAJEIPlugin.runtime = runtime;
+    }
+
+    @Override
+    public void onRuntimeUnavailable() {
+        FIDAJEIPlugin.runtime = null;
+    }
+
+// 在 JEI 里打开这道菜作为产出的配方页；JEI 还没就绪时返回 false
+    public static boolean showRecipes(ItemStack stack) {
+        if (runtime == null || stack.isEmpty()) {
+            return false;
+        }
+        IFocus<ItemStack> focus = runtime.getJeiHelpers().getFocusFactory()
+                .createFocus(RecipeIngredientRole.OUTPUT, VanillaTypes.ITEM_STACK, stack);
+        runtime.getRecipesGui().show(focus);
+        return true;
     }
 
     @Override

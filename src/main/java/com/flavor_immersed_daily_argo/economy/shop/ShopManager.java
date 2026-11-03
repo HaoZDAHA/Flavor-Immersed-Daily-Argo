@@ -359,9 +359,23 @@ public class ShopManager extends SavedData {
         }
     }
 
+// 还给玩家：按最大堆叠数分块发放。
+//
+// 一次下架可能要退还几百件，直接塞进一个超过最大堆叠数的 ItemStack 交给背包，
+// 背包只收得下一部分、剩下的会被静默丢掉；分块后每块都能单独进背包，塞不下就掉在脚边。
     private static void give(ServerPlayer player, ItemStack stack) {
-        if (!stack.isEmpty() && !player.getInventory().add(stack)) {
-            player.drop(stack, false);
+        if (stack.isEmpty()) {
+            return;
+        }
+        int max = Math.max(1, stack.getMaxStackSize());
+        ItemStack rest = stack.copy();
+        while (!rest.isEmpty()) {
+            int size = Math.min(rest.getCount(), max);
+            ItemStack part = rest.copyWithCount(size);
+            if (!player.getInventory().add(part) && !part.isEmpty()) {
+                player.drop(part, false);
+            }
+            rest.shrink(size);
         }
     }
 

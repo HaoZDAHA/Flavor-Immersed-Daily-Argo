@@ -2,6 +2,7 @@ package com.flavor_immersed_daily_argo.economy;
 
 import com.flavor_immersed_daily_argo.all.ModMenus;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,10 +19,10 @@ public class ReceiptPrinterMenu extends AbstractContainerMenu {
 
 // 界面尺寸，与 ReceiptPrinterScreen 保持一致
     public static final int IMAGE_WIDTH = 176;
-    public static final int IMAGE_HEIGHT = 226;
+    public static final int IMAGE_HEIGHT = 236;
 
 // 玩家背包标题的纵向位置
-    public static final int INVENTORY_LABEL_Y = 134;
+    public static final int INVENTORY_LABEL_Y = 144;
 
 // 菜单网格：8 列 5 行
     public static final int GRID_COLUMNS = 8;
@@ -35,8 +36,8 @@ public class ReceiptPrinterMenu extends AbstractContainerMenu {
             GRID_X - 5, GRID_Y - 5,
             GRID_COLUMNS * SLOT_SIZE + 8, GRID_ROWS * SLOT_SIZE + 8};
 
-    private static final int PLAYER_INV_TOP = 146;
-    private static final int HOTBAR_Y = 204;
+    private static final int PLAYER_INV_TOP = 156;
+    private static final int HOTBAR_Y = 214;
 
 // 玩家离开这个距离界面就关掉
     private static final double MAX_USE_DISTANCE_SQR = 64.0D;
@@ -88,6 +89,16 @@ public class ReceiptPrinterMenu extends AbstractContainerMenu {
 // 出单开关当前是不是打开的
     public boolean isEnabled() {
         return this.printer.getData().get(0) != 0;
+    }
+
+// 界面上第 index 单要交的食物；没有这一单时返回空栈
+    public ItemStack getOrder(int index) {
+        int id = this.printer.getData().get(1 + index * 2);
+        if (id < 0) {
+            return ItemStack.EMPTY;
+        }
+        int count = Math.max(1, this.printer.getData().get(2 + index * 2));
+        return new ItemStack(BuiltInRegistries.ITEM.byId(id), count);
     }
 
 // 界面按钮：拨动出单开关，服务端写入后立刻同步回界面

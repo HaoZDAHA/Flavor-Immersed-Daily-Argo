@@ -476,7 +476,7 @@ public final class ModBlocks {
                     Block.box(1.0, 0.0, 1.0, 15.0, 12.0, 15.0),
                     PotStewGooseBlockEntity::new, renderedDish()));
 
-// 全驴宴：只有一个模型，靠 stage 记吃了 20 口，吃完消失；3 格长的圆桌由方块实体渲染器绘制
+// 全驴宴：4 个模型阶段，20 口吃完（每 5 口换一桌更空的菜），吃完消失；圆桌由方块实体渲染器绘制
     public static final DeferredBlock<Block> DONKEY_FEAST =
             REGISTRY.register("donkey_feast", () -> new EntityFoodDishBlock(19, 2, 0.6F,
                     Block.box(0.0, 0.0, 0.0, 16.0, 3.0, 16.0),

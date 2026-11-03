@@ -4,9 +4,6 @@
   "ingredients": [
     {
       "item": "flavor_immersed_daily_argo:raw_mud_crab"
-    },
-    {
-      "item": "flavor_immersed_daily:tidywater"
     }
   ],
   "result": {

@@ -254,10 +254,15 @@ public class Customer extends Animal implements FoodOrder {
         return this.entityData.get(DATA_REWARD);
     }
 
-// 营业执照派单：要交的食物与报酬一起写进去
+// 营业执照派单：要交的食物与报酬一起写进去，并让头顶常显这一单的菜名
     public void setOrder(ItemStack food, long reward) {
         this.entityData.set(DATA_ORDER, food.copy());
         this.entityData.set(DATA_REWARD, reward);
+        if (!food.isEmpty()) {
+            this.setCustomName(Component.translatable(
+                    "entity.flavor_immersed_daily_argo.customer.order_name", food.getHoverName(), food.getCount()));
+            this.setCustomNameVisible(true);
+        }
     }
 
 // 寿命

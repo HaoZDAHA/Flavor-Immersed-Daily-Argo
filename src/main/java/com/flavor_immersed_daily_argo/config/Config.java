@@ -31,6 +31,10 @@ public class Config {
             .comment("Whether to give every player one Guide Book the first time they join. Each player only gets it once.")
             .define("giveGuideBookOnFirstJoin", true);
 
+    public static final ModConfigSpec.BooleanValue GIVE_FISHING_HANDBOOK_ON_FIRST_JOIN = BUILDER
+            .comment("Whether to give every player one Fishing Handbook the first time they join. Each player only gets it once.")
+            .define("giveFishingHandbookOnFirstJoin", true);
+
     public static final ModConfigSpec.IntValue MOUSE_CHUNK_LIMIT = BUILDER
             .comment("How many mice may exist in a single chunk at the same time. Reaching this number stops further spawns in that chunk.")
             .defineInRange("mouseChunkLimit", 2, 1, 64);
@@ -59,6 +63,11 @@ public class Config {
     public static final ModConfigSpec.BooleanValue WARN_MISSING_PARENT = BUILDER
             .comment("Whether to remind players on login that fruit trees need the flavor_immersed_daily mod.")
             .define("warnMissingParentMod", true);
+
+    public static final ModConfigSpec.BooleanValue PET_EXCRETION = BUILDER
+            .comment("Whether cats and wolves leave droppings like livestock do. Off by default so pets "
+                    + "do not spoil the look of a base; livestock and poultry still produce droppings either way.")
+            .define("petExcretion", false);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 

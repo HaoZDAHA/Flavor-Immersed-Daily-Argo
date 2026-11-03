@@ -15,6 +15,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
+import java.util.List;
 import java.util.Optional;
 
 // 昆虫培育箱配方。
@@ -98,18 +99,40 @@ public class InsectBreedingRecipe implements Recipe<InsectBreedingInput> {
         } else if (!input.parent1().isEmpty() || !input.parent2().isEmpty()) {
             return false;
         }
-// 子代：写了输入就要求非空的格子全部匹配（且至少一格），没写就要求全空
+// 子代：写了输入就要求非空的格子全部匹配（且至少一格）；没写输入时，子代格兼作产出箱——
+// 空着、或已经堆着同一种产物都可以，只要还放得下，就能一直生产下去
         boolean any = false;
         for (ItemStack stack : input.offspring()) {
             if (stack.isEmpty()) {
                 continue;
             }
             any = true;
-            if (this.offspringInput.isEmpty() || !this.offspringInput.get().test(stack)) {
+            if (this.offspringInput.isEmpty()) {
+                if (!ItemStack.isSameItemSameComponents(stack, this.offspringOutput)) {
+                    return false;
+                }
+            } else if (!this.offspringInput.get().test(stack)) {
                 return false;
             }
         }
-        return this.offspringInput.isEmpty() ? !any : any;
+        if (this.offspringInput.isEmpty()) {
+            return this.canAcceptOutput(input.offspring());
+        }
+        return any;
+    }
+
+// 子代格还能不能再塞一份产物：有空格，或有一格同种产物还没堆满
+    private boolean canAcceptOutput(List<ItemStack> offspring) {
+        for (ItemStack stack : offspring) {
+            if (stack.isEmpty()) {
+                return true;
+            }
+            if (ItemStack.isSameItemSameComponents(stack, this.offspringOutput)
+                    && stack.getCount() < stack.getMaxStackSize()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

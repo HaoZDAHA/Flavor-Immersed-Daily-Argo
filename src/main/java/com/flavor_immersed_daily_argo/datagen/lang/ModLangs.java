@@ -112,13 +112,18 @@ public class ModLangs extends LanguageProvider {
         entity("takeaway_bag", "Takeaway Bag");
         entity("delivery_point", "Delivery Point");
         entity("delivery_rider", "Delivery Rider");
+        entity("delivery_rider.order_name", "Delivery Rider · needs %s × %s");
         entity("customer", "Customer");
+        entity("customer.order_name", "Customer · needs %s × %s");
 // 音效字幕
         add("subtitles." + MODID + ".harvester_attack", "Harvester strikes");
 // 成就：开局赠书
         add("advancements." + MODID + ".guide_book.title", "Nanshan Residence");
         add("advancements." + MODID + ".guide_book.description",
                 "Take the Nanshan Tutorial Scroll - from fishing and farming to market day, settle into your own life.");
+        add("advancements." + MODID + ".fishing_handbook.title", "Fish in the Water");
+        add("advancements." + MODID + ".fishing_handbook.description",
+                "Take the catch handbook and start learning what swims in the waters of Nanshan.");
     }
 
 // 物品名称
@@ -594,7 +599,7 @@ public class ModLangs extends LanguageProvider {
         block("fish_display_board", "Fish Display Board");
         block("fish_bowl", "Fish Tank");
         item("steelyard", "Steelyard");
-        tooltip("handcart", "§7§oPlace it down and right-click to hitch it behind you; it follows closely. Sneak to let go.");
+        tooltip("handcart", "§7§oRight-click the handle to hitch it behind you; sneak to let go. Without a chest, right-click the bed to sit in it — four seats front and back, and animals you are leading climb in too; sneak + right-click the bed to let everyone off. Right-click with a chest to install one and switch to cargo mode.");
         item("uav", "Multifunctional Drone");
         tooltip("uav", "§7§oPlace it down, then bind a Drone Controller to it. With power on it hovers; it descends slowly when switched off. With a care module that has recorded corners installed, it flies to the centre of that area and keeps working.");
         item("uav_controller", "Drone Controller");
@@ -747,11 +752,11 @@ public class ModLangs extends LanguageProvider {
         tooltip("feeding_trough", "§7§oOne slot for feed (§fwheat§7, §fcarrot§7 or this mod's feeds) or §fTidy Water§7. Hungry or thirsty animals nearby will walk over and help themselves.");
         tooltip("river_silt", "§7§oLay it on the riverbed, then right-click with §fAquatic Feed§7 to turn it wet. Plant a sea cucumber, clam, oyster, scallop, river snail, crayfish, spoon worm, sea urchin, razor clam, mantis shrimp, jellyfish, Akiami shrimp or abalone; once grown, right-click to harvest three. Right-click with §fAquatic Feed§7 while it grows to speed it up.");
         tooltip("salt_pan", "§7§oPlace it by the water: when water touches its top it drinks the water above and turns wet; once dry, a separate §fSalt Pile§7 forms above it and grows from stage 1 to 3 on its own. Breaking the pile only drops salt (§f1 / 2 / 3§7 by stage, with Fortune bonus) - the pan itself is never destroyed.");
-        tooltip("poop", "§7§oRight-click to pick up. Edible — fills you a little but leaves you queasy; sneak + right-click to throw it at someone.");
+        tooltip("poop", "§7§oLivestock and poultry drop manure at their feet as their satiety falls, and a Septic Fermenter gathers manure within 8 blocks on its own. Right-click the pile on the ground to pick it up. Edible — fills you a little but leaves you queasy; sneak + right-click to throw it at someone.");
         tooltip("septic_tank", "§7§oTwo blocks wide. Gathers every §ffeces§7 within 8 blocks into the §6left half§7; stored feces slowly ferment into §aOrganic Fertilizer§7 in the right half. Right-click the left half to load or take feces (it also takes §fHigh-Protein Compound§7), the right half to take fertilizer.");
-        tooltip("organic_fertilizer", "§7§oFermented out of feces. Acts exactly like §fbonemeal§7.");
+        tooltip("organic_fertilizer", "§7§oFerment §ffeces§7 or §fHigh-Protein Compound§7 in the §fSeptic Fermentation Tank§7 to obtain it. Works exactly like §fbonemeal§7, and is also a material for §aFertile Farmland§7 and §eJinkela§7.");
         tooltip("sickle", "§7§oRight-click a crop to harvest every mature crop in a §f3×3§7 area and replant it. Benefits from §bFortune§7. Costs §f1§7 durability per crop.");
-        tooltip("watering_can", "§7§oFill it with water, then hold right-click on crops to water and ripen them.");
+        tooltip("watering_can", "§7§oFill it with water, then hold right-click on a crop for §f3 seconds§7 to water and ripen it.");
         tooltip("harrow", "§7§oRight-click to till a §f3×3§7 patch of ground into farmland at once — it reaches ground a block higher or lower too, and clears away the grass and weeds on top. Costs §f1§7 durability.");
         tooltip("straw_hat", "§7§oWear it on your head. When you harvest a crop, it sometimes grants §bFortune +1§7.");
         tooltip("waterwheel", "§7§oStanding on a water source, it runs and turns into a §fthree-block-tall water source§7: it irrigates farmland and counts as water for anything else that needs it (§fother mods included§7), and an empty bucket can scoop water straight out of it. A splash and a trickle play whenever there is water below or in its own block.");
@@ -857,6 +862,7 @@ public class ModLangs extends LanguageProvider {
         add("message." + MODID + ".rider.remaining", "Wrong item — this rider will wait %s more");
         add("message." + MODID + ".customer.done", "Customer served! Earned %s yuan");
         add("message." + MODID + ".customer.remaining", "Wrong item — this customer will wait %s more");
+        add("message." + MODID + ".no_recipe_viewer", "JEI or EMI is not installed, so recipes cannot be shown");
         add("message." + MODID + ".license.open", "Opened for business");
         add("message." + MODID + ".license.closed", "Closed");
         add("message." + MODID + ".seat.marked", "Marked as a seat");
@@ -1041,6 +1047,8 @@ public class ModLangs extends LanguageProvider {
     private void addScreenTexts() {
         add("key." + MODID + ".open_rod_mod", "Open Rod Mod");
         add("category." + MODID + ".fishing", "FIDA Fishing");
+        add("key." + MODID + ".show_order_recipe", "Show Order Recipe");
+        add("category." + MODID + ".economy", "FIDA Economy");
         gui("rod_mod", "Nanshan Fishing Rod Mod");
         gui("rod_name", "Custom name…");
         gui("rod_save", "Save & Confirm");
@@ -1086,9 +1094,13 @@ public class ModLangs extends LanguageProvider {
 // 准星落在小票打印机外卖小哥身上时的小提示
         gui("rider.order", "Deliver: %s × %s");
         gui("rider.reward", "Reward: %s yuan");
+        gui("rider.recipe_hint", "Press %s to view the recipe");
 // 小票打印机界面右上角的出单开关
         gui("receipt_printer.switch_on", "Taking Orders: ON");
         gui("receipt_printer.switch_off", "Taking Orders: OFF");
+        gui("receipt_printer.orders", "Current orders: %s");
+        gui("receipt_printer.orders.none", "Current orders: none");
+        gui("receipt_printer.order_part", "%s × %s");
         gui("bank_card", "Bank Card");
         gui("atm_owner", "Holder: %s");
         gui("atm_value", "Balance: %s");

@@ -6,6 +6,7 @@ import com.flavor_immersed_daily_argo.entity.DeliveryRider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -25,6 +26,7 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // 小票打印机方块实体。
@@ -43,6 +45,9 @@ public class ReceiptPrinterBlockEntity extends BlockEntity implements MenuProvid
 
 // 展示槽位数：每天 40 种食物
     public static final int SLOT_COUNT = DeliveryFoodPool.DAILY_COUNT;
+
+// 界面上「当前订单」最多展示几单（对应同时最多几个小哥）
+    public static final int ORDER_SLOTS = 3;
 
 // 常态下切出单态前至少要安静这么久
     private static final int MIN_IDLE_TICKS = 200;
@@ -71,23 +76,40 @@ public class ReceiptPrinterBlockEntity extends BlockEntity implements MenuProvid
 // 当前状态已持续多少 tick
     private int stateTicks;
 
-// 同步给界面的开关读数：0 = 关闭，1 = 打开
+// 同步给界面的「当前订单」：每单两个 int（物品 id、数量），-1 表示空位
+    private final int[] orderSlots = emptyOrderSlots();
+
+// 同步给界面的读数：index 0 是开关（0 = 关闭，1 = 打开），其后依次是各单的物品 id 与数量
     private final ContainerData data = new ContainerData() {
         @Override
         public int get(int index) {
-            return ReceiptPrinterBlockEntity.this.enabled ? 1 : 0;
+            if (index == 0) {
+                return ReceiptPrinterBlockEntity.this.enabled ? 1 : 0;
+            }
+            return ReceiptPrinterBlockEntity.this.orderSlots[index - 1];
         }
 
         @Override
         public void set(int index, int value) {
-            ReceiptPrinterBlockEntity.this.enabled = value != 0;
+            if (index == 0) {
+                ReceiptPrinterBlockEntity.this.enabled = value != 0;
+            } else {
+                ReceiptPrinterBlockEntity.this.orderSlots[index - 1] = value;
+            }
         }
 
         @Override
         public int getCount() {
-            return 1;
+            return 1 + ORDER_SLOTS * 2;
         }
     };
+
+// 全空订单数组
+    private static int[] emptyOrderSlots() {
+        int[] slots = new int[ORDER_SLOTS * 2];
+        Arrays.fill(slots, -1);
+        return slots;
+    }
 
     public ReceiptPrinterBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RECEIPT_PRINTER_ENTITY.get(), pos, state);
@@ -174,6 +196,11 @@ public class ReceiptPrinterBlockEntity extends BlockEntity implements MenuProvid
             this.refreshMenu(day);
         }
 
+// 每 20 tick 刷新一次界面上展示的当前订单
+        if (level.getGameTime() % 20 == 0) {
+            this.refreshOrderData(level);
+        }
+
         if (state.getValue(ReceiptPrinterBlock.STATE) == 2) {
             this.tickState2(level, pos, state);
         } else {
@@ -219,6 +246,27 @@ public class ReceiptPrinterBlockEntity extends BlockEntity implements MenuProvid
     private List<DeliveryRider> findRiders(Level level, BlockPos pos) {
         return level.getEntitiesOfClass(DeliveryRider.class, new AABB(pos).inflate(RIDER_RANGE),
                 rider -> pos.equals(rider.getHome()));
+    }
+
+// 从附近小哥身上取当前订单写进同步读数（最多 ORDER_SLOTS 单）
+    private void refreshOrderData(Level level) {
+        Arrays.fill(this.orderSlots, -1);
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        int index = 0;
+        for (DeliveryRider rider : this.findRiders(serverLevel, this.worldPosition)) {
+            if (index >= ORDER_SLOTS) {
+                break;
+            }
+            ItemStack order = rider.getRequiredFood();
+            if (order.isEmpty()) {
+                continue;
+            }
+            this.orderSlots[index * 2] = BuiltInRegistries.ITEM.getId(order.getItem());
+            this.orderSlots[index * 2 + 1] = order.getCount();
+            index++;
+        }
     }
 
 // 派一个小哥出去：挑个能站人的落脚点，随手拿一样当日食物当订单

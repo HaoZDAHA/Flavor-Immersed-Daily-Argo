@@ -42,13 +42,13 @@ base {
     archivesName = mod_id
 }
 
-// 发布的 jar 一律带构建当天的日期：flavor_immersed_daily_argo-1.21.1-neoforge-2026.10.27.jar
-// 日期放在 provider 里，等真正打包时才取，避免开了配置缓存后沿用上一次构建的日期。
+// 发布的 jar 一律带构建当天的日期：flavor_immersed_daily_argo-1.21.1-neoforge-2026.10.28.jar
+// 日期同时作为任务输入，避免构建缓存直接复用昨天那份产物
 def archiveBase = "${mod_id}-${minecraft_version}-neoforge".toString()
+def buildDate = new Date().format('yyyy.MM.dd')
 tasks.withType(Jar).configureEach {
-    archiveFileName = providers.provider {
-        "${archiveBase}-${new Date().format('yyyy.MM.dd')}.jar"
-    }
+    inputs.property('buildDate', buildDate)
+    archiveFileName = "${archiveBase}-${buildDate}.jar"
 }
 
 // Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.

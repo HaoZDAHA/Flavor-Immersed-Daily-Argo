@@ -30,6 +30,9 @@ import com.flavor_immersed_daily_argo.client.entity.model.BraisedPrawnsStage1Mod
 import com.flavor_immersed_daily_argo.client.entity.model.BraisedPrawnsStage2Model;
 import com.flavor_immersed_daily_argo.client.entity.model.BraisedPrawnsStage3Model;
 import com.flavor_immersed_daily_argo.client.entity.model.DonkeyFeastModel;
+import com.flavor_immersed_daily_argo.client.entity.model.DonkeyFeastStage1Model;
+import com.flavor_immersed_daily_argo.client.entity.model.DonkeyFeastStage2Model;
+import com.flavor_immersed_daily_argo.client.entity.model.DonkeyFeastStage3Model;
 import com.flavor_immersed_daily_argo.client.entity.model.PotStewGooseStage0Model;
 import com.flavor_immersed_daily_argo.client.entity.model.PotStewGooseStage10Model;
 import com.flavor_immersed_daily_argo.client.entity.model.PotStewGooseStage11Model;
@@ -134,6 +137,7 @@ import com.flavor_immersed_daily_argo.textile.SewingMachineScreen;
 import com.flavor_immersed_daily_argo.economy.AtmScreen;
 import com.flavor_immersed_daily_argo.economy.MarketScreen;
 import com.flavor_immersed_daily_argo.economy.NavPhoneItem;
+import com.flavor_immersed_daily_argo.economy.OrderRecipeKeyMapping;
 import com.flavor_immersed_daily_argo.economy.ReceiptPrinterScreen;
 import com.flavor_immersed_daily_argo.textile.SilkArmorPreview;
 import com.flavor_immersed_daily_argo.uav.UavClient;
@@ -248,8 +252,11 @@ public class flavor_immersed_daily_argoClient {
         event.registerLayerDefinition(PotStewGooseStage9Model.LAYER_LOCATION, PotStewGooseStage9Model::createBodyLayer);
         event.registerLayerDefinition(PotStewGooseStage10Model.LAYER_LOCATION, PotStewGooseStage10Model::createBodyLayer);
         event.registerLayerDefinition(PotStewGooseStage11Model.LAYER_LOCATION, PotStewGooseStage11Model::createBodyLayer);
-// 全驴宴：只有一个模型，圆桌按导出的 round 动画慢慢转
+// 全驴宴：4 个模型 = 4 个食用阶段，圆桌按导出的 round 动画慢慢转
         event.registerLayerDefinition(DonkeyFeastModel.LAYER_LOCATION, DonkeyFeastModel::createBodyLayer);
+        event.registerLayerDefinition(DonkeyFeastStage1Model.LAYER_LOCATION, DonkeyFeastStage1Model::createBodyLayer);
+        event.registerLayerDefinition(DonkeyFeastStage2Model.LAYER_LOCATION, DonkeyFeastStage2Model::createBodyLayer);
+        event.registerLayerDefinition(DonkeyFeastStage3Model.LAYER_LOCATION, DonkeyFeastStage3Model::createBodyLayer);
 // 油焖大虾：4 个模型 = 4 个食用阶段
         event.registerLayerDefinition(BraisedPrawnsStage0Model.LAYER_LOCATION, BraisedPrawnsStage0Model::createBodyLayer);
         event.registerLayerDefinition(BraisedPrawnsStage1Model.LAYER_LOCATION, BraisedPrawnsStage1Model::createBodyLayer);
@@ -474,6 +481,8 @@ public class flavor_immersed_daily_argoClient {
         event.register(UavClient.UAV_UP);
         event.register(UavClient.UAV_DOWN);
         event.register(UavClient.UAV_EXIT);
+// 瞄准顾客 / 外卖小哥时按 R 查看这道菜的配方
+        event.register(OrderRecipeKeyMapping.SHOW_ORDER_RECIPE);
     }
 
     @SubscribeEvent

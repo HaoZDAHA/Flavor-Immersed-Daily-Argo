@@ -152,12 +152,26 @@ public class flavor_immersed_daily_argo {
         if (Config.GIVE_GUIDE_BOOK_ON_FIRST_JOIN.get()) {
             awardGuideBook(serverPlayer);
         }
+// 开局赠钓鱼图鉴：同样走成就，进度存档持久化，只发一次
+        if (Config.GIVE_FISHING_HANDBOOK_ON_FIRST_JOIN.get()) {
+            awardFishingHandbook(serverPlayer);
+        }
     }
 
 // 完成开局赠书成就（物品由成就的奖励函数 give_guide_book 发放）；已完成则跳过
     private static void awardGuideBook(ServerPlayer player) {
         AdvancementHolder advancement = player.server.getAdvancements()
                 .get(ResourceLocation.fromNamespaceAndPath(MODID, "guide_book"));
+        if (advancement == null || player.getAdvancements().getOrStartProgress(advancement).isDone()) {
+            return;
+        }
+        player.getAdvancements().award(advancement, "given");
+    }
+
+// 完成开局赠钓鱼图鉴成就（物品由成就的奖励函数 give_fishing_handbook 发放）；已完成则跳过
+    private static void awardFishingHandbook(ServerPlayer player) {
+        AdvancementHolder advancement = player.server.getAdvancements()
+                .get(ResourceLocation.fromNamespaceAndPath(MODID, "fishing_handbook"));
         if (advancement == null || player.getAdvancements().getOrStartProgress(advancement).isDone()) {
             return;
         }
@@ -467,12 +481,17 @@ public class flavor_immersed_daily_argo {
                         case DELETE -> shopMessage(player,
                                 manager.deleteShop(player, packet.shopId()) ? "deleted" : "not_owner");
                         case ADD_ENTRY -> {
-                            ItemStack goods = takeMainHand(player);
-                            if (goods.isEmpty()) {
+// 先上架、成功了再扣手上的货；失败（不是店主 / 价格非法）时不能把物品吞掉
+                            ItemStack held = player.getMainHandItem();
+                            if (held.isEmpty()) {
                                 shopMessage(player, "no_goods");
                             } else {
-                                shopMessage(player, manager.addEntry(player, packet.shopId(), goods, packet.price())
-                                        ? "listed" : "not_owner");
+                                boolean listed = manager.addEntry(player, packet.shopId(), held.copy(), packet.price());
+                                if (listed) {
+                                    held.shrink(held.getCount());
+                                    player.getInventory().setChanged();
+                                }
+                                shopMessage(player, listed ? "listed" : "not_owner");
                             }
                         }
                         case REMOVE_ENTRY -> shopMessage(player,
@@ -481,12 +500,17 @@ public class flavor_immersed_daily_argo {
                                 manager.setPrice(player, packet.shopId(), packet.index(), packet.price())
                                         ? "repriced" : "not_owner");
                         case RESTOCK -> {
-                            ItemStack goods = takeMainHand(player);
-                            if (goods.isEmpty()) {
+// 补货同理：先补、成功了再扣，物品与条目对不上时原样留在手里
+                            ItemStack held = player.getMainHandItem();
+                            if (held.isEmpty()) {
                                 shopMessage(player, "no_goods");
                             } else {
-                                shopMessage(player, manager.restock(player, packet.shopId(), packet.index(), goods)
-                                        ? "restocked" : "not_owner");
+                                boolean restocked = manager.restock(player, packet.shopId(), packet.index(), held.copy());
+                                if (restocked) {
+                                    held.shrink(held.getCount());
+                                    player.getInventory().setChanged();
+                                }
+                                shopMessage(player, restocked ? "restocked" : "not_owner");
                             }
                         }
                         case WITHDRAW -> {
@@ -510,18 +534,6 @@ public class flavor_immersed_daily_argo {
                         menu.sell(player.serverLevel().getDayTime() / 24000L);
                     }
                 }));
-    }
-
-// 取走玩家主手整叠物品（上架 / 补货的货物来源），空手返回空栈
-    private static ItemStack takeMainHand(ServerPlayer player) {
-        ItemStack held = player.getMainHandItem();
-        if (held.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack taken = held.copy();
-        held.shrink(held.getCount());
-        player.getInventory().setChanged();
-        return taken;
     }
 
 // 市场相关提示统一走 actionBar

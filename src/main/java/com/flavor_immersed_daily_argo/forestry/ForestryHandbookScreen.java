@@ -1,5 +1,6 @@
 package com.flavor_immersed_daily_argo.forestry;
 
+import com.flavor_immersed_daily_argo.client.GuiStyle;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -37,20 +38,38 @@ public class ForestryHandbookScreen extends Screen {
     private static final int RENAME_BTN_X = DETAIL_LEFT;
     private static final int REMOVE_BTN_X = DETAIL_LEFT + 88;
 
-// 配色
-    private static final int PANEL_FILL = 0xFFF2E6C8;
-    private static final int PANEL_BORDER = 0xFF6B4F2A;
-    private static final int HEADER_FILL = 0xFF7A5A32;
-    private static final int ROW_SELECTED = 0x60D89A2B;
-    private static final int ROW_HOVER = 0x30D89A2B;
-    private static final int TEXT_TITLE = 0xFF3F2A12;
-    private static final int TEXT_MAIN = 0xFF2F2F2F;
-    private static final int TEXT_DIM = 0xFF7A6B52;
-    private static final int TEXT_GOOD = 0xFF2C7A2C;
-    private static final int TEXT_WARN = 0xFFB23A2A;
-    private static final int BTN_FILL = 0xFF9C3B2E;
-    private static final int BTN_HOVER = 0xFFB84A38;
-    private static final int BTN_TEXT = 0xFFFFF3E0;
+// 配色：深松绿面板 + 金色强调，保留林场的清新感但整体压深
+    private static final int PANEL_TOP = 0xFF26362A;
+    private static final int PANEL_BOTTOM = 0xFF131B15;
+    private static final int PANEL_BORDER = 0xFF4C6E55;
+    private static final int PANEL_HIGHLIGHT = 0x26FFFFFF;
+    private static final int ACCENT = 0xFFE7C277;
+    private static final int ACCENT_DEEP = 0xFFB8913F;
+    private static final int ACCENT_LIGHT = 0xFFF4DCA0;
+
+// 列表行：深绿渐变卡片，悬停稍亮，选中转琥珀
+    private static final int ROW_BORDER = 0xFF354B3C;
+    private static final int ROW_TOP = 0xFF212E24;
+    private static final int ROW_BOTTOM = 0xFF182119;
+    private static final int ROW_HOVER_TOP = 0xFF2A3A2D;
+    private static final int ROW_HOVER_BOTTOM = 0xFF202C23;
+    private static final int ROW_SELECTED_TOP = 0xFF3C4D2E;
+    private static final int ROW_SELECTED_BOTTOM = 0xFF2B3823;
+
+// 右栏详情卡：比面板再深一层的凹陷
+    private static final int CARD_TOP = 0xFF1B251D;
+    private static final int CARD_BOTTOM = 0xFF141C16;
+    private static final int CARD_BORDER = 0xFF33493A;
+
+    private static final int TEXT_TITLE = 0xFFEDE6D2;
+    private static final int TEXT_MAIN = 0xFFD6DCCF;
+    private static final int TEXT_DIM = 0xFF8C9A8B;
+    private static final int TEXT_GOOD = 0xFF8FD48F;
+    private static final int TEXT_WARN = 0xFFE88A6E;
+
+// 面板与顶栏的圆角（小圆角更接近像素风）
+    private static final int PANEL_CORNER = 6;
+    private static final int HEADER_H = 18;
 
     private int panelX;
     private int panelY;
@@ -214,17 +233,19 @@ public class ForestryHandbookScreen extends Screen {
     }
 
     private void drawPanel(GuiGraphics gui, int x, int y, int w, int h) {
-        gui.fill(x, y, x + w, y + h, PANEL_FILL);
-        gui.fill(x, y, x + w, y + 1, PANEL_BORDER);
-        gui.fill(x, y + h - 1, x + w, y + h, PANEL_BORDER);
-        gui.fill(x, y, x + 1, y + h, PANEL_BORDER);
-        gui.fill(x + w - 1, y, x + w, y + h, PANEL_BORDER);
+// 外投影 + 深绿描边 + 深绿渐变 + 顶端一道内高光，做出像素边框的层次
+        GuiStyle.roundedRect(gui, x - 3, y - 2, w + 6, h + 7, PANEL_CORNER + 3, 0x40000000);
+        GuiStyle.roundedRect(gui, x - 1, y - 1, w + 2, h + 2, PANEL_CORNER + 1, PANEL_BORDER);
+        GuiStyle.roundedGradient(gui, x, y, w, h, PANEL_CORNER, PANEL_TOP, PANEL_BOTTOM);
+        GuiStyle.roundedRect(gui, x + 2, y + 2, w - 4, 1, 0, PANEL_HIGHLIGHT);
     }
 
+// 顶栏沿用经济机器的版式：左侧金色渐变竖条 + 金色标题，下面一条细分隔线
     private void drawHeader(GuiGraphics gui, int x, int y, int w) {
-        gui.fill(x + 1, y + 1, x + w - 1, y + 15, HEADER_FILL);
+        GuiStyle.roundedGradient(gui, x + 9, y + 5, 3, 11, 1, ACCENT_LIGHT, ACCENT_DEEP);
         Component title = Component.translatable("gui.flavor_immersed_daily_argo.forestry.title");
-        gui.drawString(font, title, x + (w - font.width(title)) / 2, y + 4, 0xFFF2E6C8, false);
+        gui.drawString(font, title, x + 16, y + 7, ACCENT, false);
+        GuiStyle.roundedRect(gui, x + 10, y + HEADER_H + 5, w - 20, 1, 0, 0x40E7C277);
     }
 
     private void renderList(GuiGraphics gui, double mouseX, double mouseY) {
@@ -232,7 +253,7 @@ public class ForestryHandbookScreen extends Screen {
         int right = panelX + LIST_RIGHT;
 // 分栏标题
         gui.drawString(font, Component.translatable("gui.flavor_immersed_daily_argo.forestry.points"),
-                left, panelY + TOP + 2, TEXT_TITLE, false);
+                left, panelY + TOP + 2, ACCENT, false);
 
         List<ForestryPoint> all = points();
         if (all.isEmpty()) {
@@ -253,17 +274,25 @@ public class ForestryHandbookScreen extends Screen {
             int rowY = listTop + i * LIST_ROW_H;
             boolean isSelected = point == selected;
             boolean hovered = mouseX >= left && mouseX < right && mouseY >= rowY && mouseY < rowY + LIST_ROW_H;
+            int rowW = right - left;
+            int rowH = LIST_ROW_H - 2;
             if (isSelected) {
-                gui.fill(left, rowY, right, rowY + LIST_ROW_H - 1, ROW_SELECTED);
-            } else if (hovered) {
-                gui.fill(left, rowY, right, rowY + LIST_ROW_H - 1, ROW_HOVER);
+// 选中：琥珀描边 + 深绿渐变 + 左侧金条
+                GuiStyle.roundedRect(gui, left, rowY, rowW, rowH, 4, ACCENT_DEEP);
+                GuiStyle.roundedGradient(gui, left + 1, rowY + 1, rowW - 2, rowH - 2, 3,
+                        ROW_SELECTED_TOP, ROW_SELECTED_BOTTOM);
+                GuiStyle.roundedRect(gui, left + 2, rowY + 3, 3, rowH - 6, 1, ACCENT);
+            } else {
+                GuiStyle.roundedRect(gui, left, rowY, rowW, rowH, 4, ROW_BORDER);
+                GuiStyle.roundedGradient(gui, left + 1, rowY + 1, rowW - 2, rowH - 2, 3,
+                        hovered ? ROW_HOVER_TOP : ROW_TOP, hovered ? ROW_HOVER_BOTTOM : ROW_BOTTOM);
             }
-            gui.drawString(font, truncate(nameOf(point), right - left - 6), left + 3, rowY + 2,
+            gui.drawString(font, truncate(nameOf(point), right - left - 12), left + 7, rowY + 2,
                     point.prosperous() ? TEXT_GOOD : TEXT_TITLE, false);
             Component sub = Component.literal(shortDimension(point.dimension()) + " · "
                     + Component.translatable("gui.flavor_immersed_daily_argo.forestry.score").getString()
                     + " " + point.score() + " · " + eventText(point));
-            gui.drawString(font, sub, left + 3, rowY + 12, point.prosperous() ? TEXT_GOOD : TEXT_DIM, false);
+            gui.drawString(font, sub, left + 7, rowY + 12, point.prosperous() ? TEXT_GOOD : TEXT_DIM, false);
         }
         if (all.size() > rows.size()) {
             gui.drawString(font, Component.literal("▼"), right - 10, listBottom - 10, TEXT_DIM, false);
@@ -272,8 +301,19 @@ public class ForestryHandbookScreen extends Screen {
 
     private void renderDetail(GuiGraphics gui, double mouseX, double mouseY) {
         int left = panelX + DETAIL_LEFT;
+// 右栏垫一张白色圆角卡片，把详情与纸面分开
+        int cardX = left - 6;
+        int cardY = panelY + TOP - 3;
+        int cardW = DETAIL_RIGHT - DETAIL_LEFT + 12;
+        int cardH = PANEL_H - TOP - 5;
+        GuiStyle.roundedRect(gui, cardX, cardY, cardW, cardH, 5, CARD_BORDER);
+        GuiStyle.roundedGradient(gui, cardX + 1, cardY + 1, cardW - 2, cardH - 2, 4,
+                CARD_TOP, CARD_BOTTOM);
+        GuiStyle.roundedRect(gui, cardX + 3, cardY + 3, cardW - 6, 1, 0, 0x14FFFFFF);
         gui.drawString(font, Component.translatable("gui.flavor_immersed_daily_argo.forestry.detail"),
-                left, panelY + TOP + 2, TEXT_TITLE, false);
+                left, panelY + TOP + 2, ACCENT, false);
+        GuiStyle.roundedRect(gui, left - 2, panelY + TOP + 13, DETAIL_RIGHT - DETAIL_LEFT - 2, 1, 0,
+                0x33E7C277);
         if (selected == null) {
             gui.drawString(font, Component.translatable("gui.flavor_immersed_daily_argo.forestry.none"),
                     left, panelY + TOP + 20, TEXT_DIM, false);
@@ -312,18 +352,25 @@ public class ForestryHandbookScreen extends Screen {
         }
 
 // 底部按钮：重命名 / 解除
-        drawButton(gui, mouseX, mouseY, RENAME_BTN_X,
+        drawButton(gui, mouseX, mouseY, RENAME_BTN_X, false,
                 Component.translatable("gui.flavor_immersed_daily_argo.forestry.rename"));
-        drawButton(gui, mouseX, mouseY, REMOVE_BTN_X,
+        drawButton(gui, mouseX, mouseY, REMOVE_BTN_X, true,
                 Component.translatable("gui.flavor_immersed_daily_argo.forestry.remove"));
     }
 
-    private void drawButton(GuiGraphics gui, double mouseX, double mouseY, int localX, Component label) {
+    private void drawButton(GuiGraphics gui, double mouseX, double mouseY, int localX, boolean danger,
+                            Component label) {
         boolean hovered = isOnButton(mouseX, mouseY, localX);
         int bx = panelX + localX;
         int by = panelY + BTN_Y;
-        gui.fill(bx, by, bx + BTN_W, by + BTN_H, hovered ? BTN_HOVER : BTN_FILL);
-        gui.drawString(font, label, bx + (BTN_W - font.width(label)) / 2, by + 4, BTN_TEXT, false);
+// 金色（重命名）/ 暗红（解除）两种渐变，都带一圈描边
+        int top = danger ? (hovered ? 0xFFC4675A : 0xFFAE5447) : (hovered ? 0xFFF4D08A : 0xFFE5BE72);
+        int bottom = danger ? (hovered ? 0xFF9E4438 : 0xFF883A30) : (hovered ? 0xFFD9A94C : 0xFFC4953F);
+        int border = danger ? 0xFFD98C7D : 0xFFF3DDB0;
+        GuiStyle.roundedRect(gui, bx, by, BTN_W, BTN_H, 4, border);
+        GuiStyle.roundedGradient(gui, bx + 1, by + 1, BTN_W - 2, BTN_H - 2, 3, top, bottom);
+        int textColor = danger ? 0xFFFFEDE5 : 0xFF2A1F0C;
+        gui.drawString(font, label, bx + (BTN_W - font.width(label)) / 2, by + 4, textColor, false);
     }
 
 // 网点名字：玩家起过名字就用名字，否则用按坐标生成的默认名

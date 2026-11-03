@@ -23,6 +23,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,8 +66,10 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
 //
 // 结算分两路：
 //
-// 按数量：价格是「每组（EconomicNews#PRICE_UNIT 个）」的价，一件产物的钱即
-// 价格 × 数量 ÷ 每组个数。先把所有产物的分子累加成整数再一次除，避免逐件取整丢钱；
+// 按数量：价格是「每组（#PRICE_UNIT 个）」的价，一件产物的钱即
+// 价格 × 数量 ÷ 每组个数。一组的个数按物品自己的堆叠上限算——16 个一组的产物
+// 就按 16 个一份的价格结算，不再一律按 64 算。同一组大小的分子先累加再一次除，
+// 避免逐件取整丢钱；不同组大小的分开累积后再相加。
 // 按重量：装着有体重标准的动物的编制麻袋、以及能称重的生鱼。这两种直接就是「一件多少钱」
 // （见 WeightPriceData，已各自向上取整），不再除以每组个数。
 //
@@ -78,7 +81,7 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
 // 返回：卖得的总额；没东西可卖或箱子空间不够时返回 0
     public int sell(long day) {
         Map<Item, Integer> prices = EconomicNews.todayPrices(day);
-        long numerator = 0;
+        Map<Integer, Long> numerators = new HashMap<>();
         int weighedMoney = 0;
         for (int i = 0; i < SLOT_COUNT; i++) {
             ItemStack stack = this.inventory.getItem(i);
@@ -87,12 +90,16 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
             }
             Integer price = prices.get(stack.getItem());
             if (price != null) {
-                numerator += (long) price * stack.getCount();
+                numerators.merge(groupSize(stack), (long) price * stack.getCount(), Long::sum);
                 continue;
             }
             weighedMoney += weighedEachPrice(stack, day) * stack.getCount();
         }
-        int money = (int) (numerator / EconomicNews.PRICE_UNIT) + weighedMoney;
+        long countedMoney = 0;
+        for (Map.Entry<Integer, Long> entry : numerators.entrySet()) {
+            countedMoney += entry.getValue() / entry.getKey();
+        }
+        int money = (int) countedMoney + weighedMoney;
         if (money <= 0) {
             return 0;
         }
@@ -109,6 +116,11 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
             this.inventory.setItem(i, simulate.get(i));
         }
         return money;
+    }
+
+// 一组多少个：按物品自己的堆叠上限算，16 个一组的产物按 16 个的价格结算
+    private static int groupSize(ItemStack stack) {
+        return Math.max(1, stack.getMaxStackSize());
     }
 
 // 这一格的东西会不会被卖掉

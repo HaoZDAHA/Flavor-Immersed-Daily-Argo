@@ -148,19 +148,39 @@ public class InsectIncubatorBlockEntity extends BlockEntity implements MenuProvi
             }
         }
         if (recipe.hasOffspringInput()) {
-// 逐个把装着输入的子代格替换成产物
+// 按输入堆的数量倍增：一格放了几份卵就产几只，上限受最大堆叠数约束
             for (int i = 0; i < OFFSPRING_SLOTS; i++) {
-                if (!this.inventory.getItem(OFFSPRING_START + i).isEmpty()) {
-                    this.inventory.setItem(OFFSPRING_START + i, recipe.getOffspringOutput().copy());
+                ItemStack input = this.inventory.getItem(OFFSPRING_START + i);
+                if (input.isEmpty()) {
+                    continue;
                 }
+                ItemStack out = recipe.getOffspringOutput().copy();
+                out.setCount(Math.min(out.getMaxStackSize(), out.getCount() * input.getCount()));
+                this.inventory.setItem(OFFSPRING_START + i, out);
             }
         } else {
-// 六个子代格铺满产物
-            for (int i = 0; i < OFFSPRING_SLOTS; i++) {
-                this.inventory.setItem(OFFSPRING_START + i, recipe.getOffspringOutput().copy());
-            }
+// 子代格兼作产出箱：并入已有同种堆，堆满了再换下一格，因此能一直产到所有格子堆满
+            this.addOutput(recipe.getOffspringOutput());
         }
         this.setChanged();
+    }
+
+// 往子代格加一份产物：优先并入已有的同种堆，其次放进第一个空格
+    private void addOutput(ItemStack output) {
+        for (int i = 0; i < OFFSPRING_SLOTS; i++) {
+            ItemStack stack = this.inventory.getItem(OFFSPRING_START + i);
+            if (!stack.isEmpty() && ItemStack.isSameItemSameComponents(stack, output)
+                    && stack.getCount() < stack.getMaxStackSize()) {
+                stack.grow(output.getCount());
+                return;
+            }
+        }
+        for (int i = 0; i < OFFSPRING_SLOTS; i++) {
+            if (this.inventory.getItem(OFFSPRING_START + i).isEmpty()) {
+                this.inventory.setItem(OFFSPRING_START + i, output.copy());
+                return;
+            }
+        }
     }
 
 // 存档

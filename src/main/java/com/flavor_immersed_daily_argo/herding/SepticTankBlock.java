@@ -30,8 +30,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 // 化粪发酵桶
 //
@@ -135,11 +138,20 @@ public class SepticTankBlock extends BaseEntityBlock {
                 : Blocks.AIR.defaultBlockState();
     }
 
+// 两格方块自己控制掉落：另一半是被连带销毁的，不能再走一遍战利品表，
+// 否则挖一次会掉两个桶。
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        return List.of();
+    }
+
 // 拆桶前的收尾：
 //
 // 挖右半时右半没有方块实体，先把左半槽里的东西倒出来再挖，
 // 免得随后左半被更新成空气时来不及掉东西；
 // 创造模式挖左半时顺手清掉右半，免得飞出去的那半还留在原地（原版床的做法）。
+//
+// 桶本体统一在这里掉一个（战利品表已经关掉），挖哪一半都只掉一个。
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide) {
@@ -156,6 +168,9 @@ public class SepticTankBlock extends BaseEntityBlock {
                     level.setBlock(other, Blocks.AIR.defaultBlockState(), 35);
                     level.levelEvent(player, 2001, other, Block.getId(otherState));
                 }
+            }
+            if (!player.isCreative()) {
+                Block.popResource(level, pos, new ItemStack(ModItems.SEPTIC_TANK.get()));
             }
         }
         return super.playerWillDestroy(level, pos, state, player);

@@ -12,7 +12,7 @@
     {
       "type": "patchouli:text",
       "title": "有效项",
-      "text": "$(li)$(bold)giveGuideBookOnFirstJoin$()（默认 true）：玩家第一次进入存档时发一本「南山-教程卷轴」，同一名玩家只发一次。$(br)$(li)$(bold)mouseChunkLimit$()（默认 2，范围 1~64）：单个区块同时存在的田鼠上限，达到上限后该区块不再自然生成。$(br)$(li)$(bold)warnMissingParentMod$()（默认 true）：缺少前置「烟火凡人心」时，玩家登录会收到一条提示。"
+      "text": "$(li)$(bold)giveGuideBookOnFirstJoin$()（默认 true）：玩家第一次进入存档时发一本「南山-教程卷轴」，同一名玩家只发一次。$(br)$(li)$(bold)giveFishingHandbookOnFirstJoin$()（默认 true）：玩家第一次进入存档时发一本「钓获图鉴」，同样只发一次；两者都借成就达成记录，进度存在存档里，重进也不会重复发。$(br)$(li)$(bold)mouseChunkLimit$()（默认 2，范围 1~64）：单个区块同时存在的田鼠上限，达到上限后该区块不再自然生成。$(br)$(li)$(bold)warnMissingParentMod$()（默认 true）：缺少前置「烟火凡人心」时，玩家登录会收到一条提示。"
     },
     {
       "type": "patchouli:text",

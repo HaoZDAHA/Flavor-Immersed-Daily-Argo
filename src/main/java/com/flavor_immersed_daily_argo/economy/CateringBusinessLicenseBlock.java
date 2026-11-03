@@ -267,9 +267,14 @@ public class CateringBusinessLicenseBlock extends Block {
         return null;
     }
 
-// 该格上方两格空着、脚下是结实地面就能站人
+// 该格上方两格空着、脚下是结实地面、且格内没有流体，就能站人。
+// 水面同样「无碰撞、头顶空、脚下是沙」，不排掉的话顾客会站在水面上。
     private static boolean canStand(ServerLevel level, BlockPos pos) {
-        if (!level.getBlockState(pos).getCollisionShape(level, pos).isEmpty()) {
+        BlockState stand = level.getBlockState(pos);
+        if (!stand.getFluidState().isEmpty()) {
+            return false;
+        }
+        if (!stand.getCollisionShape(level, pos).isEmpty()) {
             return false;
         }
         if (!level.getBlockState(pos.above()).getCollisionShape(level, pos.above()).isEmpty()) {

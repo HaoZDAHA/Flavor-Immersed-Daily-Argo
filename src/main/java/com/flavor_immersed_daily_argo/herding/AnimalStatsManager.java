@@ -4,6 +4,7 @@ import com.flavor_immersed_daily_argo.all.ModAttachments;
 import com.flavor_immersed_daily_argo.all.ModEntities;
 import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.all.ModMobEffects;
+import com.flavor_immersed_daily_argo.config.Config;
 import com.flavor_immersed_daily_argo.entity.Poop;
 import com.flavor_immersed_daily_argo.forestry.ForestryNetworkManager;
 import net.minecraft.core.BlockPos;
@@ -145,6 +146,11 @@ public final class AnimalStatsManager {
         return TRACKED.contains(entity.getType());
     }
 
+// 猫狗：默认不排泄的宠物（见 Config#PET_EXCRETION）
+    private static boolean isPet(EntityType<?> type) {
+        return type == EntityType.CAT || type == EntityType.WOLF;
+    }
+
 // 这只动物的状态栏；还没被喂食过则返回 null
     @Nullable
     public static AnimalStats getStats(LivingEntity entity) {
@@ -252,8 +258,12 @@ public final class AnimalStatsManager {
 // 饱食度消耗掉一点时，按概率在脚下拉一坨粪便。
 //
 // 同一个区块里最多 #POOP_PER_CHUNK 坨，免得圈里的动物一刻不停地拉、堆成山。
+// 猫狗默认不排泄（见 Config#PET_EXCRETION），免得弄脏宠物活动区；家畜家禽不受影响。
     private static void tryDropPoop(LivingEntity entity) {
         if (!(entity.level() instanceof ServerLevel level)) {
+            return;
+        }
+        if (isPet(entity.getType()) && !Config.PET_EXCRETION.get()) {
             return;
         }
         if (level.random.nextFloat() >= POOP_CHANCE) {

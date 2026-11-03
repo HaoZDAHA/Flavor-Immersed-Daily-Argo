@@ -11,6 +11,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
@@ -65,7 +66,9 @@ public final class DeadAnimalEvents {
     private DeadAnimalEvents() {
     }
 
-    @SubscribeEvent
+// HIGHEST：抢在父模组的斩骨刀监听器之前处理。本模组五种禽类都继承 Chicken，
+// 父模组若按「目标是鸡」判定，会把它们替换成死鸡；这里先把事件吃掉，父模组就收不到了
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onAttackEntity(AttackEntityEvent event) {
         Supplier<Item> dead = deadByAnimal().get(event.getTarget().getType());
         if (dead == null) {
@@ -77,6 +80,9 @@ public final class DeadAnimalEvents {
             return;
         }
         Entity target = event.getTarget();
+        if (target.isRemoved()) {
+            return;
+        }
         if (!target.level().isClientSide) {
             target.level().addFreshEntity(new ItemEntity(
                     target.level(),
