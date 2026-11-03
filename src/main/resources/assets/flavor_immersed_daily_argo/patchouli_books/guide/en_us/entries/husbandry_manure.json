@@ -10,6 +10,10 @@
     },
     {
       "type": "patchouli:text",
+      "text": "$(bold)Where does manure come from?$()$(br)Cattle, pigs, sheep, chickens, ducks and geese drop a pile at their feet each time they spend a point of satiety. Aim at the pile on the ground and right-click to pick it up. A $(bold)Septic Fermenter$() also absorbs manure within $(bold)8 blocks$() on its own.$(br2)$(bold)Cats and dogs$() do not excrete by default so they do not spoil a pet area; turn on the $(bold)petExcretion$() switch in the config if you want them to."
+    },
+    {
+      "type": "patchouli:text",
       "text": "$(bold)Septic Fermenter$()$(br)A two-wide barrel: it absorbs manure within $(bold)8 blocks$() into its left half, where it slowly ferments into $(bold)Organic Fertilizer$() in the right half. Right-click the left half to add or remove manure, the right half to take fertilizer.$(br)$(bold)High-Protein Compound$() can go into the left half too and ferments the same way."
     },
     {

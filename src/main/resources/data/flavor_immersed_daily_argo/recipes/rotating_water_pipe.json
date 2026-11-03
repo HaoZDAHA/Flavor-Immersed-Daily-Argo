@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "flavor_immersed_daily_argo:water_pipe"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "result": {
+    "item": "flavor_immersed_daily_argo:rotating_water_pipe",
+    "count": 1
+  }
+}
+

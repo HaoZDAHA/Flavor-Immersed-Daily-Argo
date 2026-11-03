@@ -2,6 +2,7 @@ package com.flavor_immersed_daily_argo.entity;
 
 
 import net.minecraftforge.network.NetworkHooks;
+import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.all.ModSounds;
 import com.flavor_immersed_daily_argo.flavor_immersed_daily_argo;
 import com.flavor_immersed_daily_argo.item.SickleItem;
@@ -10,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +34,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.AABB;
@@ -117,7 +123,15 @@ public class Harvester extends Mob implements MenuProvider, HasCustomInventorySc
                 spawnAtLocation(stack);
             }
         }
+// 打掉后把收割机本体掉出来，方便再捡起来重新放置
+        spawnAtLocation(new ItemStack(ModItems.HARVESTER_SPAWN_EGG.get()));
         discard();
+    }
+
+// 停放的收割机不随玩家走远而消失
+    @Override
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return false;
     }
 
 // 骑乘
@@ -208,6 +222,7 @@ public class Harvester extends Mob implements MenuProvider, HasCustomInventorySc
         if (!(level() instanceof ServerLevel serverLevel)) return;
 
         BlockPos center = blockPosition();
+        boolean harvestedAny = false;
 
         for (int x = -HARVEST_RADIUS; x <= HARVEST_RADIUS; x++) {
             for (int z = -HARVEST_RADIUS; z <= HARVEST_RADIUS; z++) {
@@ -233,9 +248,18 @@ public class Harvester extends Mob implements MenuProvider, HasCustomInventorySc
                                 addToInventoryOrDrop(drop);
                             }
                         }
+                        harvestedAny = true;
+                    } else if (mowPlant(serverLevel, pos, state)) {
+// 草方块上的杂花杂草：割掉收进背包，本来就不是作物，不补种
+                        harvestedAny = true;
                     }
                 }
             }
+        }
+
+// 这一轮真割到了东西才出声，空转不响
+        if (harvestedAny) {
+            this.playSound(SoundEvents.GRASS_BREAK, 0.8F, 1.2F);
         }
 
         AABB collectBox = new AABB(
@@ -259,6 +283,39 @@ public class Harvester extends Mob implements MenuProvider, HasCustomInventorySc
         if (!remainder.isEmpty()) {
             spawnAtLocation(remainder);
         }
+    }
+
+// 割掉草方块上长着的花草杂草（高草、蕨、花之类），掉落直接进背包。
+//
+// 只认「没有 age 生长属性」的植物：带 age 的是作物或浆果丛，成熟与否交给上面的作物判定，
+// 没熟就不该被推掉；树苗单独放过，别把玩家种的树给剃了。
+// 返回是否真的割掉了东西。
+    private boolean mowPlant(ServerLevel serverLevel, BlockPos pos, BlockState state) {
+        Block block = state.getBlock();
+        if (!(block instanceof BushBlock) || block instanceof CropBlock || block instanceof SaplingBlock) {
+            return false;
+        }
+        if (state.getProperties().stream().anyMatch(property -> property.getName().equals("age"))) {
+            return false;
+        }
+        if (!serverLevel.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK)) {
+            return false;
+        }
+
+        List<ItemStack> drops = Block.getDrops(state, serverLevel, pos,
+                serverLevel.getBlockEntity(pos), this, ItemStack.EMPTY);
+// 两格高的植物（高草、大型蕨、高花）：上半截一并清掉，不然会悬在半空
+        BlockPos above = pos.above();
+        if (serverLevel.getBlockState(above).is(block)) {
+            serverLevel.destroyBlock(above, false);
+        }
+        serverLevel.destroyBlock(pos, false);
+        for (ItemStack drop : drops) {
+            if (!drop.isEmpty()) {
+                addToInventoryOrDrop(drop);
+            }
+        }
+        return true;
     }
 
     private ItemStack addToInventory(ItemStack stack) {

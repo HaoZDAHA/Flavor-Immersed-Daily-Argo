@@ -20,6 +20,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -35,6 +36,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -58,10 +60,20 @@ import java.util.UUID;
 // handcart_expand 那份，动画纹理都不变），箱子里是 54 格原版大箱子的空间。
 // 这之后右键车身开箱、右键前头的车把照旧拉车（靠 #interactAt 拿到命中点来分）。
 // 车被打散时，箱子连同箱里的东西一并掉出来。
+//
+// 没装箱子时车斗还能坐人：前后两排、左右各一，共 4 个座位。点车斗那一头即可上车，
+// 牵在手里的动物也会跟着坐上来；点前头的车把则照旧拉车。
 public class Handcart extends Entity implements MenuProvider {
 
 // 载货模式那只大箱子的格数：原版大箱子就是 6 行 × 9 列
     private static final int CHEST_SIZE = 54;
+
+// 不装箱子时的乘坐位：车斗里前后两排、左右各一，共 4 个
+    private static final int MAX_PASSENGERS = 4;
+    private static final double SEAT_Y = 1.0D;
+    private static final double SEAT_Z_FRONT = 1.5D;
+    private static final double SEAT_Z_BACK = 2.9D;
+    private static final double SEAT_X = 0.55D;
 
 // 车整体落在玩家身后半格：原点跟在玩家后头 0.5 格，车把探到玩家身前约半格。
 //
@@ -102,14 +114,16 @@ public class Handcart extends Entity implements MenuProvider {
 // 只走一小步，再把两 tick 之间插值交给渲染，画面才连续。
     private static final float TILT_SMOOTHING = 0.2F;
 
-// 碰撞箱尺寸：量的是车斗那截，不含递在玩家手边的车把
-
-// 车斗沿车纵轴的范围（格，原点在模型 z=11.5px 处）：车把握把 -17.5px ~ 车斗尾板 +58.5px
-    private static final double BODY_MIN_Z = -17.5D / 16.0D;
+// 碰撞箱尺寸：只罩车斗那截，不含递在玩家手边的车把
+//
+// 车斗沿车纵轴的范围（格，原点在模型 z=11.5px 处）：从原点往后到车斗尾板 +58.5px。
+// 前头那截只有细细的车把和支脚，不参与碰撞——罩进去的话，车斜着放时按轴向投影出来的
+// 方盒会大出一整圈，人走在车头旁边就会撞上看不见的墙。
+    private static final double BODY_MIN_Z = 0.0D;
     private static final double BODY_MAX_Z = 58.5D / 16.0D;
 
-// 车体宽度的一半（含两侧车轮，模型 x 跨 2.8 格）
-    private static final double BODY_HALF_WIDTH = 1.4D;
+// 车体宽度的一半：车斗本体模型 x 跨 34px ≈ 2.1 格
+    private static final double BODY_HALF_WIDTH = 1.05D;
 
 // 车体高度（模型 y 跨 24px = 1.5 格）
     private static final double BODY_HEIGHT = 1.5D;
@@ -460,27 +474,59 @@ public class Handcart extends Entity implements MenuProvider {
         return Mth.lerp(partialTicks, this.prevTiltPitch, this.tiltPitch);
     }
 
+// 能否再上来一位：装了箱子以后车斗被箱子占满，就不再坐人；最多 4 位
+    @Override
+    public boolean canAddPassenger(Entity passenger) {
+        return !this.isExpanded() && this.getPassengers().size() < MAX_PASSENGERS;
+    }
+
+// 四个座位在车斗里的位置（以车为原点）：前排放得靠车把些，后排靠尾板些，左右各一。
+//
+// 1.20.1 没有 1.21 的 #getPassengerAttachmentPoint，这里直接在 #positionRider 里按
+// 车的朝向把座位偏移转成世界坐标。
+    @Override
+    public void positionRider(Entity passenger, MoveFunction moveFunction) {
+        if (!this.hasPassenger(passenger)) {
+            return;
+        }
+        int index = Math.max(0, this.getPassengers().indexOf(passenger));
+        double localX = index % 2 == 0 ? -SEAT_X : SEAT_X;
+        double localZ = index < 2 ? SEAT_Z_FRONT : SEAT_Z_BACK;
+// 模型 +z（车斗那头）对应世界的 (-sin yaw, 0, cos yaw)，局部 x 对应 (cos yaw, 0, sin yaw)
+        double yaw = Math.toRadians(this.getYRot());
+        double sin = Math.sin(yaw);
+        double cos = Math.cos(yaw);
+        double x = this.getX() + localX * cos - localZ * sin;
+        double z = this.getZ() + localX * sin + localZ * cos;
+        moveFunction.accept(passenger, x, this.getY() + SEAT_Y, z);
+    }
+
 // 右键互动：直接右键把车挂到玩家身上开始跟随；手持箱子右键则给车斗装上箱子，
-// 换成载货模式。潜行时不做事——跟随中潜行会在 #follow 里自动解开，那正是「松手」。
+// 换成载货模式。潜行右键则把车上的人和动物都放下来。
 //
 // 装了箱子以后，点车斗那一头会被 #interactAt 先截走开箱，落到这里的就只剩下
 // 车把，照旧拉车。
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (!player.isSecondaryUseActive()) {
-            ItemStack held = player.getItemInHand(hand);
-            if (!this.isExpanded() && held.is(Items.CHEST)) {
-                if (!this.level().isClientSide) {
-                    this.setExpanded(true);
-                    if (!player.isCreative()) {
-                        held.shrink(1);
-                    }
-                }
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
-            }
+        if (player.isSecondaryUseActive()) {
+// 潜行右键：乘客全部下车
             if (!this.level().isClientSide) {
-                this.startFollowing(player);
+                this.dismountAll();
             }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+        ItemStack held = player.getItemInHand(hand);
+        if (!this.isExpanded() && held.is(Items.CHEST)) {
+            if (!this.level().isClientSide) {
+                this.setExpanded(true);
+                if (!player.isCreative()) {
+                    held.shrink(1);
+                }
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+        if (!this.level().isClientSide) {
+            this.startFollowing(player);
         }
         return InteractionResult.sidedSuccess(this.level().isClientSide);
     }
@@ -490,17 +536,58 @@ public class Handcart extends Entity implements MenuProvider {
 // 装了箱子之后，点车斗那一侧是开箱（返回 CONSIDER/SUCCESS 把这一下吃掉，不再往下走
 // 拉车）；点前头的车把则返回 PASS，让它落回 #interact 去拉车。
 //
+// 潜行右键不论点在哪一截，都是「把人、牲口都放下来」。
+//
 // hitOffset：命中点相对实体坐标的偏移（原版 MultiPlayerGameMode#interactAt 就是这么算的）
     @Override
     public InteractionResult interactAt(Player player, Vec3 hitOffset, InteractionHand hand) {
-        if (this.isExpanded() && this.isBodyHit(hitOffset)) {
-            if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer
-                    && !player.isSecondaryUseActive()) {
+        if (player.isSecondaryUseActive()) {
+            if (!this.level().isClientSide) {
+                this.dismountAll();
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        }
+        if (!this.isBodyHit(hitOffset)) {
+            return InteractionResult.PASS;
+        }
+        if (this.isExpanded()) {
+            if (!this.level().isClientSide && player instanceof ServerPlayer serverPlayer) {
                 NetworkHooks.openScreen(serverPlayer, this);
             }
             return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
-        return InteractionResult.PASS;
+// 手里拿着箱子时这一下交给 #interact 去装箱，别把人塞进车斗
+        if (player.getItemInHand(hand).is(Items.CHEST)) {
+            return InteractionResult.PASS;
+        }
+// 没装箱子：点车斗就是坐进去，顺手把牵在手里的动物也安置到空位上
+        if (!this.level().isClientSide) {
+            this.board(player);
+        }
+        return InteractionResult.sidedSuccess(this.level().isClientSide);
+    }
+
+// 玩家坐进车斗，并把牵在玩家手里的动物也带上来（座位不够就先上动物、再上玩家）
+    private void board(Player player) {
+        if (player.isPassenger() || !this.canAddPassenger(player)) {
+            return;
+        }
+// 先安置动物：玩家一旦坐上车，他的包围盒就跟着车走了，再按玩家为中心找动物会漏
+        for (Mob mob : this.level().getEntitiesOfClass(Mob.class, player.getBoundingBox().inflate(16.0D),
+                mob -> mob.isLeashed() && mob.getLeashHolder() == player && !mob.isPassenger())) {
+            if (this.getPassengers().size() >= MAX_PASSENGERS - 1) {
+                break;
+            }
+            mob.startRiding(this);
+        }
+        player.startRiding(this);
+    }
+
+// 让车上的人和动物都下来
+    private void dismountAll() {
+        for (Entity passenger : List.copyOf(this.getPassengers())) {
+            passenger.stopRiding();
+        }
     }
 
 // 这一下点的是车斗还是前头的车把：把命中点投到车的纵轴上，落在原点后方就是车斗。

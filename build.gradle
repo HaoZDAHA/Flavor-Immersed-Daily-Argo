@@ -171,6 +171,7 @@ obfuscation {
 dependencies {
     // 开发时一起装载的模组：只进运行时类路径，不参与编译，也不会写进发布依赖。
     modRuntimeOnly "fidlibs:flavor_immersed_daily:2026.10.13"
+    modCompileOnly "fidlibs:jei:15.74.0.230"
     modRuntimeOnly "fidlibs:jei:15.74.0.230"
     modRuntimeOnly "fidlibs:patchouli:85"
 

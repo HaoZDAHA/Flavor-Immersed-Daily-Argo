@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:stick"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "flavor_immersed_daily_argo:insect_board"
+    }
+  ],
+  "result": {
+    "item": "flavor_immersed_daily_argo:insect_net",
+    "count": 1
+  }
+}
+

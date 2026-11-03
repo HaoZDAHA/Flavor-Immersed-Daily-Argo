@@ -137,6 +137,7 @@ import com.flavor_immersed_daily_argo.textile.SewingMachineScreen;
 import com.flavor_immersed_daily_argo.economy.AtmScreen;
 import com.flavor_immersed_daily_argo.economy.MarketScreen;
 import com.flavor_immersed_daily_argo.economy.NavPhoneItem;
+import com.flavor_immersed_daily_argo.economy.OrderRecipeKeyMapping;
 import com.flavor_immersed_daily_argo.economy.ReceiptPrinterScreen;
 import com.flavor_immersed_daily_argo.textile.SilkArmorPreview;
 import com.flavor_immersed_daily_argo.uav.UavClient;
@@ -173,7 +174,6 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-@Mod(flavor_immersed_daily_argo.MODID)
 @EventBusSubscriber(modid = flavor_immersed_daily_argo.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class flavor_immersed_daily_argoClient {
 
@@ -419,6 +419,8 @@ public class flavor_immersed_daily_argoClient {
         event.register(UavClient.UAV_UP);
         event.register(UavClient.UAV_DOWN);
         event.register(UavClient.UAV_EXIT);
+// 瞄准顾客 / 外卖小哥时按 R 查看这道菜的配方
+        event.register(OrderRecipeKeyMapping.SHOW_ORDER_RECIPE);
     }
 
     @SubscribeEvent

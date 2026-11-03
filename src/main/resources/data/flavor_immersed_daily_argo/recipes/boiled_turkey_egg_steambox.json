@@ -18,9 +18,6 @@
         "ingredients": [
           {
             "item": "flavor_immersed_daily_argo:turkey_egg"
-          },
-          {
-            "item": "flavor_immersed_daily:tidywater"
           }
         ],
         "result": {

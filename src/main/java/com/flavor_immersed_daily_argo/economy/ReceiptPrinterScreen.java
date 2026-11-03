@@ -4,8 +4,13 @@ import com.flavor_immersed_daily_argo.client.GuiStyle;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // 小票打印机界面：8×5 共 40 个只展示的槽位，右上角一个出单开关。
 //
@@ -28,6 +33,15 @@ public class ReceiptPrinterScreen extends AbstractContainerScreen<ReceiptPrinter
 
     private static final String KEY_SWITCH_ON = "gui.flavor_immersed_daily_argo.receipt_printer.switch_on";
     private static final String KEY_SWITCH_OFF = "gui.flavor_immersed_daily_argo.receipt_printer.switch_off";
+
+// 当前订单行：位置（相对界面左上角）、可用宽度与文案键
+    private static final int ORDER_X = 8;
+    private static final int ORDER_Y = 130;
+    private static final int ORDER_MAX_WIDTH = 160;
+    private static final String KEY_ORDERS = "gui.flavor_immersed_daily_argo.receipt_printer.orders";
+    private static final String KEY_ORDERS_NONE = "gui.flavor_immersed_daily_argo.receipt_printer.orders.none";
+    private static final String KEY_ORDER_PART = "gui.flavor_immersed_daily_argo.receipt_printer.order_part";
+    private static final Component ORDER_SEPARATOR = Component.literal(" · ");
 
     public ReceiptPrinterScreen(ReceiptPrinterMenu menu, Inventory playerInv, Component title) {
         super(menu, playerInv, title);
@@ -52,6 +66,45 @@ public class ReceiptPrinterScreen extends AbstractContainerScreen<ReceiptPrinter
         gui.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, GuiStyle.TEXT);
         gui.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY,
                 GuiStyle.TEXT_DIM);
+        gui.drawString(this.font, buildOrderLine(), this.leftPos + ORDER_X, this.topPos + ORDER_Y,
+                GuiStyle.TEXT_DIM);
+    }
+
+// 开关下方一行：附近小哥当前要交的菜；放不下时从末尾裁掉并补省略号
+    private Component buildOrderLine() {
+        List<Component> parts = new ArrayList<>();
+        for (int i = 0; i < ReceiptPrinterBlockEntity.ORDER_SLOTS; i++) {
+            ItemStack order = this.menu.getOrder(i);
+            if (!order.isEmpty()) {
+                parts.add(Component.translatable(KEY_ORDER_PART, order.getHoverName(), order.getCount()));
+            }
+        }
+        if (parts.isEmpty()) {
+            return Component.translatable(KEY_ORDERS_NONE);
+        }
+        Component joined = joinOrderParts(parts);
+        boolean trimmed = false;
+        while (parts.size() > 1 && this.font.width(Component.translatable(KEY_ORDERS, joined)) > ORDER_MAX_WIDTH) {
+            parts.remove(parts.size() - 1);
+            joined = joinOrderParts(parts);
+            trimmed = true;
+        }
+        if (trimmed) {
+            joined = joined.copy().append("…");
+        }
+        return Component.translatable(KEY_ORDERS, joined);
+    }
+
+// 「红烧肉 ×2 · 鲫鱼 ×1」
+    private static Component joinOrderParts(List<Component> parts) {
+        MutableComponent joined = Component.empty();
+        for (int i = 0; i < parts.size(); i++) {
+            if (i > 0) {
+                joined.append(ORDER_SEPARATOR);
+            }
+            joined.append(parts.get(i));
+        }
+        return joined;
     }
 
 // 出单开关：圆角胶囊轨道 + 圆形滑块，右边配一行状态文字

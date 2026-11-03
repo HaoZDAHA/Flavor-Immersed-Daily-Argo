@@ -40,7 +40,6 @@ public class BuiltinEntityBlockItem extends BlockItem {
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        String kind = this.rendererKind;
         consumer.accept(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
@@ -48,16 +47,22 @@ public class BuiltinEntityBlockItem extends BlockItem {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (this.renderer == null) {
                     Minecraft minecraft = Minecraft.getInstance();
-                    this.renderer = switch (kind) {
-                        case "swordfish" -> new RawSwordfishItemRenderer(
+// 这里必须现读外层字段：Forge 可能在物品构造完成前就调用 initializeClient，
+// 提前捕获 rendererKind 会拿到 null，渲染时直接崩（渲染掉落的 raw_swordfish 就会触发）
+                    String kind = BuiltinEntityBlockItem.this.rendererKind;
+                    if ("swordfish".equals(kind)) {
+                        this.renderer = new RawSwordfishItemRenderer(
                                 minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels());
-                        case "pot_stew_goose" -> new PotStewGooseItemRenderer(
+                    } else if ("pot_stew_goose".equals(kind)) {
+                        this.renderer = new PotStewGooseItemRenderer(
                                 minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels());
-                        case "donkey_feast" -> new DonkeyFeastItemRenderer(
+                    } else if ("donkey_feast".equals(kind)) {
+                        this.renderer = new DonkeyFeastItemRenderer(
                                 minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels());
-                        default -> new BraisedPrawnsItemRenderer(
+                    } else {
+                        this.renderer = new BraisedPrawnsItemRenderer(
                                 minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels());
-                    };
+                    }
                 }
                 return this.renderer;
             }

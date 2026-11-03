@@ -12,7 +12,7 @@
     {
       "type": "patchouli:text",
       "title": "Options that matter",
-      "text": "$(li)$(bold)giveGuideBookOnFirstJoin$() (default true): give each player one Nanshan Tutorial Scroll the first time they join. Each player receives it once.$(br)$(li)$(bold)mouseChunkLimit$() (default 2, range 1~64): how many field mice may exist in one chunk. Once reached, no more spawn there.$(br)$(li)$(bold)warnMissingParentMod$() (default true): remind players on login when the parent mod is missing."
+      "text": "$(li)$(bold)giveGuideBookOnFirstJoin$() (default true): give each player one Nanshan Tutorial Scroll the first time they join. Each player receives it once.$(br)$(li)$(bold)giveFishingHandbookOnFirstJoin$() (default true): give each player one Catch Handbook the first time they join, also once per player. Both use advancement completion saved in the world, so rejoining never hands out a second copy.$(br)$(li)$(bold)mouseChunkLimit$() (default 2, range 1~64): how many field mice may exist in one chunk. Once reached, no more spawn there.$(br)$(li)$(bold)warnMissingParentMod$() (default true): remind players on login when the parent mod is missing."
     },
     {
       "type": "patchouli:text",

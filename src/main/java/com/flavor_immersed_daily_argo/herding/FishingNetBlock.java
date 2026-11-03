@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -235,5 +236,11 @@ public class FishingNetBlock extends Block implements SimpleWaterloggedBlock {
                 || path.equals("frozen_ocean") || path.equals("deep_frozen_ocean")
                 || path.equals("lukewarm_ocean") || path.equals("deep_lukewarm_ocean")
                 || path.equals("warm_ocean");
+    }
+
+// 拆除渔网必掉落本体，不依赖数据包掉落表
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        return List.of(new ItemStack(this));
     }
 }

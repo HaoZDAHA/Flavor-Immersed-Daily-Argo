@@ -93,10 +93,16 @@ public class DeliveryRider extends Animal implements FoodOrder {
         return this.entityData.get(DATA_REWARD);
     }
 
-// 打印机派单：要交的食物与报酬一起写进去
+// 打印机派单：要交的食物与报酬一起写进去，并让头顶常显这一单的菜名
     public void setOrder(ItemStack food, long reward) {
         this.entityData.set(DATA_ORDER, food.copy());
         this.entityData.set(DATA_REWARD, reward);
+        if (!food.isEmpty()) {
+            this.setCustomName(Component.translatable(
+                    "entity.flavor_immersed_daily_argo.delivery_rider.order_name", food.getHoverName(),
+                    food.getCount()));
+            this.setCustomNameVisible(true);
+        }
     }
 
     @Nullable
