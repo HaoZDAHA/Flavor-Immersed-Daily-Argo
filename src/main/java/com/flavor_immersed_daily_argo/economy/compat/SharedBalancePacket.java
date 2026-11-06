@@ -14,8 +14,10 @@ import net.minecraft.resources.ResourceLocation;
 // 1.20.1 的余额是 double，照原样传，显示时向下取整。
 public record SharedBalancePacket(boolean shared, double balance) implements CustomPacketPayload {
 
+// 用构造器而不是 fromNamespaceAndPath：后者只有 Forge 47.4+ 才有，
+// 而本模组声明的最低支持版本是 47.3.0，在 47.3.0 上会直接 NoSuchMethodError。
     public static final Type<SharedBalancePacket> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(flavor_immersed_daily_argo.MODID, "shared_balance"));
+            new ResourceLocation(flavor_immersed_daily_argo.MODID, "shared_balance"));
 
     public static final StreamCodec<FriendlyByteBuf, SharedBalancePacket> STREAM_CODEC = StreamCodec.of(
             (buf, packet) -> {
