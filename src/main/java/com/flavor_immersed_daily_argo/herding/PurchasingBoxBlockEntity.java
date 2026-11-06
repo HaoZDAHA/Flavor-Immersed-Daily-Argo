@@ -2,6 +2,7 @@ package com.flavor_immersed_daily_argo.herding;
 
 import com.flavor_immersed_daily_argo.all.ModBlockEntities;
 import com.flavor_immersed_daily_argo.all.ModItems;
+import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
 import com.flavor_immersed_daily_argo.economy.product.EconomicNews;
 import com.flavor_immersed_daily_argo.economy.product.WeightPriceData;
 import com.flavor_immersed_daily_argo.item.PoultryCatchingNetItem;
@@ -10,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -62,7 +64,9 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
 
 // 出售
 
-// 把箱内所有经济产物按第 day 天的价格卖掉，钱换成纸币原样放回箱子。
+// 把箱内所有经济产物按第 day 天的价格卖掉。
+//
+// 联动模式下钱直接进卖货玩家的共享账户，箱里不生成纸币。
 //
 // 结算分两路：
 //
@@ -79,7 +83,7 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
 // 而直接作废——不会出现产物没了钱也没了。
 //
 // 返回：卖得的总额；没东西可卖或箱子空间不够时返回 0
-    public int sell(long day) {
+    public int sell(long day, Player seller) {
         Map<Item, Integer> prices = EconomicNews.todayPrices(day);
         Map<Integer, Long> numerators = new HashMap<>();
         int weighedMoney = 0;
@@ -102,6 +106,22 @@ public class PurchasingBoxBlockEntity extends BlockEntity implements MenuProvide
         int money = (int) countedMoney + weighedMoney;
         if (money <= 0) {
             return 0;
+        }
+// 联动模式：直接结算进共享账户，箱里不再塞纸币
+        if (EconomyCompat.isShared()) {
+            if (!(seller instanceof ServerPlayer serverPlayer)) {
+                return 0;
+            }
+            if (EconomyCompat.credit(serverPlayer, money) != money) {
+// 入账没成：产物一件都不动，玩家可以再点一次
+                return 0;
+            }
+            for (int i = 0; i < SLOT_COUNT; i++) {
+                if (isSold(this.inventory.getItem(i), prices, day)) {
+                    this.inventory.setItem(i, ItemStack.EMPTY);
+                }
+            }
+            return money;
         }
 // 先照着「卖掉产物 + 放进纸币」在副本上算一遍，塞不下就整单取消
         List<ItemStack> simulate = new ArrayList<>(SLOT_COUNT);

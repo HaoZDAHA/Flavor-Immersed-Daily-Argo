@@ -128,23 +128,25 @@ public final class ModDataComponents {
                     .networkSynchronized(ByteBufCodecs.VAR_LONG)
                     .build());
 
-// 银行卡里的 9 个槽位：只放钱币，纯存储，不计入卡面账户
-// 必须用 OPTIONAL_CODEC / OPTIONAL_STREAM_CODEC：空槽就是 ItemStack.EMPTY，普通编解码器会存档失败。
-// 槽位数不做定长约束：老存档里存的是 27 格，定长会直接读不出来；读取时由 CreditCardItem.getItems 归一到 9 格。
+// 银行卡的唯一 ID
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> CARD_UID =
+            REGISTRY.register("card_uid", () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build());
+
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemStack>>> CARD_ITEMS =
             REGISTRY.register("card_items", () -> DataComponentType.<List<ItemStack>>builder()
                     .persistent(ItemStack.OPTIONAL_CODEC.listOf())
                     .networkSynchronized(ItemStack.OPTIONAL_STREAM_CODEC.apply(ByteBufCodecs.collection(java.util.ArrayList::new)))
                     .build());
 
-// 导航手机是否已展开（展开后才能右键接单界面）
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PHONE_OPEN =
             REGISTRY.register("phone_open", () -> DataComponentType.<Boolean>builder()
                     .persistent(Codec.BOOL)
                     .networkSynchronized(ByteBufCodecs.BOOL)
                     .build());
 
-// 「打包好的外卖」携带的订单（起点 / 终点 xz、截止刻、配送费）
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<DeliveryOrder>> DELIVERY_ORDER =
             REGISTRY.register("delivery_order", () -> DataComponentType.<DeliveryOrder>builder()
                     .persistent(DeliveryOrder.CODEC)

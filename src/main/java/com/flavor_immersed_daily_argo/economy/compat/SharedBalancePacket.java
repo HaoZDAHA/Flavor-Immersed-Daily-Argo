@@ -1,0 +1,29 @@
+package com.flavor_immersed_daily_argo.economy.compat;
+
+import com.flavor_immersed_daily_argo.flavor_immersed_daily_argo;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+
+// 服务端 → 客户端：联动开没开，以及共享账户当前余额。
+//
+// 余额只在 SDM Economy 的服务端数据里，客户端算不出来，得由服务端推。
+// shared = false 时余额没意义，客户端按原版走。
+public record SharedBalancePacket(boolean shared, long balance) implements CustomPacketPayload {
+
+    public static final Type<SharedBalancePacket> TYPE = new Type<>(
+            ResourceLocation.fromNamespaceAndPath(flavor_immersed_daily_argo.MODID, "shared_balance"));
+
+    public static final StreamCodec<FriendlyByteBuf, SharedBalancePacket> STREAM_CODEC = StreamCodec.of(
+            (buf, packet) -> {
+                buf.writeBoolean(packet.shared());
+                buf.writeLong(packet.balance());
+            },
+            buf -> new SharedBalancePacket(buf.readBoolean(), buf.readLong()));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+}

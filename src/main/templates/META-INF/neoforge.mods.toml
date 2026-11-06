@@ -93,3 +93,23 @@ Example mod description.
 # stop your mod loading on the server for example.
 #[features.${mod_id}]
 #openGLVersion="[3.2,)"
+
+# ── 可选联动 ────────────────────────────────────────────────────────────────
+# 装了 SDM Shop（以及它依赖的 SDM Economy）时，本模组的经济系统会自动与
+# SDM Economy 的 basic_money 账户互通；不装则完全使用自己的经济系统。
+#
+# 两条都必须是 optional：SDM Shop 绝不能成为本模组的强制依赖。
+# ordering=AFTER 只影响加载顺序，不构成依赖要求。
+[[dependencies.${mod_id}]]
+    modId="sdmshop"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="sdm_economy"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"

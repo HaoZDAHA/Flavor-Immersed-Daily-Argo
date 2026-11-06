@@ -847,6 +847,7 @@ public class ModLangs extends LanguageProvider {
         tooltip("card_owner", "§7Holder: §f%s");
         tooltip("card_owner_none", "Unbound");
         tooltip("card_value", "§7Balance: §f%s");
+        tooltip("card_value_shared", "§7Balance: §fshared with your SDM account§7 — check the ATM or SDM Shop for the exact figure");
         tooltip("nav_phone", "§7§oSneak + right-click to flip it open or shut; once open, right-click to browse takeout orders.");
         tooltip("nav_phone_open", "§7State: §aOpen");
         tooltip("nav_phone_closed", "§7State: §7Closed");
@@ -1178,7 +1179,8 @@ public class ModLangs extends LanguageProvider {
         add("message." + MODID + ".shop.no_goods", "You are not holding any item");
         add("message." + MODID + ".shop.checked_out", "Paid ¥%s");
         add("message." + MODID + ".shop.cart_empty", "The cart is empty");
-        add("message." + MODID + ".shop.insufficient", "Not enough money on the card");
+        add("message." + MODID + ".shop.insufficient", "Not enough money");
+        add("message." + MODID + ".shop.invalid_cart", "Something is off with the cart, please pick the items again");
         add("message." + MODID + ".shop.out_of_stock", "Not enough stock");
         add("message." + MODID + ".shop.limit_reached", "You have reached the shop creation limit");
         add("message." + MODID + ".shop.disabled", "Player shops are disabled on this server");

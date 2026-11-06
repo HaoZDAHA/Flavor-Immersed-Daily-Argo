@@ -2,6 +2,7 @@ package com.flavor_immersed_daily_argo.economy;
 
 import com.flavor_immersed_daily_argo.client.GuiStyle;
 import com.flavor_immersed_daily_argo.client.RoundedButton;
+import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
 import com.flavor_immersed_daily_argo.economy.product.EconomicNews;
 import com.flavor_immersed_daily_argo.economy.product.WeightPriceData;
 import com.flavor_immersed_daily_argo.economy.shop.CartLine;
@@ -398,7 +399,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
                             ? Component.translatable("gui.flavor_immersed_daily_argo.market.card_anonymous")
                             : Component.literal(owner),
                     px + 30, y + 5, GuiStyle.TEXT);
-            String money = "¥" + CreditCardItem.getAccount(stack);
+            String money = "¥" + (EconomyCompat.isShared()
+                    ? EconomyCompat.clientBalance() : CreditCardItem.getAccount(stack));
             gui.drawString(font, money, px + pw - 12 - font.width(money), y + 5, GuiStyle.ACCENT);
         }
 

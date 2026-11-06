@@ -2,6 +2,8 @@ package com.flavor_immersed_daily_argo.economy.shop;
 
 import com.flavor_immersed_daily_argo.economy.CreditCardItem;
 import com.flavor_immersed_daily_argo.economy.EconomyConfig;
+import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
+import com.flavor_immersed_daily_argo.economy.compat.SharedEconomyData;
 import com.flavor_immersed_daily_argo.economy.product.EconomicNews;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -18,7 +20,9 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // 玩家店铺存档。
 //
@@ -27,6 +31,10 @@ import java.util.List;
 public class ShopManager extends SavedData {
 
     public static final String DATA_NAME = "flavor_immersed_daily_argo_shops";
+
+// 购物车校验上限
+    private static final int MAX_CART_LINES = 64;
+    private static final int MAX_LINE_QTY = 999;
 
     private static final SavedData.Factory<ShopManager> FACTORY =
             new SavedData.Factory<>(ShopManager::new, (tag, provider) -> new ShopManager(tag), null);
@@ -207,29 +215,60 @@ public class ShopManager extends SavedData {
         return true;
     }
 
-// 提现：把店铺余额写进这张卡的卡面账户，余额清零
+// 提现：余额转入玩家账户，卡只当凭据
     public boolean withdraw(ServerPlayer player, String shopId, ItemStack card) {
         Shop shop = findOwned(player, shopId);
         if (shop == null || card == null || !(card.getItem() instanceof CreditCardItem) || shop.balance() <= 0L) {
             return false;
         }
-        CreditCardItem.setAccount(card, CreditCardItem.getAccount(card) + shop.balance());
-        replace(shop.id(), shop.entries(), 0L);
+        long amount = shop.balance();
+        long credited = EconomyCompat.cardCredit(player, card, amount);
+        if (credited <= 0L) {
+            return false;
+        }
+// 只扣真正到账的部分
+        replace(shop.id(), shop.entries(), amount - credited);
         player.getInventory().setChanged();
         this.setDirty();
         return true;
     }
 
+// 旧店铺余额折进待结算
+    public void migrateOwnerBalances(ServerPlayer player, SharedEconomyData data) {
+        if (!EconomyCompat.isShared() || player == null || data == null) {
+            return;
+        }
+        String owner = player.getName().getString();
+        String key = player.getUUID().toString();
+        boolean changed = false;
+        for (int i = 0; i < this.shops.size(); i++) {
+            Shop shop = this.shops.get(i);
+            if (shop.isSystem() || !shop.ownerName().equals(owner) || shop.balance() <= 0L) {
+                continue;
+            }
+            data.addPending(key, shop.balance());
+            this.shops.set(i, new Shop(shop.id(), shop.title(), shop.ownerName(),
+                    shop.entries(), 0L, shop.playerShop()));
+            changed = true;
+        }
+        if (changed) {
+            this.setDirty();
+        }
+    }
+
 // 结账
 
-// 结账：校验「购物车非空 / 选中的背包格是银行卡 / 卡面账户 ≥ 合计 / 有限库存足量」，
-// 通过则扣卡面账户、发物品、扣玩家店铺库存、把货款累加进店主 balance。
-// 任一失败都用 actionBar 提示对应语言键且不扣钱。
+// 结账：校验通过后扣钱、发货、记货款
 //
 // cardSlot：玩家在背包里选中的银行卡所在格（0–35 主背包 / 40 副手）
     public static void checkout(ServerPlayer player, List<CartLine> cart, int cardSlot) {
         if (cart.isEmpty()) {
             message(player, "cart_empty");
+            return;
+        }
+// 购物车来自客户端，数量和条数都要设上限：否则负数或超大数量能把总价算成负数、白拿东西
+        if (cart.size() > MAX_CART_LINES) {
+            message(player, "invalid_cart");
             return;
         }
         if (cardSlot < 0 || cardSlot > 40) {
@@ -244,31 +283,44 @@ public class ShopManager extends SavedData {
         ShopManager manager = get(player.server);
         List<Shop> all = manager.allShops(player.server);
 
-// 先整体校验：店铺 / 下标 / 库存 / 余额（逐行对齐，无效行留空）
+// 先整体校验：店铺 / 下标 / 库存 / 余额（逐行对齐，无效行留空）。
+//
+// 库存要按「同一条目累计买多少」来校验：同一个条目被拆成多行提交时，
+// 逐行各看一次会放过「库存只有 1 份却买了 3 份」这种伪造请求。
         long total = 0L;
         ShopEntry[] resolved = new ShopEntry[cart.size()];
+        Map<String, Integer> qtyPerEntry = new HashMap<>();
         for (int i = 0; i < cart.size(); i++) {
             CartLine line = cart.get(i);
+            if (line.qty() <= 0 || line.qty() > MAX_LINE_QTY) {
+                message(player, "invalid_cart");
+                return;
+            }
             Shop shop = find(all, line.shopId());
             if (shop == null || line.entryIndex() < 0 || line.entryIndex() >= shop.entries().size()) {
                 continue;
             }
             ShopEntry entry = shop.entries().get(line.entryIndex());
-            if (!entry.infinite() && entry.stock() < line.qty()) {
+            int wanted = qtyPerEntry.merge(line.shopId() + "#" + line.entryIndex(), line.qty(), Integer::sum);
+            if (!entry.infinite() && entry.stock() < wanted) {
                 message(player, "out_of_stock");
                 return;
             }
-            total += (long) entry.price() * line.qty();
+            total = EconomyCompat.saturatingAdd(total, (long) entry.price() * line.qty());
             resolved[i] = entry;
         }
-        long account = CreditCardItem.getAccount(card);
+// 余额：原版读卡面账户，联动模式读 SDM Economy 的共享账户
+        long account = EconomyCompat.cardBalance(player, card);
         if (account < total) {
             message(player, "insufficient");
             return;
         }
 
-// 扣钱并发货
-        CreditCardItem.setAccount(card, account - total);
+// 扣钱并发货：扣款失败就整单放弃，不发任何物品
+        if (!EconomyCompat.cardPay(player, card, total)) {
+            message(player, "insufficient");
+            return;
+        }
         for (int i = 0; i < cart.size(); i++) {
             ShopEntry entry = resolved[i];
             if (entry == null) {
@@ -278,7 +330,7 @@ public class ShopManager extends SavedData {
             Shop shop = find(all, line.shopId());
             give(player, new ItemStack(entry.item(), entry.count() * line.qty()));
             if (shop != null && shop.playerShop()) {
-                manager.applyPurchase(shop.id(), line.entryIndex(), line.qty(), entry.price());
+                manager.applyPurchase(player, shop.id(), line.entryIndex(), line.qty(), entry.price());
             }
         }
         player.getInventory().setChanged();
@@ -293,8 +345,12 @@ public class ShopManager extends SavedData {
         PacketDistributor.sendToPlayer(player, new ShopCheckoutResultPacket(true, done));
     }
 
-// 买家付的钱累加进店主余额，有限库存按购买次数扣减
-    private void applyPurchase(String shopId, int index, int qty, int price) {
+// 买家付的钱进店主的账户，有限库存按购买次数扣减。
+//
+// 原版：累加进店铺 balance，店主自己在商业电脑里提现。
+// 联动模式：货款直接进店主的 SDM Economy 共享账户；店主不在线就先挂待结算，
+// 等他上线再转进去（见 EconomyCompat#creditOwner）。系统店铺的货款不归任何玩家，不进账。
+    private void applyPurchase(ServerPlayer buyer, String shopId, int index, int qty, int price) {
         for (int i = 0; i < this.shops.size(); i++) {
             Shop shop = this.shops.get(i);
             if (!shop.id().equals(shopId)) {
@@ -304,8 +360,15 @@ public class ShopManager extends SavedData {
             ShopEntry e = entries.get(index);
             int stock = e.infinite() ? e.stock() : Math.max(0, e.stock() - qty);
             entries.set(index, new ShopEntry(e.item(), e.count(), e.price(), stock));
+            long income = (long) price * qty;
+            long balance = shop.balance();
+            if (EconomyCompat.isShared()) {
+                EconomyCompat.creditOwner(buyer.server, shop.ownerName(), income);
+            } else {
+                balance = EconomyCompat.saturatingAdd(balance, income);
+            }
             this.shops.set(i, new Shop(shop.id(), shop.title(), shop.ownerName(), List.copyOf(entries),
-                    shop.balance() + (long) price * qty, true));
+                    balance, true));
             return;
         }
     }

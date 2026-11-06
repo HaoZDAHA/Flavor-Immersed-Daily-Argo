@@ -2,6 +2,7 @@ package com.flavor_immersed_daily_argo.economy;
 
 import com.flavor_immersed_daily_argo.all.ModDataComponents;
 import com.flavor_immersed_daily_argo.all.ModItems;
+import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -17,17 +18,12 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 // 银行卡
 //
-// 一张卡身上存着三样东西（都用数据组件 / NBT 保存）：
-//
-// 持卡主人：绑定一位玩家；空着就是还没绑定，谁打开卡（直接右键或走自助取款机）就先绑谁。
-// 卡面账户 / 金融价值：存款余额。存钱时把卡里槽位的纸币折算进来，取钱时再换回纸币。
-// 卡内 9 个槽位：只能放六种纸币。纯存储——里面的钱不参与卡面账户结算，
-// 想让它变成账户里的钱，得拿着卡去自助取款机主动「存入」。
-//
-// 右键这张卡就能直接打开卡内 9 格的存储界面存取纸币；存/取账户、改主人则要拿着卡去自助取款机。
+// 四样东西：持卡主人、卡面账户、卡内 9 格纸币、唯一 ID。
+// 装了 SDM Shop 时余额以 basic_money 为准，卡只当 ATM 凭证和纸币载体。
 public class CreditCardItem extends Item {
 
 // 卡内槽位数：1×9
@@ -79,6 +75,24 @@ public class CreditCardItem extends Item {
         card.set(ModDataComponents.CARD_ACCOUNT.get(), Math.max(0L, value));
     }
 
+// 卡的唯一 ID
+    public static String getUid(ItemStack card) {
+        return card.getOrDefault(ModDataComponents.CARD_UID.get(), "");
+    }
+
+    public static void setUid(ItemStack card, String uid) {
+        card.set(ModDataComponents.CARD_UID.get(), uid == null ? "" : uid);
+    }
+
+// 没有 ID 就补一个，返回是否补了
+    public static boolean ensureUid(ItemStack card) {
+        if (card == null || card.isEmpty() || !getUid(card).isEmpty()) {
+            return false;
+        }
+        setUid(card, UUID.randomUUID().toString());
+        return true;
+    }
+
 // 卡内 9 槽
 
 // 读卡内槽位；返回的列表一定正好 #SLOT_COUNT 格（没有组件或数量对不上就归一）。
@@ -127,6 +141,11 @@ public class CreditCardItem extends Item {
                 owner.isEmpty()
                         ? Component.translatable("tooltip.flavor_immersed_daily_argo.card_owner_none")
                         : Component.literal(owner)));
-        tooltip.add(Component.translatable("tooltip.flavor_immersed_daily_argo.card_value", getAccount(stack)));
+// 共用账户时提示去哪儿看余额
+        if (EconomyCompat.isShared()) {
+            tooltip.add(Component.translatable("tooltip.flavor_immersed_daily_argo.card_value_shared"));
+        } else {
+            tooltip.add(Component.translatable("tooltip.flavor_immersed_daily_argo.card_value", getAccount(stack)));
+        }
     }
 }
