@@ -1,6 +1,7 @@
 package com.flavor_immersed_daily_argo.all;
 
 import com.flavor_immersed_daily_argo.flavor_immersed_daily_argo;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
@@ -25,10 +26,30 @@ public final class ModFluidTypes {
             super(properties);
         }
 
-// 1.20.1 没有 renderFluid 钩子，改用「全透明槽色」：水依然在，但画出来看不见
+// 1.20.1 没有 renderFluid 钩子，改用「全透明槽色」：水依然在，但画出来看不见。
+//
+// 注意：1.20.1 Forge 的 IClientFluidTypeExtensions 默认实现把 still / flowing / overlay
+// 贴图全部返回 null（不是回落到原版水），一旦自定义扩展只覆盖颜色，
+// 区块重建时 ForgeHooksClient.getFluidSprites 就会拿 null 去查图集，
+// 直接崩「Tesselating liquid in world」。所以这里必须把三张贴图都显式指回原版水贴图。
         @Override
         public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
             consumer.accept(new IClientFluidTypeExtensions() {
+                @Override
+                public ResourceLocation getStillTexture() {
+                    return new ResourceLocation("block/water_still");
+                }
+
+                @Override
+                public ResourceLocation getFlowingTexture() {
+                    return new ResourceLocation("block/water_flow");
+                }
+
+                @Override
+                public ResourceLocation getOverlayTexture() {
+                    return new ResourceLocation("block/water_overlay");
+                }
+
                 @Override
                 public int getTintColor() {
                     return 0x00FFFFFF;
