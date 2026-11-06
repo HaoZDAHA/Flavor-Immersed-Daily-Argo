@@ -20,7 +20,7 @@ import net.minecraftforge.fluids.FluidType;
 //
 // 它没有对应的水方块，也永远不会流动、不会 tick，只作为水车三格 getFluidState
 // 返回的流体状态存在。之所以不用原版水，是因为原版水一定会被客户端画出来（水柱），
-// 而自定义流体可以在客户端注册 IClientFluidTypeExtensions.renderFluid 里直接跳过绘制。
+// 而自定义流体可以通过 isEmpty() 让客户端连流体几何都不生成（见下面的实现）。
 //
 // 功能上它跟水源完全一致：isSource 为 true、com.flavor_immersed_daily_argo.all.ModFluidTypes
 // 里 canHydrate(true) 让耕地/甘蔗/珊瑚等判定把这三格当成水源，
@@ -36,6 +36,22 @@ public class WaterwheelWaterFluid extends Fluid {
     @Override
     public FluidType getFluidType() {
         return ModFluidTypes.WATERWHEEL_WATER_TYPE.get();
+    }
+
+// 这个流体在世界上完全不绘制。
+//
+// 1.20.1 的区块构建只在 !fluidState.isEmpty() 时才跑流体绘制
+// （ChunkRenderDispatcher$RebuildTask#compile 里那段 renderLiquid），
+// 而且 1.20.1 Forge 没有 1.21.1 那种 renderFluid 钩子。所以让流体状态
+// 把自己报告成“空”，水车三格就彻底不生成任何流体几何：不画、也不需要贴图。
+//
+// 这里只影响“看起来是不是空的”，不影响它作为水源的身份：
+// 流体类型仍是独立注册的 FluidType，canHydrate(true) 让耕地湿度判定认它，
+// 数据包里登记进 minecraft:water 流体标签后，甘蔗、珊瑚、其它模组查
+// FluidTags.WATER 也都照旧把它当水。
+    @Override
+    protected boolean isEmpty() {
+        return true;
     }
 
 // 用桶能装起来的是原版水桶
