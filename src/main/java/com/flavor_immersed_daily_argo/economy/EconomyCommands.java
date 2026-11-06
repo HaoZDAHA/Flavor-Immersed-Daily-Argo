@@ -21,7 +21,7 @@ import java.util.List;
 //
 // /fidaeco add <本模组货币> <数量> <其他模组物品> <数量> —— 增加一条外汇兑换；
 // /fidaeco delete <本模组货币> <数量> <其他模组物品> <数量> —— 删除这条兑换；
-// /fidaeco list —— 列出当前所有兑换条目。
+// /fidaeco list —— 列出兑换条目
 //
 // 条目最终写在配置 economy.toml 的 exchange.entries 里。
 @EventBusSubscriber(modid = flavor_immersed_daily_argo.MODID)
@@ -88,4 +88,5 @@ public final class EconomyCommands {
         }
         return entries.size();
     }
+
 }

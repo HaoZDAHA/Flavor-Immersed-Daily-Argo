@@ -36,6 +36,8 @@ import com.flavor_immersed_daily_argo.economy.PhoneAcceptOrderPacket;
 import com.flavor_immersed_daily_argo.economy.PhoneCancelOrderPacket;
 import com.flavor_immersed_daily_argo.economy.PhoneOrderRequestPacket;
 import com.flavor_immersed_daily_argo.economy.PhoneOrderSyncPacket;
+import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
+import com.flavor_immersed_daily_argo.economy.compat.SharedBalancePacket;
 import com.flavor_immersed_daily_argo.economy.shop.ShopCheckoutPacket;
 import com.flavor_immersed_daily_argo.economy.shop.ShopCheckoutResultPacket;
 import com.flavor_immersed_daily_argo.economy.shop.ShopClientData;
@@ -526,6 +528,10 @@ public class flavor_immersed_daily_argo {
                     player.inventoryMenu.broadcastFullState();
                     ShopManager.syncAll(player.server);
                 }));
+// 经济联动：同步联动状态与余额给客户端
+        registrar.playToClient(SharedBalancePacket.TYPE, SharedBalancePacket.STREAM_CODEC,
+                (packet, context) -> context.enqueueWork(
+                        () -> EconomyCompat.acceptClientSync(packet.shared(), packet.balance())));
 // 收购箱：客户端点了界面里的「出售」，服务端按今天的收购价把箱内经济产物变现成纸币
         registrar.playToServer(PurchasingBoxSellPacket.TYPE, PurchasingBoxSellPacket.STREAM_CODEC,
                 (packet, context) -> context.enqueueWork(() -> {

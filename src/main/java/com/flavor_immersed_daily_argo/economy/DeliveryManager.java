@@ -3,6 +3,7 @@ package com.flavor_immersed_daily_argo.economy;
 import com.flavor_immersed_daily_argo.all.ModDataComponents;
 import com.flavor_immersed_daily_argo.all.ModEntities;
 import com.flavor_immersed_daily_argo.all.ModItems;
+import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
 import com.flavor_immersed_daily_argo.entity.DeliveryPoint;
 import com.flavor_immersed_daily_argo.entity.TakeawayBag;
 import com.flavor_immersed_daily_argo.entity.TakeawayBagItem;
@@ -177,7 +178,19 @@ public final class DeliveryManager {
         }
     }
 
-// 把一笔钱按面额从大到小摊成纸币掉落物（满 64 张就先出一整摞大票）
+    public static void reward(Player player, ServerLevel level, Vec3 pos, long amount) {
+        if (amount <= 0L) {
+            return;
+        }
+        if (EconomyCompat.isShared() && player instanceof ServerPlayer serverPlayer) {
+            if (EconomyCompat.credit(serverPlayer, amount) == amount) {
+                return;
+            }
+        }
+        spawnMoney(level, pos, amount);
+    }
+
+// 把一笔钱按面额从大到小摊成纸币掉落物（满 64 张就先出一整摞大票）。
     public static void spawnMoney(ServerLevel level, Vec3 pos, long amount) {
         long remaining = amount;
         for (int denomination : CreditCardItem.DENOMINATIONS) {
