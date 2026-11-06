@@ -93,7 +93,10 @@ public final class FidNetwork {
         if (entry == null) {
             throw new IllegalArgumentException("数据包未登记: " + payload.type().id());
         }
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.buffer());
+// 必须用 RegistryFriendlyByteBuf：不少包的 codec 声明成
+// StreamCodec<RegistryFriendlyByteBuf, T>，编译器会在调用处插入
+// 到 RegistryFriendlyByteBuf 的强制转换；这里给普通 FriendlyByteBuf 会直接 ClassCastException。
+        RegistryFriendlyByteBuf buffer = new RegistryFriendlyByteBuf(Unpooled.buffer());
         entry.encode(buffer, payload);
         byte[] bytes = new byte[buffer.readableBytes()];
         buffer.readBytes(bytes);
@@ -139,7 +142,8 @@ public final class FidNetwork {
             context.setPacketHandled(true);
             return;
         }
-        FriendlyByteBuf buffer = new FriendlyByteBuf(Unpooled.wrappedBuffer(data));
+// 解码同理，codec 同样期望 RegistryFriendlyByteBuf
+        RegistryFriendlyByteBuf buffer = new RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(data));
         CustomPacketPayload payload = entry.decode(buffer);
         context.enqueueWork(() -> entry.handle(payload, new FidPayloadContext(context, toClient)));
         context.setPacketHandled(true);

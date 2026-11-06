@@ -47,10 +47,12 @@ public final class ModArmorMaterials {
             return Ingredient.of(ModItems.SILK.get());
         }
 
-// 贴图名：assets/flavor_immersed_daily_argo/textures/models/armor/silk_layer_1.png
+// 贴图名必须带命名空间：1.20.1 Forge 的 HumanoidArmorLayer 会把这个名字按
+// "命名空间:路径" 拆开再去拼贴图，不写命名空间就会默认落到 minecraft 下，
+// 于是去找 minecraft:textures/models/armor/silk_layer_1.png（本模组里没有这个文件）。
         @Override
         public String getName() {
-            return "silk";
+            return "flavor_immersed_daily_argo:silk";
         }
 
         @Override
