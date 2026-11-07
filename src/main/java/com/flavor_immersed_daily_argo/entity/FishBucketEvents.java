@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 // 空桶也能直接捞本模组的鱼。
@@ -21,6 +22,26 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 public final class FishBucketEvents {
 
     private FishBucketEvents() {
+    }
+
+// 本模组的水产属于玩家养的东西，不该因为玩家走远被自然刷新掉。
+//
+// 原版 AbstractFish#removeWhenFarAway 返回 true，鱼、虾、蟹、龟都会被
+// checkDespawn 在距离玩家过远时直接 discard。这里在实体进入世界（含区块重载）
+// 时给本模组的水产打上持久化标记，之后 checkDespawn 不会再把它刷掉。
+    @SubscribeEvent
+    public static void onEntityJoin(EntityJoinLevelEvent event) {
+        if (event.getLevel().isClientSide()) {
+            return;
+        }
+        if (!(event.getEntity() instanceof AbstractFish fish)) {
+            return;
+        }
+        if (!flavor_immersed_daily_argo.MODID.equals(
+                BuiltInRegistries.ENTITY_TYPE.getKey(fish.getType()).getNamespace())) {
+            return;
+        }
+        fish.setPersistenceRequired();
     }
 
     @SubscribeEvent

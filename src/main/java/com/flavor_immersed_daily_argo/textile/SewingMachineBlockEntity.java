@@ -226,12 +226,24 @@ public class SewingMachineBlockEntity extends BlockEntity implements MenuProvide
         if (!(this.level instanceof ServerLevel serverLevel)) {
             return;
         }
+        serverLevel.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(),
+                net.minecraft.world.level.block.Block.UPDATE_CLIENTS);
         SewingMachineSyncPacket packet = new SewingMachineSyncPacket(this.garment.copy());
         for (ServerPlayer player : serverLevel.players()) {
             if (player.containerMenu instanceof SewingMachineMenu menu && menu.blockEntity() == this) {
                 PacketDistributor.sendToPlayer(player, packet);
             }
         }
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this);
     }
 
 // 存档

@@ -124,6 +124,7 @@ import com.flavor_immersed_daily_argo.client.entity.model.SwordfishModel;
 import com.flavor_immersed_daily_argo.client.entity.model.TunaModel;
 import com.flavor_immersed_daily_argo.client.entity.renderer.SimpleMobRenderer;
 import com.flavor_immersed_daily_argo.fishing.FishingBoxScreen;
+import com.flavor_immersed_daily_argo.fishing.FishingRodKeyMapping;
 import com.flavor_immersed_daily_argo.fishing.FishingRodModMenu;
 import com.flavor_immersed_daily_argo.fishing.FishingRodModScreen;
 import com.flavor_immersed_daily_argo.fishing.FishingRodModelOverrides;
@@ -483,6 +484,8 @@ public class flavor_immersed_daily_argoClient {
         event.register(UavClient.UAV_EXIT);
 // 瞄准顾客 / 外卖小哥时按 R 查看这道菜的配方
         event.register(OrderRecipeKeyMapping.SHOW_ORDER_RECIPE);
+// 手持南山钓竿时按此键打开改装界面
+        event.register(FishingRodKeyMapping.OPEN_ROD_MOD);
     }
 
     @SubscribeEvent

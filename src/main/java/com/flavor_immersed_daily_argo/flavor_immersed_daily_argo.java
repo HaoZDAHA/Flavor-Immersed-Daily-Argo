@@ -13,6 +13,7 @@ import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.all.ModMenus;
 import com.flavor_immersed_daily_argo.all.ModMobEffects;
 import com.flavor_immersed_daily_argo.all.ModSounds;
+import com.flavor_immersed_daily_argo.compat.ThirstCompat;
 import com.flavor_immersed_daily_argo.config.Config;
 import com.flavor_immersed_daily_argo.datagen.FIDDataGenerators;
 import com.flavor_immersed_daily_argo.entity.Harvester;
@@ -123,6 +124,8 @@ public class flavor_immersed_daily_argo {
         modEventBus.addListener(this::registerPackets);
 // 未安装帕秋莉手册时，登录时提醒玩家（「南山-教程卷轴」需要它才能翻阅）
         NeoForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
+// 装了口渴模组时，把果汁 / 水果 / 汤登记成能补水的物品
+        ThirstCompat.register();
 
 // 数据生成（gradlew runData）
         modEventBus.addListener(FIDDataGenerators::gatherData);

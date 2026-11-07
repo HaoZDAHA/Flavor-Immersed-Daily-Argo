@@ -14,7 +14,9 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = mod_version
+// 模组版本号与发布的 jar 保持一致，统一使用构建当天的日期：2026.11.07
+def buildDate = new Date().format('yyyy.MM.dd')
+version = buildDate
 group = mod_group_id
 
 sourceSets.main.resources {
@@ -42,10 +44,9 @@ base {
     archivesName = mod_id
 }
 
-// 发布的 jar 一律带构建当天的日期：flavor_immersed_daily_argo-1.21.1-neoforge-2026.10.28.jar
+// 发布的 jar 一律带构建当天的日期：flavor_immersed_daily_argo-1.21.1-neoforge-2026.11.07.jar
 // 日期同时作为任务输入，避免构建缓存直接复用昨天那份产物
 def archiveBase = "${mod_id}-${minecraft_version}-neoforge".toString()
-def buildDate = new Date().format('yyyy.MM.dd')
 tasks.withType(Jar).configureEach {
     inputs.property('buildDate', buildDate)
     archiveFileName = "${archiveBase}-${buildDate}.jar"
@@ -187,7 +188,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
-            mod_version            : mod_version,
+            mod_version            : version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
