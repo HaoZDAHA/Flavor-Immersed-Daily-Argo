@@ -129,13 +129,6 @@ public final class ModDataComponents {
                     .networkSynchronized(ByteBufCodecs.VAR_LONG)
                     .build());
 
-// 银行卡的唯一 ID
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> CARD_UID =
-            REGISTRY.register("card_uid", () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
-                    .build());
-
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemStack>>> CARD_ITEMS =
             REGISTRY.register("card_items", () -> DataComponentType.<List<ItemStack>>builder()
                     .persistent(FidCodecs.OPTIONAL_STACK_CODEC.listOf())

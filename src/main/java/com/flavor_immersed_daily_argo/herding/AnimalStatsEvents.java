@@ -39,20 +39,23 @@ public final class AnimalStatsEvents {
 
 // 用动物原本认的食物喂食同样算「被玩家喂食」。
 //
-// 本模组自己的四种饲料走 AnimalFeedItem 内部那条路径，这里跳过以免重复计数。
+// 显式映射与动物饲料在服务端直接处理并取消后续交互，避免重复计数。
     @SubscribeEvent
     public static void onInteractEntity(PlayerInteractEvent.EntityInteract event) {
-        if (!(event.getTarget() instanceof Animal animal) || !AnimalStatsManager.isTracked(animal)) {
-            return;
-        }
+        if (!(event.getTarget() instanceof Animal animal) || animal.level().isClientSide) return;
         ItemStack stack = event.getItemStack();
-        if (stack.isEmpty() || stack.getItem() instanceof AnimalFeedItem) {
+        if (stack.isEmpty()) return;
+        boolean override = AnimalFeedItem.hasFeedOverride(animal.getType());
+        if ((override && (AnimalFeedItem.isFeedFor(animal, stack) || animal.isFood(stack)
+                || stack.getItem() instanceof AnimalFeedItem)) || stack.getItem() instanceof AnimalFeedItem) {
+            InteractionResult result = AnimalFeedItem.feedAnimal(stack, event.getEntity(), animal);
+            if (override || result.consumesAction()) {
+                event.setCanceled(true);
+                event.setCancellationResult(result.consumesAction() ? result : InteractionResult.FAIL);
+            }
             return;
         }
-        if (animal.isBaby() || animal.isInLove() || !animal.isFood(stack)) {
-            return;
-        }
-        if (!animal.level().isClientSide) {
+        if ((animal.isBaby() || !animal.isInLove()) && AnimalFeedItem.isFeedFor(animal, stack)) {
             AnimalStatsManager.onFed(animal);
         }
     }

@@ -69,6 +69,34 @@ public class Config {
                     + "do not spoil the look of a base; livestock and poultry still produce droppings either way.")
             .define("petExcretion", false);
 
+    public static final ForgeConfigSpec.IntValue ANIMAL_DECAY_AMOUNT = BUILDER.defineInRange("animalDecayAmount", 1, 0, 10);
+    public static final ForgeConfigSpec.IntValue ANIMAL_RESTORE_AMOUNT = BUILDER.defineInRange("animalRestoreAmount", 1, 0, 10);
+    public static final ForgeConfigSpec.IntValue ANIMAL_FEED_SATIETY = BUILDER.defineInRange("animalFeedSatiety", 3, 0, 10);
+    public static final ForgeConfigSpec.IntValue ANIMAL_FEED_MOOD = BUILDER.defineInRange("animalFeedMood", 1, 0, 10);
+    public static final ForgeConfigSpec.DoubleValue ANIMAL_WEIGHT_STEP_RATIO = BUILDER.defineInRange("animalWeightStepRatio", 0.02D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.DoubleValue ANIMAL_POOP_CHANCE = BUILDER.defineInRange("animalPoopChance", 0.25D, 0.0D, 1.0D);
+    public static final ForgeConfigSpec.IntValue ANIMAL_FLY_BITE_CLEAN_LOSS = BUILDER.defineInRange("animalFlyBiteCleanLoss", 5, 0, 10);
+    public static final ForgeConfigSpec.IntValue TROUGH_NEED_THRESHOLD = BUILDER.defineInRange("troughNeedThreshold", 5, 0, 9);
+    public static final ForgeConfigSpec.IntValue TROUGH_RESTORE_AMOUNT = BUILDER.defineInRange("troughRestoreAmount", 5, 1, 10);
+    public static final ForgeConfigSpec.IntValue TROUGH_FEED_INTERVAL = BUILDER.defineInRange("troughFeedInterval", 20, 1, 1200);
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_FEED_ANIMALS = BUILDER
+            .comment("Additional Animal-subclass entity IDs; these accept grass feed unless explicitly mapped. Does not support arbitrary mobs. Missing mods are ignored.")
+            .defineListAllowEmpty("extraFeedAnimals", List.of(), value -> value instanceof String id && ResourceLocation.tryParse(id) != null);
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> ANIMAL_FEED_OVERRIDES = BUILDER
+            .comment("Server authoritative Animal feed overrides: entity_id=item_id,item_id. An empty right side disables feeding. Overrides replace built-in foods. Each feeding consumes one item; do not map container items. Reload worlds after changing mappings to rebuild native tempt goals.")
+            .defineListAllowEmpty("animalFeedOverrides", List.of(), Config::validateFeedOverride);
+
+    private static boolean validateFeedOverride(Object value) {
+        if (!(value instanceof String entry)) return false;
+        String[] parts = entry.split("=", -1);
+        if (parts.length != 2 || ResourceLocation.tryParse(parts[0].trim()) == null) return false;
+        if (parts[1].isBlank()) return true;
+        for (String item : parts[1].split(",", -1)) {
+            if (ResourceLocation.tryParse(item.trim()) == null) return false;
+        }
+        return true;
+    }
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     private static boolean validateItemName(final Object obj) {

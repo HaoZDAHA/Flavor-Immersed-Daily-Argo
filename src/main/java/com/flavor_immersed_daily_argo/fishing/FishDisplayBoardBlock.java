@@ -140,7 +140,9 @@ public class FishDisplayBoardBlock extends BaseEntityBlock {
 // 该物品对应的展示实体 id；手册里没收录或没有实体时返回 null
     @Nullable
     public static ResourceLocation entityOf(Item item) {
-        FishingHandbookEntry entry = FishingHandbookData.getInstance().find(BuiltInRegistries.ITEM.getKey(item));
+        FishingHandbookData data = net.minecraftforge.fml.util.thread.EffectiveSide.get().isClient()
+                ? FishingHandbookData.getClientInstance() : FishingHandbookData.getInstance();
+        FishingHandbookEntry entry = data.find(BuiltInRegistries.ITEM.getKey(item));
         return entry != null ? entry.entityId : null;
     }
 

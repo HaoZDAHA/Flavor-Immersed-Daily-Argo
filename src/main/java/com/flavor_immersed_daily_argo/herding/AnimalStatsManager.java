@@ -39,12 +39,13 @@ import java.util.Set;
 // 清洁度：泡在水里或淋雨时每 5 秒 +1；
 // 饱食度：被喂食 +3、心情值 +1（见 #onFed）。
 //
-// 状态栏本身不会凭空出现：只有被玩家喂食过的动物才会有。拥有状态栏的动物生下的后代
+// 状态栏由手喂或兼容食槽招揽初始化。拥有状态栏的动物生下的后代
 // 会继承；在拥有状态栏的同类成年个体身边长大的幼崽，长大成人时也会补上。
 public final class AnimalStatsManager {
 
 // 拥有状态栏的动物：禽类、家畜、宠物
-    public static final Set<EntityType<?>> TRACKED = Set.of(
+    private static final class Defaults {
+    private static final Set<EntityType<?>> TRACKED = Set.of(
             EntityType.CHICKEN, EntityType.PIG, EntityType.COW, EntityType.SHEEP, EntityType.GOAT,
             EntityType.RABBIT, EntityType.CAT, EntityType.WOLF, EntityType.HORSE, EntityType.DONKEY,
             EntityType.CAMEL, EntityType.LLAMA,
@@ -57,7 +58,8 @@ public final class AnimalStatsManager {
 // 只有列在这里的动物才有体重：猫狗不在其中 —— 它们没有体重标准，体重恒为 0，
 // 面板上也不显示体重那一行。刚接手的动物按标准给体重，之后每 30 秒的衰减结算里
 // 随状态好坏上下浮动（好就长 #WEIGHT_STEP_RATIO 个标准，差就掉同样多）。
-    public static final Map<EntityType<?>, Float> WEIGHT_STANDARDS = weightStandards();
+    private static final Map<EntityType<?>, Float> WEIGHT_STANDARDS = weightStandards();
+    }
 
     private static Map<EntityType<?>, Float> weightStandards() {
         Map<EntityType<?>, Float> map = new LinkedHashMap<>();
@@ -87,11 +89,9 @@ public final class AnimalStatsManager {
 // 这种动物的体重标准（kg）；没有登记体重的动物（猫狗）返回 null
     @Nullable
     public static Float weightStandard(EntityType<?> type) {
-        return WEIGHT_STANDARDS.get(type);
+        return Defaults.WEIGHT_STANDARDS.get(type);
     }
 
-// 状态好 / 坏时体重每次结算浮动的幅度（占体重标准的比例）
-    private static final float WEIGHT_STEP_RATIO = 0.02F;
 // 体重能掉到 / 长到标准的多少倍
     private static final float WEIGHT_MIN_RATIO = 0.7F;
     private static final float WEIGHT_MAX_RATIO = 1.3F;
@@ -105,14 +105,9 @@ public final class AnimalStatsManager {
 // 判断幼崽「在谁身边长大」的范围
     private static final double RAISE_RADIUS = 8.0D;
 
-// 被喂食一次涨多少饱食度 / 心情值
-    private static final int FEED_SATIETY = 3;
-    private static final int FEED_MOOD = 1;
 // 心情好 / 心情差的判定线
     private static final int MOOD_GOOD_LINE = 7;
 
-// 饱食度每消耗一次就拉一坨的概率
-    private static final float POOP_CHANCE = 0.25F;
 // 同一个区块里最多允许多少坨粪便，超了就这次不拉
     private static final int POOP_PER_CHUNK = 6;
 
@@ -120,8 +115,6 @@ public final class AnimalStatsManager {
     private static final double FILTH_RADIUS = 3.0D;
 // 触发蝇虫叮咬需要接触的粪便 / 尸体数量
     private static final int FILTH_THRESHOLD = 3;
-// 蝇虫叮咬期间清洁度每次衰减掉的点数（正常是 1）
-    private static final int FLY_BITE_DECAY = 5;
 // 蝇虫叮咬期间清洁度能到的最高值
     public static final int FLY_BITE_CLEANLINESS_MAX = 5;
 
@@ -143,7 +136,8 @@ public final class AnimalStatsManager {
     }
 
     public static boolean isTracked(Entity entity) {
-        return TRACKED.contains(entity.getType());
+        return entity instanceof net.minecraft.world.entity.animal.Animal
+                || Defaults.TRACKED.contains(entity.getType());
     }
 
 // 猫狗：默认不排泄的宠物（见 Config#PET_EXCRETION）
@@ -158,6 +152,15 @@ public final class AnimalStatsManager {
         return stats != null && stats.active() ? stats : null;
     }
 
+    public static AnimalStats ensureStats(LivingEntity entity) {
+        AnimalStats stats = getStats(entity);
+        if (stats == null) {
+            stats = AnimalStats.fresh(initialWeight(entity));
+            setStats(entity, stats);
+        }
+        return stats;
+    }
+
     public static void setStats(LivingEntity entity, AnimalStats stats) {
 // 数值没变就不写回：这个附件是同步的，多余的写回等于给附近客户端多发一个包
         if (stats.equals(ModAttachments.ANIMAL_STATS.get().getOrNull(entity))) {
@@ -169,12 +172,9 @@ public final class AnimalStatsManager {
 // 被玩家喂食：第一次喂食让动物获得状态栏，之后每次饱食度 +3、心情值 +1
     public static void onFed(LivingEntity entity) {
         AnimalStats stats = getStats(entity);
-        if (stats == null) {
-            setStats(entity, AnimalStats.fresh(initialWeight(entity))
-                    .withSatiety(FEED_SATIETY).withMood(FEED_MOOD));
-            return;
-        }
-        setStats(entity, stats.withSatiety(stats.satiety() + FEED_SATIETY).withMood(stats.mood() + FEED_MOOD));
+        if (stats == null) stats = AnimalStats.fresh(initialWeight(entity));
+        setStats(entity, stats.withSatiety(stats.satiety() + Config.ANIMAL_FEED_SATIETY.get())
+                .withMood(stats.mood() + Config.ANIMAL_FEED_MOOD.get()));
     }
 
 // 刚获得状态栏时的体重：有体重标准的按标准给，没标准的（猫狗）为 0
@@ -219,7 +219,7 @@ public final class AnimalStatsManager {
             if (ForestryNetworkManager.isProsperous(level, entity.blockPosition())) {
                 stats = stats.withMood(stats.mood() + 1);
             }
-            if (hadSatiety) {
+            if (hadSatiety && Config.ANIMAL_DECAY_AMOUNT.get() > 0) {
                 tryDropPoop(entity);
             }
         }
@@ -266,18 +266,46 @@ public final class AnimalStatsManager {
         if (isPet(entity.getType()) && !Config.PET_EXCRETION.get()) {
             return;
         }
-        if (level.random.nextFloat() >= POOP_CHANCE) {
-            return;
+        if (level.random.nextFloat() >= Config.ANIMAL_POOP_CHANCE.get()) return;
+        BlockPos origin = entity.blockPosition();
+        java.util.List<Poop> nearby = level.getEntitiesOfClass(Poop.class, new AABB(origin).inflate(6, 4, 6));
+        for (Poop anchor : nearby) {
+            for (int attempt = 0; attempt < 8; attempt++) {
+                BlockPos candidate = anchor.blockPosition().offset(level.random.nextInt(5) - 2, 0, level.random.nextInt(5) - 2);
+                if (placePoop(level, candidate)) return;
+            }
         }
-        BlockPos pos = entity.blockPosition();
-        int minX = (pos.getX() >> 4) << 4;
-        int minZ = (pos.getZ() >> 4) << 4;
-        AABB chunkBox = new AABB(minX, level.getMinBuildHeight(), minZ,
-                minX + 16, level.getMaxBuildHeight(), minZ + 16);
-        if (level.getEntitiesOfClass(Poop.class, chunkBox).size() >= POOP_PER_CHUNK) {
-            return;
+        for (int attempt = 0; attempt < 12; attempt++) {
+            BlockPos candidate = origin.offset(level.random.nextInt(9) - 4, 0, level.random.nextInt(9) - 4);
+            if (placePoop(level, candidate)) return;
         }
-        level.addFreshEntity(Poop.placed(level, entity.getX(), entity.getY(), entity.getZ()));
+    }
+
+    private static boolean placePoop(ServerLevel level, BlockPos candidate) {
+        for (int dy : new int[]{0, -1, 1}) {
+            BlockPos pos = candidate.offset(0, dy, 0);
+            if (level.isOutsideBuildHeight(pos) || !level.hasChunkAt(pos)) continue;
+            // A conservative loaded-area check avoids implicit chunk loads during collision and water checks.
+            boolean clear = true;
+            for (BlockPos check : BlockPos.betweenClosed(pos.offset(-4, -1, -4), pos.offset(4, 1, 4))) {
+                if (!level.hasChunkAt(check) || level.getBlockState(check).getBlock() instanceof FeedingTroughBlock
+                        || level.getFluidState(check).is(FluidTags.WATER)) {
+                    clear = false;
+                    break;
+                }
+            }
+            if (!clear || !level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), net.minecraft.core.Direction.UP)) continue;
+            Poop poop = Poop.placed(level, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+            if (!level.noCollision(poop, poop.getBoundingBox()) || level.containsAnyLiquid(poop.getBoundingBox())) continue;
+            int chunkX = pos.getX() >> 4;
+            int chunkZ = pos.getZ() >> 4;
+            AABB chunkBox = new AABB(chunkX * 16, level.getMinBuildHeight(), chunkZ * 16,
+                    chunkX * 16 + 16, level.getMaxBuildHeight(), chunkZ * 16 + 16);
+            long count = level.getEntitiesOfClass(Poop.class, chunkBox).stream()
+                    .filter(existing -> existing.chunkPosition().x == chunkX && existing.chunkPosition().z == chunkZ).count();
+            if (count < POOP_PER_CHUNK && level.addFreshEntity(poop)) return true;
+        }
+        return false;
     }
 
 // 自然衰减：三项基础状态各 -1，心情值与体重随基础状态的好坏浮动。
@@ -286,9 +314,10 @@ public final class AnimalStatsManager {
 // 而且这辈子都别想干净到 #FLY_BITE_CLEANLINESS_MAX 以上。
     private static AnimalStats decay(LivingEntity entity, AnimalStats stats) {
         boolean bitten = entity.hasEffect(ModMobEffects.FLY_BITE.get());
-        int satiety = Math.max(0, stats.satiety() - 1);
-        int thirst = Math.max(0, stats.thirst() - 1);
-        int cleanliness = Math.max(0, stats.cleanliness() - (bitten ? FLY_BITE_DECAY : 1));
+        int loss = Config.ANIMAL_DECAY_AMOUNT.get();
+        int satiety = Math.max(0, stats.satiety() - loss);
+        int thirst = Math.max(0, stats.thirst() - loss);
+        int cleanliness = Math.max(0, stats.cleanliness() - (bitten ? Config.ANIMAL_FLY_BITE_CLEAN_LOSS.get() : loss));
         int mood = stats.mood();
 // 体重跟心情值走同一套判定：状态好一起长，状态差一起掉
         int weightTrend = 0;
@@ -314,15 +343,16 @@ public final class AnimalStatsManager {
         if (standard == null || trend == 0) {
             return stats;
         }
-        return stats.withWeight(Mth.clamp(stats.weight() + standard * WEIGHT_STEP_RATIO * trend,
+        return stats.withWeight(Mth.clamp(stats.weight() + standard * Config.ANIMAL_WEIGHT_STEP_RATIO.get().floatValue() * trend,
                 standard * WEIGHT_MIN_RATIO, standard * WEIGHT_MAX_RATIO));
     }
 
 // 玩家行为之外的自发回补：靠近水喝水、泡水或淋雨洗澡
     private static AnimalStats restore(Level level, LivingEntity entity, AnimalStats stats) {
-        int thirst = hasWaterNearby(level, entity) ? stats.thirst() + 1 : stats.thirst();
+        int amount = Config.ANIMAL_RESTORE_AMOUNT.get();
+        int thirst = hasWaterNearby(level, entity) ? stats.thirst() + amount : stats.thirst();
         int cleanliness = entity.isInWater() || level.isRainingAt(entity.blockPosition())
-                ? stats.cleanliness() + 1
+                ? stats.cleanliness() + amount
                 : stats.cleanliness();
         return stats.withThirst(thirst).withCleanliness(cleanliness, cleanlinessLimit(entity));
     }

@@ -7,7 +7,7 @@
     {
       "type": "patchouli:text",
       "title": "flavor_immersed_daily_argo-common.toml",
-      "text": "This is the main config. It is a COMMON config, read on the server side — editing it on a client changes nothing.$(br2)The mod actually reads the options listed on this page and the next; the rest are leftovers from the NeoForge template."
+      "text": "This is the main config. It is a COMMON config, read on the server side — editing it on a client changes nothing.$(br2)The mod actually reads the options listed on the following pages; the rest are leftovers from the NeoForge template."
     },
     {
       "type": "patchouli:text",
@@ -18,6 +18,21 @@
       "type": "patchouli:text",
       "title": "Natural spawning switches",
       "text": "Four options decide whether this mod's animals appear on their own. All are $(bold)false$() by default — the intended source is spawn eggs bought online.$(br)$(li)$(bold)mouseNaturalSpawning$(): whether field mice spawn near mature crops.$(br)$(li)$(bold)landAnimalNaturalSpawning$(): whether poultry and livestock (duck, goose, quail, pigeon, turkey, bullfrog, bamboo rat) spawn on land.$(br)$(li)$(bold)freshwaterNaturalSpawning$(): whether freshwater animals spawn in non-ocean water.$(br)$(li)$(bold)saltwaterNaturalSpawning$(): whether saltwater animals spawn in ocean biomes.$(br2)These only gate natural spawning. Animals from spawn eggs, commands or fishing nets are unaffected; the mouse command override is covered under Admin Commands."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Husbandry values",
+      "text": "These only affect the $(bold)server-side$() animal stats; ranges and defaults are documented in the config file:$(br2)$(li)$(bold)animalDecayAmount$() (default 1, 0~10): how much satiety / thirst / cleanliness each drops every 30 seconds. 0 disables decay, and animals then stop producing manure.$(br)$(li)$(bold)animalRestoreAmount$() (default 1, 0~10): how much is restored every 5 seconds near water, while swimming or in rain.$(br)$(li)$(bold)animalFeedSatiety$() / $(bold)animalFeedMood$() (default 3 / 1): gained per hand-feed.$(br)$(li)$(bold)animalWeightStepRatio$() (default 0.02): share of the standard weight gained or lost per step.$(br)$(li)$(bold)animalPoopChance$() (default 0.25, 0~1): manure chance each settlement when satiety is consumed.$(br)$(li)$(bold)animalFlyBiteCleanLoss$() (default 5): extra cleanliness lost per settlement while fly-bitten.$(br)$(li)$(bold)petExcretion$() (default false): whether cats and dogs also excrete; livestock and poultry always do."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Trough values",
+      "text": "$(li)$(bold)troughNeedThreshold$() (default 5, 0~9): a trough only attracts animals whose satiety or thirst is $(bold)at or below$() this value.$(br)$(li)$(bold)troughRestoreAmount$() (default 5, 1~10): restored per bite at the trough.$(br)$(li)$(bold)troughFeedInterval$() (default 20, 1~1200): ticks between bites in one visit.$(br2)The trough keeps refilling the current item (feed or water) until it reaches 10 before letting the animal go, so threshold and restore amount only change the pace, not the final result."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Feed whitelist and overrides",
+      "text": "$(li)$(bold)extraFeedAnimals$(): extra animal entity ids pulled into the husbandry system, empty by default. Listed animals are treated as eating grain/vegetable feed, and may be vanilla or modded $(thing)Animal$() subclasses; unknown mod ids are skipped instead of crashing.$(br)$(li)$(bold)animalFeedOverrides$(): one $(thing)entityId=itemId,itemId$() per line. An explicit mapping $(bold)overrides$() the built-in lists and vanilla $(thing)isFood$()$(); the last line for an entity wins, and an empty right side disables feed for that animal.$(br2)Mappings apply to all three paths: hand-feeding, held-item attraction and the trough. Reload the world after editing so loaded animals rebuild their attraction goals."
     },
     {
       "type": "patchouli:text",

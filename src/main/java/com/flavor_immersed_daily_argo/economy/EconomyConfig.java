@@ -46,8 +46,6 @@ public final class EconomyConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> WEIGHT_FISH_ENTRIES;
 // 生鱼没单独写价时用的每斤价
     public static final ForgeConfigSpec.DoubleValue WEIGHT_FISH_DEFAULT_PER_JIN;
-// 共用账户的货币 id，留空自动选
-    public static final ForgeConfigSpec.ConfigValue<String> COMPAT_CURRENCY_ID;
 
 // 畜类默认收购价：标准体重下的价格 + 超出标准体重每公斤加价
     private static final List<String> DEFAULT_ANIMAL_PRICES = List.of(
@@ -152,14 +150,6 @@ public final class EconomyConfig {
         WEIGHT_FISH_DEFAULT_PER_JIN = builder
                 .comment("生鱼没在 fish_entries 里单独写价时用的每斤价。")
                 .defineInRange("fish_default_price_per_jin", 6.0D, 0.0D, 1_000_000.0D);
-        builder.pop();
-
-        builder.comment("与 SDM Shop / SDM Economy 共用账户（装了 SDM Shop 才生效）").push("compat");
-        COMPAT_CURRENCY_ID = builder
-                .comment("共用账户使用的货币 id。留空 = 自动：优先用 sdm_coin；",
-                        "sdm_coin 不存在时，若 SDM Economy 只注册了一种货币就自动用它，否则不启用联动。",
-                        "整合包把主货币换成了自定义货币时，把那个 id 填在这里即可。")
-                .define("currency_id", "");
         builder.pop();
 
         SPEC = builder.build();

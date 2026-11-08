@@ -2,7 +2,6 @@ package com.flavor_immersed_daily_argo.economy;
 
 import com.flavor_immersed_daily_argo.all.ModDataComponents;
 import com.flavor_immersed_daily_argo.all.ModItems;
-import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,13 +18,11 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 import net.minecraftforge.network.NetworkHooks;
 
 // 银行卡
 //
-// 四样东西：持卡主人、卡面账户、卡内 9 格纸币、唯一 ID。
-// 装了 SDM Shop 时余额以 sdm_coin 为准，卡只当 ATM 凭证和纸币载体。
+// 持卡主人、卡面账户、卡内 9 格纸币；纸币存储与卡面账户独立。
 public class CreditCardItem extends Item {
 
 // 卡内槽位数：1×9
@@ -77,22 +74,13 @@ public class CreditCardItem extends Item {
         ModDataComponents.CARD_ACCOUNT.get().set(card, Math.max(0L, value));
     }
 
-// 卡的唯一 ID
-    public static String getUid(ItemStack card) {
-        return ModDataComponents.CARD_UID.get().getOrDefault(card, "");
-    }
-
-    public static void setUid(ItemStack card, String uid) {
-        ModDataComponents.CARD_UID.get().set(card, uid == null ? "" : uid);
-    }
-
-// 没有 ID 就补一个，返回是否补了
-    public static boolean ensureUid(ItemStack card) {
-        if (card == null || card.isEmpty() || !getUid(card).isEmpty()) {
-            return false;
+// 金额相加时避免 long 溢出
+    public static long saturatingAdd(long a, long b) {
+        long sum = a + b;
+        if (b > 0L && sum < a) {
+            return Long.MAX_VALUE;
         }
-        setUid(card, UUID.randomUUID().toString());
-        return true;
+        return Math.max(0L, sum);
     }
 
 // 卡内 9 槽
@@ -143,11 +131,6 @@ public class CreditCardItem extends Item {
                 owner.isEmpty()
                         ? Component.translatable("tooltip.flavor_immersed_daily_argo.card_owner_none")
                         : Component.literal(owner)));
-// 共用账户时提示去哪儿看余额
-        if (EconomyCompat.isShared()) {
-            tooltip.add(Component.translatable("tooltip.flavor_immersed_daily_argo.card_value_shared"));
-        } else {
-            tooltip.add(Component.translatable("tooltip.flavor_immersed_daily_argo.card_value", getAccount(stack)));
-        }
+        tooltip.add(Component.translatable("tooltip.flavor_immersed_daily_argo.card_value", getAccount(stack)));
     }
 }

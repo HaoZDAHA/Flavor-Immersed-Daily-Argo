@@ -160,7 +160,7 @@ public class DeliveryRider extends Animal implements FoodOrder {
         if (!player.getAbilities().instabuild) {
             held.shrink(required.getCount());
         }
-        DeliveryManager.reward(player, level, this.position(), reward);
+        DeliveryManager.spawnMoney(level, this.position(), reward);
         level.playSound(null, this.getX(), this.getY(), this.getZ(),
                 SoundEvents.VILLAGER_YES, SoundSource.NEUTRAL, 1.0F, 1.0F);
         level.sendParticles(ParticleTypes.HAPPY_VILLAGER,

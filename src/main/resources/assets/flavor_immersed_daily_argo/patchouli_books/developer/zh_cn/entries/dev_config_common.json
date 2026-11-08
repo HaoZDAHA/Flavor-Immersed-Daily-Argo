@@ -7,7 +7,7 @@
     {
       "type": "patchouli:text",
       "title": "flavor_immersed_daily_argo-common.toml",
-      "text": "这是模组的主配置，类型为 COMMON，由服务端读取，客户端改了不生效。$(br2)其中真正被本模组使用的是下面这两页列出的项，其余是 NeoForge 模板生成的残留。"
+      "text": "这是模组的主配置，类型为 COMMON，由服务端读取，客户端改了不生效。$(br2)其中真正被本模组使用的是下面几页列出的项，其余是 NeoForge 模板生成的残留。"
     },
     {
       "type": "patchouli:text",
@@ -18,6 +18,21 @@
       "type": "patchouli:text",
       "title": "自然生成开关",
       "text": "四项决定本模组动物会不会自己刷出来，$(bold)默认全部 false$()——默认来路是网购刷怪蛋。$(br)$(li)$(bold)mouseNaturalSpawning$()：田鼠是否在成熟作物附近自然生成。$(br)$(li)$(bold)landAnimalNaturalSpawning$()：禽畜（鸭、鹅、鹌鹑、鸽、火鸡、牛蛙、竹鼠）是否在陆地上生成。$(br)$(li)$(bold)freshwaterNaturalSpawning$()：淡水水产是否在非海洋水域生成。$(br)$(li)$(bold)saltwaterNaturalSpawning$()：海水水产是否在海洋群系生成。$(br2)开关只拦自然刷新，刷怪蛋、指令与渔网给出的个体照旧存在；田鼠的指令覆盖见「管理指令」，实现细节见机制章节的「自然生成流程」。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "畜牧数值",
+      "text": "以下项只影响$(bold)服务端结算$()的动物状态，范围与默认值都写在 config 注释里：$(br2)$(li)$(bold)animalDecayAmount$()（默认 1，0~10）：每 30 秒饱食 / 口渴 / 清洁各掉多少。填 0 等于关闭衰减，动物也不再排泄。$(br)$(li)$(bold)animalRestoreAmount$()（默认 1，0~10）：每 5 秒靠水源或泡水淋雨恢复多少。$(br)$(li)$(bold)animalFeedSatiety$() / $(bold)animalFeedMood$()（默认 3 / 1）：手喂一次各加多少。$(br)$(li)$(bold)animalWeightStepRatio$()（默认 0.02）：体重每次增减占标准体重的比例。$(br)$(li)$(bold)animalPoopChance$()（默认 0.25，0~1）：有饱食度可消耗时每次结算的排泄概率。$(br)$(li)$(bold)animalFlyBiteCleanLoss$()（默认 5）：蝇虫叮咬期间清洁度每次额外损失多少。$(br)$(li)$(bold)petExcretion$()（默认 false）：猫狗是否也排泄，家畜家禽始终排泄。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "食槽数值",
+      "text": "$(li)$(bold)troughNeedThreshold$()（默认 5，0~9）：动物的饱食度或口渴度$(bold)低于等于$()该值，食槽才会把它招过来。$(br)$(li)$(bold)troughRestoreAmount$()（默认 5，1~10）：在槽边每吃一口恢复多少。$(br)$(li)$(bold)troughFeedInterval$()（默认 20，1~1200）：同一次进食中两口之间的 tick 间隔。$(br2)食槽会一直补到当前这一项（饲料或水）满 10 才放动物离开，因此阈值与恢复量只影响节奏，不影响最终结果。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "饲料白名单与映射",
+      "text": "$(li)$(bold)extraFeedAnimals$()：额外纳入饲养体系的动物实体 id 列表，默认空。列入后按「畜类饲料」处理，支持原版及其他模组的 $(thing)Animal$() 子类；不存在的模组 id 会被忽略，不会导致启动失败。$(br)$(li)$(bold)animalFeedOverrides$()：每行 $(thing)实体id=物品id,物品id$()。显式映射$(bold)覆盖$()内置饲料名单与原版 $(thing)isFood$()，同一实体后写的行生效；右侧留空表示该动物不吃饲料。$(br2)映射同时作用于手喂、手持引诱与食槽三条入口。改完建议重进存档或重启，让已加载的动物重新挂上引诱目标。"
     },
     {
       "type": "patchouli:text",

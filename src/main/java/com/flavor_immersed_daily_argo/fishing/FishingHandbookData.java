@@ -27,6 +27,11 @@ public class FishingHandbookData extends SimpleJsonResourceReloadListener {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String FOLDER = "fishing_handbook";
     private static final FishingHandbookData INSTANCE = new FishingHandbookData();
+    private static final FishingHandbookData CLIENT_INSTANCE = new FishingHandbookData();
+
+    public static FishingHandbookData getClientInstance() {
+        return CLIENT_INSTANCE;
+    }
 
     private List<FishingHandbookEntry> entries = List.of();
 // 已加载条目的原始 JSON 文本，服务端全量同步给客户端用

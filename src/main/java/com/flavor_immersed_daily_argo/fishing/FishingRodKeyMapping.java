@@ -12,7 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
@@ -25,11 +24,6 @@ public class FishingRodKeyMapping {
             GLFW.GLFW_KEY_B,
             "category.flavor_immersed_daily_argo.fishing"
     );
-
-    @SubscribeEvent
-    public static void registerKeys(RegisterKeyMappingsEvent event) {
-        event.register(OPEN_ROD_MOD);
-    }
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent event) {

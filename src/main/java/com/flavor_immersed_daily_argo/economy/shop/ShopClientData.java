@@ -72,6 +72,12 @@ public final class ShopClientData {
         return null;
     }
 
+// 店铺编号：全量列表里的编号（系统店铺也计入）
+    public static int numberOf(String id) {
+        Shop shop = findShop(id);
+        return shop == null ? 0 : shop.numberIn(SHOPS);
+    }
+
     public static List<CartLine> cart() {
         return CART;
     }

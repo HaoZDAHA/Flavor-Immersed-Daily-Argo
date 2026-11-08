@@ -39,13 +39,7 @@ public class ModFishingHookRenderer extends EntityRenderer<FishingHook> {
 // 原版钓鱼浮漂贴图：未装浮漂时的兜底
     private static final ResourceLocation VANILLA_TEXTURE =
             new ResourceLocation("minecraft", "textures/entity/fishing_hook.png");
-// 鱼线用的折线渲染类型。
-//
-// 设置照抄原版 RenderType#lineStrip()，只把输出目标换回主缓冲。原版那条会把线画进
-// 「entity 半透明目标」（ITEM_ENTITY_TARGET）——「极佳」画质下水是在单独的缓冲里
-// 后合成的，线进了另一块缓冲后没有参与主缓冲的深度比较，看上去就像被水浸着：线明明在水面之上，
-// 却随视角被水一层层冲淡。改回主缓冲并保留深度写入后，水面会按深度正确遮挡，线在水上方
-// 始终是实的。
+// 与 1.20.1 原版鱼线共用渲染类型，不绕过其输出目标与线宽状态。
     public static final RenderType LINE_TYPE = FidRenderTypes.FISHING_LINE;
 // 第一人称下鱼线起点落在近裁剪面上的换算基准，与原版一致
     private static final double VIEW_BOBBING_SCALE = 960.0D;
@@ -72,6 +66,7 @@ public class ModFishingHookRenderer extends EntityRenderer<FishingHook> {
         poseStack.pushPose();
         poseStack.scale(0.5F, 0.5F, 0.5F);
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
+        poseStack.mulPose(com.mojang.math.Axis.YP.rotationDegrees(180.0F));
         PoseStack.Pose pose = poseStack.last();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(floatTexture(entity)));
         bobberVertex(consumer, pose, packedLight, 0.0F, 0, 0, 1);
@@ -181,7 +176,8 @@ public class ModFishingHookRenderer extends EntityRenderer<FishingHook> {
                 .uv((float) u, (float) v)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(packedLight)
-                .normal(pose.normal(), 0.0F, 1.0F, 0.0F);
+                .normal(pose.normal(), 0.0F, 1.0F, 0.0F)
+                .endVertex();
     }
 
     private static void lineVertex(float dx, float dy, float dz, VertexConsumer consumer, PoseStack.Pose pose,
@@ -198,7 +194,8 @@ public class ModFishingHookRenderer extends EntityRenderer<FishingHook> {
         stepZ /= length;
         consumer.vertex(pose.pose(), x, y, z)
                 .color(0, 0, 0, 255)
-                .normal(pose.normal(), stepX, stepY, stepZ);
+                .normal(pose.normal(), stepX, stepY, stepZ)
+                .endVertex();
     }
 
     @Override

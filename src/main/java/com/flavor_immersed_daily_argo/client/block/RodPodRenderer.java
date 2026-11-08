@@ -61,6 +61,7 @@ public class RodPodRenderer implements BlockEntityRenderer<RodPodBlockEntity> {
             return;
         }
         Direction facing = pod.getBlockState().getValue(RodPodBlock.FACING);
+        Matrix4f inverseBlockPose = new Matrix4f(poseStack.last().pose()).invert();
 
         poseStack.pushPose();
 // 先站到方块中心，再整体按方块的朝向转，最后往里挪一点落到立柱的托架上。
@@ -88,7 +89,8 @@ public class RodPodRenderer implements BlockEntityRenderer<RodPodBlockEntity> {
 // 之后整条鱼线都在方块坐标系里画，落点不用再反算进模型空间
         ForgeHooksClient.handleCameraTransforms(poseStack, model, ItemDisplayContext.FIXED, false);
         poseStack.translate(-0.5F, -0.5F, -0.5F);
-        Vector3f rodTip = new Matrix4f(poseStack.last().pose()).transformPosition(new Vector3f(ROD_TIP));
+        Vector3f rodTip = inverseBlockPose.mul(poseStack.last().pose())
+                .transformPosition(new Vector3f(ROD_TIP));
         poseStack.popPose();
 
         if (pod.hasCastPos()) {
@@ -124,6 +126,13 @@ public class RodPodRenderer implements BlockEntityRenderer<RodPodBlockEntity> {
         float startX = tip.x - insetX;
         float startY = tip.y + LINE_RISE;
         float startZ = tip.z - insetZ;
+        dx = endX - startX;
+        dy = endY - startY;
+        dz = endZ - startZ;
+        length = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (length < 1.0E-4F) {
+            return;
+        }
 
         VertexConsumer consumer = buffer.getBuffer(ModFishingHookRenderer.LINE_TYPE);
         PoseStack.Pose pose = poseStack.last();
@@ -135,7 +144,8 @@ public class RodPodRenderer implements BlockEntityRenderer<RodPodBlockEntity> {
                             startY + dy * t - sag,
                             startZ + dz * t)
                     .color(0, 0, 0, 255)
-                    .normal(pose.normal(), dx / length, dy / length, dz / length);
+                    .normal(pose.normal(), dx / length, dy / length, dz / length)
+                    .endVertex();
         }
     }
 
@@ -152,6 +162,7 @@ public class RodPodRenderer implements BlockEntityRenderer<RodPodBlockEntity> {
         poseStack.translate(cast.x - origin.getX(), cast.y - origin.getY(), cast.z - origin.getZ());
         poseStack.scale(0.5F, 0.5F, 0.5F);
         poseStack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
+        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
         PoseStack.Pose pose = poseStack.last();
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ModFishingHookRenderer.floatTexture(rod)));
         bobberVertex(consumer, pose, light, 0.0F, 0, 0, 1);
@@ -168,6 +179,7 @@ public class RodPodRenderer implements BlockEntityRenderer<RodPodBlockEntity> {
                 .uv((float) u, (float) v)
                 .overlayCoords(OverlayTexture.NO_OVERLAY)
                 .uv2(packedLight)
-                .normal(pose.normal(), 0.0F, 1.0F, 0.0F);
+                .normal(pose.normal(), 0.0F, 1.0F, 0.0F)
+                .endVertex();
     }
 }

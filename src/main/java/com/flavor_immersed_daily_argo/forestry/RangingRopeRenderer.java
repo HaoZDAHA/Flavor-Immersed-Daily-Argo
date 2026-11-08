@@ -89,8 +89,8 @@ public final class RangingRopeRenderer {
             ny /= len;
             nz /= len;
         }
-        consumer.vertex(pose.pose(), (float) ax, (float) ay, (float) az).color(RED, GREEN, BLUE, 1.0F).normal(nx, ny, nz);
-        consumer.vertex(pose.pose(), (float) bx, (float) by, (float) bz).color(RED, GREEN, BLUE, 1.0F).normal(nx, ny, nz);
+        consumer.vertex(pose.pose(), (float) ax, (float) ay, (float) az).color(RED, GREEN, BLUE, 1.0F).normal(pose.normal(), nx, ny, nz).endVertex();
+        consumer.vertex(pose.pose(), (float) bx, (float) by, (float) bz).color(RED, GREEN, BLUE, 1.0F).normal(pose.normal(), nx, ny, nz).endVertex();
     }
 
     private static boolean holdingRope(LocalPlayer player) {

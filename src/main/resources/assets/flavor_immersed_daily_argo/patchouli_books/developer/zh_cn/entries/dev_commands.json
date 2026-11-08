@@ -23,6 +23,11 @@
       "type": "patchouli:text",
       "title": "/mouse",
       "text": "$(thing)/mouse spawn <true|false>$()：临时覆盖田鼠在作物附近的自然生成。$(br2)没有覆盖时读主配置 $(thing)mouseNaturalSpawning$()，它$(bold)默认是 false$()，所以田鼠默认不生成；执行一次指令后，以指令值为准直到下次重启。$(br2)关闭后已存在的田鼠不会消失，只是不再新生成；单区块上限另由 $(thing)mouseChunkLimit$() 控制。刷怪蛋与 $(thing)/summon$() 放出的田鼠不受这个开关影响。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/fidashop",
+      "text": "需要权限等级 2，且只能在游戏内由玩家执行：$(br2)$(li)$(thing)/fidashop list$()：列出全量店铺，格式为 $(thing)#编号 标题 [系统 / 玩家：名字]$()$(br)$(li)$(thing)/fidashop create [标题]$()：开一家新店，省略标题时用「玩家名的小店」，成功后回显编号$(br)$(li)$(thing)/fidashop delete <编号>$()：按编号删店，可按 Tab 补全$(br2)$(bold)编号规则$()：系统店铺按数据包顺序占 1..k，玩家店铺编号 = 系统店铺数量 + 内部数字 id，所以删店不会让其他店编号前移。$(br2)开店受 $(thing)shop.player_shops_enabled$() 与 $(thing)shop.max_shops_per_player$() 限制；非创造模式只能删自己的玩家店铺，且要求库存与余额都为零。$(bold)创造模式可跳过归属与资产检查，删除任意店铺，包括系统店铺$()——系统店铺会写入存档黑名单，重载数据包也不会再出现。成功后立即全服同步。"
     }
   ]
 }

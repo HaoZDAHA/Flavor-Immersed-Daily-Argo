@@ -1,14 +1,12 @@
 package com.flavor_immersed_daily_argo.economy;
 
 import com.flavor_immersed_daily_argo.all.ModMenus;
-import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -49,8 +47,6 @@ public class AtmMenu extends AbstractContainerMenu {
     private List<ExchangeEntry> exchanges = List.of();
 // 装载初始槽位期间不写回，避免把空槽覆盖到卡上
     private boolean commitEnabled;
-// 共享账户余额的高 / 低 32 位
-    private final SimpleContainerData sharedAccount = new SimpleContainerData(2);
 
     public AtmMenu(int containerId, Inventory playerInv, FriendlyByteBuf extraData) {
         this(containerId, playerInv, extraData.readVarInt(), extraData.readBoolean());
@@ -91,14 +87,6 @@ public class AtmMenu extends AbstractContainerMenu {
             player.getInventory().setChanged();
         }
 
-// 顺手把旧卡面余额折算进共享账户
-        if (!player.level().isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            EconomyCompat.migrateCard(serverPlayer, card());
-        }
-
-// 共享账户余额的同步通道
-        addDataSlots(this.sharedAccount);
-
 // 槽位坐标随界面不同：取款机模式顶部还有操作区，整体靠下
         int cardY = atmMode ? ATM_CARD_Y : CARD_CARD_Y;
         int invY = atmMode ? ATM_INV_Y : CARD_INV_Y;
@@ -138,38 +126,7 @@ public class AtmMenu extends AbstractContainerMenu {
 
 // 界面显示 / 结算用的余额
     public long getAccount() {
-        if (!EconomyCompat.isShared()) {
-            return CreditCardItem.getAccount(card());
-        }
-        if (!this.player.level().isClientSide() && this.player instanceof ServerPlayer serverPlayer) {
-            long live = EconomyCompat.balance(serverPlayer);
-            writeSharedAccount(live);
-            return live;
-        }
-        return readSharedAccount();
-    }
-
-// 余额拆成高低 32 位
-    private void writeSharedAccount(long value) {
-        long safe = Math.max(0L, value);
-        this.sharedAccount.set(0, (int) (safe >>> 32));
-        this.sharedAccount.set(1, (int) (safe & 0xFFFFFFFFL));
-    }
-
-    private long readSharedAccount() {
-        long high = this.sharedAccount.get(0) & 0xFFFFFFFFL;
-        long low = this.sharedAccount.get(1) & 0xFFFFFFFFL;
-        return (high << 32) | low;
-    }
-
-// 联动模式下每 tick 推一次余额
-    @Override
-    public void broadcastChanges() {
-        if (!this.player.level().isClientSide() && EconomyCompat.isShared()
-                && this.player instanceof ServerPlayer serverPlayer) {
-            writeSharedAccount(EconomyCompat.balance(serverPlayer));
-        }
-        super.broadcastChanges();
+        return CreditCardItem.getAccount(card());
     }
 
     public String getOwnerName() {
@@ -202,9 +159,7 @@ public class AtmMenu extends AbstractContainerMenu {
             return;
         }
 // 先扣钱再发货
-        if (!EconomyCompat.cardPay(player, card(), price)) {
-            return;
-        }
+        CreditCardItem.setAccount(card(), getAccount() - price);
         ItemStack reward = new ItemStack(entry.target(), entry.targetCount());
         if (!this.player.getInventory().add(reward)) {
             this.player.drop(reward, false);
@@ -262,21 +217,7 @@ public class AtmMenu extends AbstractContainerMenu {
         if (gained <= 0L) {
             return;
         }
-        if (EconomyCompat.isShared()) {
-            if (!(this.player instanceof ServerPlayer serverPlayer) || this.player.level().isClientSide()) {
-                return;
-            }
-            long credited = EconomyCompat.credit(serverPlayer, gained);
-            if (credited != gained) {
-                if (credited > 0L) {
-// 只入账了一部分，退回去
-                    EconomyCompat.pay(serverPlayer, credited);
-                }
-                return;
-            }
-        } else {
-            CreditCardItem.setAccount(card(), EconomyCompat.saturatingAdd(CreditCardItem.getAccount(card()), gained));
-        }
+        CreditCardItem.setAccount(card(), CreditCardItem.saturatingAdd(getAccount(), gained));
         for (int i = 0; i < CreditCardItem.SLOT_COUNT; i++) {
             ItemStack s = cardInv.getItem(i);
             if (CreditCardItem.isMoney(s)) {
@@ -295,12 +236,6 @@ public class AtmMenu extends AbstractContainerMenu {
         }
         int budget = (int) Math.min(64L, account / denomination);
         int placed = 0;
-
-// 卡内 9 格快照，扣款失败时回滚用
-        List<ItemStack> snapshot = null;
-        if (EconomyCompat.isShared()) {
-            snapshot = CreditCardItem.getItems(card());
-        }
 
 // 先并入卡里已有的同面额堆叠
         for (int i = 0; i < CreditCardItem.SLOT_COUNT && placed < budget; i++) {
@@ -326,22 +261,7 @@ public class AtmMenu extends AbstractContainerMenu {
             return;
         }
         long cost = (long) placed * denomination;
-        if (EconomyCompat.isShared()) {
-            if (!(this.player instanceof ServerPlayer serverPlayer) || this.player.level().isClientSide()
-                    || !EconomyCompat.cardPay(serverPlayer, card(), cost)) {
-// 扣款失败，撤回纸币
-                if (snapshot != null) {
-                    for (int i = 0; i < CreditCardItem.SLOT_COUNT; i++) {
-                        cardInv.setItem(i, i < snapshot.size() ? snapshot.get(i).copy() : ItemStack.EMPTY);
-                    }
-                    commitItems();
-                    broadcastChanges();
-                }
-                return;
-            }
-        } else {
-            CreditCardItem.setAccount(card(), account - cost);
-        }
+        CreditCardItem.setAccount(card(), account - cost);
         commitItems();
         broadcastChanges();
     }

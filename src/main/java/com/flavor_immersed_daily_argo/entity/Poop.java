@@ -22,6 +22,7 @@ public class Poop extends Entity {
 
     public Poop(EntityType<? extends Poop> type, Level level) {
         super(type, level);
+        this.noPhysics = true;
     }
 
 // 在指定位置放一坨静静躺着的粪便
@@ -44,6 +45,25 @@ public class Poop extends Entity {
     @Override
     public boolean canBeHitByProjectile() {
         return false;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return false;
+    }
+
+    @Override
+    public boolean canCollideWith(Entity other) {
+        return false;
+    }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    public void push(Entity other) {
     }
 
     @Override

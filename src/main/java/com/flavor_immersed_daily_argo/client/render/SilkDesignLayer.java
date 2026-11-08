@@ -173,7 +173,8 @@ public class SilkDesignLayer<T extends LivingEntity, M extends HumanoidModel<T>>
     private static void vertex(VertexConsumer consumer, Matrix4f matrix,
                                float x, float y, float z, int r, int g, int b, int a, float shade) {
         consumer.vertex(matrix, x, y, z)
-                .color((int) (r * shade), (int) (g * shade), (int) (b * shade), a);
+                .color((int) (r * shade), (int) (g * shade), (int) (b * shade), a)
+                .endVertex();
     }
 
     private void renderPiece(PoseStack poseStack, MultiBufferSource bufferSource, T entity,

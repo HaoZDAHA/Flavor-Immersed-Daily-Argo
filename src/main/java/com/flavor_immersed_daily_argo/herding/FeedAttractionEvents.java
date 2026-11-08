@@ -37,8 +37,13 @@ public final class FeedAttractionEvents {
         if (event.getLevel().isClientSide() || !(event.getEntity() instanceof PathfinderMob mob)) {
             return;
         }
-        if (!isFeedTarget(mob.getType()) || hasTemptGoal(mob)) {
+        if (!(mob instanceof net.minecraft.world.entity.animal.Animal) && !isFeedTarget(mob.getType()) || hasTemptGoal(mob)) {
             return;
+        }
+        if (AnimalFeedItem.hasFeedOverride(mob.getType())) {
+            for (WrappedGoal goal : java.util.List.copyOf(mob.goalSelector.getAvailableGoals())) {
+                if (goal.getGoal() instanceof TemptGoal) mob.goalSelector.removeGoal(goal.getGoal());
+            }
         }
         mob.goalSelector.addGoal(TEMPT_PRIORITY, new FeedTemptGoal(mob));
     }
@@ -53,8 +58,8 @@ public final class FeedAttractionEvents {
 
 // 手上这份饲料认不认这只动物
     private static boolean isFeedFor(Mob mob, ItemStack stack) {
-        if (stack.getItem() instanceof AnimalFeedItem feed) {
-            return feed.getTargets().contains(mob.getType());
+        if (mob instanceof net.minecraft.world.entity.animal.Animal) {
+            return AnimalFeedItem.isFeedFor(mob, stack);
         }
         if (stack.getItem() instanceof AquaticFeedItem feed) {
             return feed.getTargets().contains(mob.getType());

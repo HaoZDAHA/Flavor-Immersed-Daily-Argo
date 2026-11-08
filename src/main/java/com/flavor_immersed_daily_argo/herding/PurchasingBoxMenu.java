@@ -36,8 +36,6 @@ public class PurchasingBoxMenu extends AbstractContainerMenu {
     private static final double MAX_USE_DISTANCE_SQR = 64.0D;
 
     private final PurchasingBoxBlockEntity box;
-// 点出售的玩家
-    private final Player player;
 
 // 客户端：按方块坐标找回方块实体（由 openMenu 写进附加数据）
     public PurchasingBoxMenu(int containerId, Inventory playerInventory, FriendlyByteBuf extraData) {
@@ -47,7 +45,6 @@ public class PurchasingBoxMenu extends AbstractContainerMenu {
     public PurchasingBoxMenu(int containerId, Inventory playerInventory, PurchasingBoxBlockEntity box) {
         super(ModMenus.PURCHASING_BOX_MENU.get(), containerId);
         this.box = box;
-        this.player = playerInventory.player;
 
 // 箱格 3×9
         for (int index = 0; index < PurchasingBoxBlockEntity.SLOT_COUNT; index++) {
@@ -78,7 +75,7 @@ public class PurchasingBoxMenu extends AbstractContainerMenu {
 
 // 服务端：卖掉箱内产物并同步槽位
     public void sell(long day) {
-        this.box.sell(day, this.player);
+        this.box.sell(day);
         this.broadcastChanges();
     }
 

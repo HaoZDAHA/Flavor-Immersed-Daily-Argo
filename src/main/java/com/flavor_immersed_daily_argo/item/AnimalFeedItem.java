@@ -70,9 +70,63 @@ public class AnimalFeedItem extends Item {
         return this.targets.get();
     }
 
+    public static boolean isWhitelisted(EntityType<?> type) {
+        String id = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
+        return com.flavor_immersed_daily_argo.config.Config.EXTRA_FEED_ANIMALS.get().contains(id);
+    }
+
+    public static boolean hasFeedOverride(EntityType<?> type) {
+        return override(type) != null;
+    }
+
+    private static String override(EntityType<?> type) {
+        String id = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
+        String result = null;
+        for (String entry : com.flavor_immersed_daily_argo.config.Config.ANIMAL_FEED_OVERRIDES.get()) {
+            String[] parts = entry.split("=", -1);
+            if (parts.length == 2 && parts[0].trim().equals(id)) result = parts[1];
+        }
+        return result;
+    }
+
+    public static boolean isConfiguredFeed(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+        for (String entry : com.flavor_immersed_daily_argo.config.Config.ANIMAL_FEED_OVERRIDES.get()) {
+            String[] parts = entry.split("=", -1);
+            if (parts.length != 2) continue;
+            for (String item : parts[1].split(",")) {
+                if (item.trim().equals(id)) return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isFeedFor(LivingEntity target, ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        String mapping = override(target.getType());
+        if (mapping != null) {
+            String id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+            for (String item : mapping.split(",")) {
+                if (item.trim().equals(id)) return true;
+            }
+            return false;
+        }
+        if (stack.getItem() instanceof AnimalFeedItem feed) {
+            return feed.getTargets().contains(target.getType())
+                    || (isWhitelisted(target.getType()) && stack.is(com.flavor_immersed_daily_argo.all.ModItems.FEED_GRASS.get()));
+        }
+        return target instanceof Animal animal && animal.isFood(stack);
+    }
+
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-        if (!this.getTargets().contains(target.getType()) || !(target instanceof Animal animal)) {
+        if (player.level().isClientSide) return InteractionResult.PASS;
+        return feedAnimal(stack, player, target);
+    }
+
+    public static InteractionResult feedAnimal(ItemStack stack, Player player, LivingEntity target) {
+        if (!isFeedFor(target, stack) || !(target instanceof Animal animal)) {
             return InteractionResult.PASS;
         }
         if (!animal.isAlive()) {
@@ -110,6 +164,7 @@ public class AnimalFeedItem extends Item {
         }
         if (!player.level().isClientSide) {
             growUpOneStep(animal);
+            AnimalStatsManager.onFed(animal);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }

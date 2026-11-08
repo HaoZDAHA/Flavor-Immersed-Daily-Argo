@@ -23,6 +23,11 @@
       "type": "patchouli:text",
       "title": "/mouse",
       "text": "$(thing)/mouse spawn <true|false>$() temporarily overrides natural field-mouse spawning near crops.$(br2)With no override it reads $(thing)mouseNaturalSpawning$() from the main config, which is $(bold)false$() by default - so mice do not spawn unless enabled. Once the command runs, its value wins until the next restart.$(br2)Turning it off does not remove existing mice, it only stops new ones; the per-chunk cap is controlled separately by $(thing)mouseChunkLimit$(). Mice from spawn eggs or $(thing)/summon$() ignore the switch."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/fidashop",
+      "text": "Requires permission level 2 and must be run in game by a player:$(br2)$(li)$(thing)/fidashop list$() — list all shops as $(thing)#number title [system / player: name]$()$(br)$(li)$(thing)/fidashop create [title]$() — open a new shop; without a title it is named after the player, and the new number is echoed$(br)$(li)$(thing)/fidashop delete <number>$() — delete by number, with Tab completion$(br2)$(bold)Numbering$(): system shops take 1..k in datapack order; a player shop's number is the system shop count plus its internal numeric id, so deleting a shop never shifts other numbers.$(br2)Opening is limited by $(thing)shop.player_shops_enabled$() and $(thing)shop.max_shops_per_player$(). In survival you may only delete your own player shops, and only when stock and balance are both zero. $(bold)Creative mode skips the ownership and asset checks and can delete any shop, system shops included$() — system shops go into a saved blacklist, so they stay gone after a datapack reload. Changes sync to everyone immediately."
     }
   ]
 }

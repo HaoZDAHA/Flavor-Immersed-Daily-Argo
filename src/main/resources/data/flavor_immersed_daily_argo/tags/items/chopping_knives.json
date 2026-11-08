@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "flavor_immersed_daily:sharpknife",
+    { "id": "flavor_immersed_daily:kitchenknife", "required": false },
+    { "id": "#farmersdelight:tools/knives", "required": false }
+  ]
+}

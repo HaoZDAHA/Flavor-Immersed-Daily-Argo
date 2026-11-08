@@ -17,11 +17,15 @@ tasks.named('wrapper', Wrapper).configure {
 // 版本号跟随导出日期（yyyy.MM.dd），产物名形如：
 // flavor_immersed_daily_argo-1.20.1-forge-2026.10.28.jar
 // 需要指定日期时加 -Pexport_date=2026.10.28
-def exportDateFormat = new java.text.SimpleDateFormat('yyyy.MM.dd')
-def exportDate = exportDateFormat.format(new Date())
-// 覆盖 gradle.properties 里的 mod_version，mods.toml 与产物名统一用导出日期
-mod_version = exportDate
-version = exportDate
+def exportOverride = project.findProperty('export_date')?.toString()
+// 日期必须在执行期才计算：Gradle 配置缓存会把配置阶段算出的值连同某一天一起缓存，
+// 换一天再构建就会出现「文件名是今天、mods.toml 里还是旧版本」的情况。
+def exportDateProvider = providers.provider {
+    exportOverride != null
+            ? exportOverride
+            : new java.text.SimpleDateFormat('yyyy.MM.dd').format(new Date())
+}
+version = exportDateProvider.get()
 group = mod_group_id
 
 repositories {
@@ -55,17 +59,11 @@ base {
 // jar 的日期放到执行时才计算，避免 Gradle 配置缓存把某一天的日期锁死；
 // 同时把日期登记成任务输入，换了一天就会重新打一次包，保证包名永远是当天日期。
 tasks.named('jar', Jar).configure {
-    def overrideDate = project.findProperty('export_date')?.toString()
     def namePrefix = "${mod_id}-${minecraft_version}-forge"
     def libsDir = layout.buildDirectory.dir('libs')
-    def currentDate = {
-        overrideDate != null
-                ? overrideDate
-                : new java.text.SimpleDateFormat('yyyy.MM.dd').format(new Date())
-    }
-    inputs.property('exportDate', currentDate)
+    inputs.property('exportDate', exportDateProvider)
     doFirst {
-        String date = currentDate()
+        String date = exportDateProvider.get()
         String target = "${namePrefix}-${date}.jar"
         def dir = libsDir.get().asFile
         // 清掉其他日期的旧产物，build/libs 里只留当天这一份
@@ -231,14 +229,17 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_id                   : mod_id,
             mod_name                 : mod_name,
             mod_license              : mod_license,
-            mod_version              : mod_version,
             mod_authors              : mod_authors,
             mod_description          : mod_description
     ]
     inputs.properties replaceProperties
-    expand replaceProperties
+    // 与 jar 包名共用同一个执行期日期，保证「文件名版本」和「游戏里显示的版本」永远一致
+    inputs.property('modVersion', exportDateProvider)
     from "src/main/templates"
     into "build/generated/sources/modMetadata"
+    filesMatching('META-INF/mods.toml') {
+        expand(replaceProperties + [mod_version: exportDateProvider.get()])
+    }
 }
 // Include the output of "generateModMetadata" as an input directory for the build
 // this works with both building through Gradle and the IDE.

@@ -21,6 +21,16 @@
     },
     {
       "type": "patchouli:text",
+      "title": "Crabber's Delight entries",
+      "text": "The mod ships four $(thing)crabbersdelight_*.json$() codex files for crab $(thing:crabbersdelight:crab$()), shrimp $(thing:crabbersdelight:shrimp$()), clawster $(thing:crabbersdelight:clawster$()) and clam $(thing:crabbersdelight:clam$()). All four are ocean omnivores, fishable at any depth and all day, with the default struggle tension of 8.$(br2)They differ only in alertness and feeding speed: crab low/slow, shrimp low/fast, clawster medium/slow, clam low/slow.$(br2)These items come from an optional mod; without it the entries are skipped silently and neither the catch pool nor the market shows them. Reload the datapack after editing a codex file."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "JEI catch category",
+      "text": "$(bold)Catch Codex$() is a separate $(thing)JEI$() category using the Nanshan rod ($(thing)nameless_rod$()) as its catalyst. Open any catch and the right panel shows its hook conditions: habitat, diet, active time, alertness, feeding speed and struggle tension.$(br2)Pages are built from the server-synced $(thing)data/fishing_handbook$() and refresh on login and datapack reload. Leaving a world clears the client snapshot and JEI entries so the previous session's fish do not leak into the next one.$(br2)Entity-only entries without an item icon stay out of item pages but still appear in the in-game handbook; missing JEI or Crabber's Delight never prevents startup."
+    },
+    {
+      "type": "patchouli:text",
       "title": "Tackle: data/fishing_rod_parts",
       "text": "The six slots are line, rod, reel, bait, float and sinker; the slot decides which stats are read. Undefined stats count as 0 and affect nothing.$(br2)Available fields: $(thing)durability$(), $(thing)hardness$(), $(thing)tension$(), $(thing)stretch$(), $(thing)thickness$(), $(thing)drag$(), $(thing)reel_speed$(), $(thing)weight$(), $(thing)anti_current$(), $(thing)size$(), $(thing)set_depth$().$(br2)Example: $(thing){\"item\": \"...:rod_bamboo\", \"durability\": 80, \"tension\": 12, \"hardness\": 1}$()"
     }

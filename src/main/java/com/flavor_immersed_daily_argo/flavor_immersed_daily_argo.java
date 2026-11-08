@@ -16,6 +16,7 @@ import com.flavor_immersed_daily_argo.all.ModMenus;
 import com.flavor_immersed_daily_argo.all.ModMobEffects;
 import com.flavor_immersed_daily_argo.all.ModSounds;
 import com.flavor_immersed_daily_argo.config.Config;
+import com.flavor_immersed_daily_argo.compat.ThirstCompat;
 import com.flavor_immersed_daily_argo.entity.Harvester;
 import com.flavor_immersed_daily_argo.recipe.ModRecipes;
 import com.flavor_immersed_daily_argo.entity.Scarecrow;
@@ -36,8 +37,6 @@ import com.flavor_immersed_daily_argo.economy.PhoneAcceptOrderPacket;
 import com.flavor_immersed_daily_argo.economy.PhoneCancelOrderPacket;
 import com.flavor_immersed_daily_argo.economy.PhoneOrderRequestPacket;
 import com.flavor_immersed_daily_argo.economy.PhoneOrderSyncPacket;
-import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
-import com.flavor_immersed_daily_argo.economy.compat.SharedBalancePacket;
 import com.flavor_immersed_daily_argo.economy.shop.ShopCheckoutPacket;
 import com.flavor_immersed_daily_argo.economy.shop.ShopCheckoutResultPacket;
 import com.flavor_immersed_daily_argo.economy.shop.ShopClientData;
@@ -128,6 +127,8 @@ public class flavor_immersed_daily_argo {
         registerPackets(new RegisterPayloadHandlersEvent());
 // 未安装帕秋莉手册时，登录时提醒玩家（「南山-教程卷轴」需要它才能翻阅）
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
+// 装了口渴模组时，把果汁 / 水果 / 汤登记成能补水的物品
+        ThirstCompat.register();
 
 // 配置
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -302,7 +303,7 @@ public class flavor_immersed_daily_argo {
 // 数据包内容（手册条目 / 配件参数 / 称重分类）：客户端读不到 data 目录，登录 / 重载时由服务端全量下发
         registrar.playToClient(FishingDataSyncPacket.TYPE, FishingDataSyncPacket.STREAM_CODEC,
                 (packet, context) -> context.enqueueWork(() -> {
-                    FishingHandbookData.getInstance().applyFromJson(packet.handbook());
+                    com.flavor_immersed_daily_argo.fishing.FishingHandbookResource.onDataSynced(packet.handbook());
                     FishingRodPartData.getInstance().applyFromJson(packet.parts());
                     WeighingTypeData.getInstance().applyFromJson(packet.weighing());
                 }));
@@ -474,7 +475,7 @@ public class flavor_immersed_daily_argo {
                         case CREATE -> {
                             if (!EconomyConfig.PLAYER_SHOPS_ENABLED.get()) {
                                 shopMessage(player, "disabled");
-                            } else if (manager.createShop(player, packet.text())) {
+                            } else if (manager.createShop(player, packet.text()) != null) {
                                 shopMessage(player, "created");
                             } else {
                                 shopMessage(player, "limit_reached");
@@ -528,10 +529,6 @@ public class flavor_immersed_daily_argo {
                     player.inventoryMenu.broadcastFullState();
                     ShopManager.syncAll(player.server);
                 }));
-// 经济联动：同步联动状态与余额给客户端
-        registrar.playToClient(SharedBalancePacket.TYPE, SharedBalancePacket.STREAM_CODEC,
-                (packet, context) -> context.enqueueWork(
-                        () -> EconomyCompat.acceptClientSync(packet.shared(), packet.balance())));
 // 收购箱：客户端点了界面里的「出售」，服务端按今天的收购价把箱内经济产物变现成纸币
         registrar.playToServer(PurchasingBoxSellPacket.TYPE, PurchasingBoxSellPacket.STREAM_CODEC,
                 (packet, context) -> context.enqueueWork(() -> {

@@ -134,7 +134,13 @@ public class FeedingTroughBlock extends BaseEntityBlock {
                 || stack.is(ModItems.FEED_AQUATIC.get())
                 || stack.is(ModItems.FEED_MEAT.get())
                 || stack.is(Items.WHEAT)
-                || stack.is(Items.CARROT)) {
+                || stack.isEdible()
+                || stack.is(Items.WHEAT_SEEDS) || stack.is(Items.BEETROOT_SEEDS)
+                || stack.is(Items.MELON_SEEDS) || stack.is(Items.PUMPKIN_SEEDS)
+                || stack.is(Items.TORCHFLOWER_SEEDS) || stack.is(Items.BAMBOO)
+                || stack.is(Items.HAY_BLOCK) || stack.is(Items.DANDELION)
+                || stack.is(Items.SEAGRASS) || stack.is(Items.SLIME_BALL)
+                || com.flavor_immersed_daily_argo.item.AnimalFeedItem.isConfiguredFeed(stack)) {
             return TroughContent.FOOD;
         }
         return null;
@@ -143,6 +149,7 @@ public class FeedingTroughBlock extends BaseEntityBlock {
 // 手里拿着饲料 / 纯净水右键：整摞倒进槽里
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.isClientSide) return InteractionResult.SUCCESS;
         ItemStack held = player.getItemInHand(hand);
         if (!held.isEmpty()) {
             InteractionResult result = this.useWithItem(state, level, pos, player, hand, hitResult);

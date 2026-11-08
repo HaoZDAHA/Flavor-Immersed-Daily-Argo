@@ -421,6 +421,7 @@ public class flavor_immersed_daily_argoClient {
         event.register(UavClient.UAV_EXIT);
 // 瞄准顾客 / 外卖小哥时按 R 查看这道菜的配方
         event.register(OrderRecipeKeyMapping.SHOW_ORDER_RECIPE);
+        event.register(com.flavor_immersed_daily_argo.fishing.FishingRodKeyMapping.OPEN_ROD_MOD);
     }
 
     @SubscribeEvent

@@ -82,7 +82,7 @@ public class DeliveryPoint extends Entity {
         }
 
         ServerLevel level = (ServerLevel) this.level();
-        DeliveryManager.reward(player, level, this.position(), this.order.money());
+        DeliveryManager.spawnMoney(level, this.position(), this.order.money());
         DeliveryManager.complete(level, this.order.id());
         if (!player.getAbilities().instabuild) {
             held.shrink(1);

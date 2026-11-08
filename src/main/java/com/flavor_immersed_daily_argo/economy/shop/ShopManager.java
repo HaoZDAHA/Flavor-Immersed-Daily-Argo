@@ -2,12 +2,11 @@ package com.flavor_immersed_daily_argo.economy.shop;
 
 import com.flavor_immersed_daily_argo.economy.CreditCardItem;
 import com.flavor_immersed_daily_argo.economy.EconomyConfig;
-import com.flavor_immersed_daily_argo.economy.compat.EconomyCompat;
-import com.flavor_immersed_daily_argo.economy.compat.SharedEconomyData;
 import com.flavor_immersed_daily_argo.economy.product.EconomicNews;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,8 +20,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 // 玩家店铺存档。
 //
@@ -39,6 +40,9 @@ public class ShopManager extends SavedData {
     private static final java.util.function.Function<CompoundTag, ShopManager> LOADER = ShopManager::new;
 
     private final List<Shop> shops = new ArrayList<>();
+
+// 已被删掉的系统店铺 id（数据包 / 配置店铺不落存档，只能记黑名单）
+    private final Set<String> removedSystemShops = new HashSet<>();
 
     public ShopManager() {
     }
@@ -61,6 +65,46 @@ public class ShopManager extends SavedData {
             shops.add(new Shop(entry.getString("Id"), entry.getString("Title"), entry.getString("Owner"),
                     List.copyOf(entries), entry.getLong("Balance"), true));
         }
+        ListTag removed = tag.getList("RemovedSystemShops", Tag.TAG_STRING);
+        for (int i = 0; i < removed.size(); i++) {
+            removedSystemShops.add(removed.getString(i));
+        }
+        normalizeIds();
+    }
+
+// 店铺编号必须是全服唯一的正整数；旧存档的 player:<名>:<序号> 在这里迁移成数字编号
+    private void normalizeIds() {
+        Set<Integer> used = new HashSet<>();
+        for (Shop shop : this.shops) {
+            int id = parseId(shop.id());
+            if (id > 0) {
+                used.add(id);
+            }
+        }
+        Set<Integer> assigned = new HashSet<>();
+        for (int i = 0; i < this.shops.size(); i++) {
+            Shop shop = this.shops.get(i);
+            int id = parseId(shop.id());
+            if (id > 0 && assigned.add(id)) {
+                continue;
+            }
+            int next = 1;
+            while (used.contains(next)) {
+                next++;
+            }
+            used.add(next);
+            assigned.add(next);
+            this.shops.set(i, new Shop(Integer.toString(next), shop.title(), shop.ownerName(),
+                    shop.entries(), shop.balance(), shop.playerShop()));
+        }
+    }
+
+    private static int parseId(String id) {
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException ignored) {
+            return -1;
+        }
     }
 
     public static ShopManager get(MinecraftServer server) {
@@ -72,11 +116,16 @@ public class ShopManager extends SavedData {
         return this.shops;
     }
 
-// 全量店铺 = 系统店铺（数据包） + 配置文件商店 + 玩家店铺
+// 全量店铺 = 系统店铺（数据包） + 配置文件商店 + 玩家店铺；被删掉的系统店铺会过滤掉
     public List<Shop> allShops(MinecraftServer server) {
-        List<Shop> result = new ArrayList<>(ShopDataLoader.SHOPS);
+        List<Shop> result = new ArrayList<>();
+        for (Shop shop : ShopDataLoader.SHOPS) {
+            if (!removedSystemShops.contains(shop.id())) {
+                result.add(shop);
+            }
+        }
         Shop configShop = EconomyConfig.configShop();
-        if (configShop != null) {
+        if (configShop != null && !removedSystemShops.contains(configShop.id())) {
             result.add(configShop);
         }
         result.addAll(this.shops);
@@ -96,47 +145,88 @@ public class ShopManager extends SavedData {
         return n;
     }
 
-// 创建店铺：受配置开关与数量上限限制；成功返回 true 并标脏
-    public boolean createShop(ServerPlayer player, String title) {
+// 创建店铺：受配置开关与数量上限限制；成功返回新店，失败返回 null 并标脏
+    public Shop createShop(ServerPlayer player, String title) {
         String owner = player.getName().getString();
         if (!EconomyConfig.PLAYER_SHOPS_ENABLED.get()) {
-            return false;
+            return null;
         }
         if (countShops(owner) >= EconomyConfig.MAX_SHOPS_PER_PLAYER.get()) {
-            return false;
+            return null;
         }
         String cleanTitle = title == null || title.isBlank() ? owner + "的小店" : title.trim();
-        this.shops.add(new Shop(nextShopId(owner), cleanTitle, owner, List.of(), 0L, true));
+        Shop shop = new Shop(nextShopId(), cleanTitle, owner, List.of(), 0L, true);
+        this.shops.add(shop);
+        this.setDirty();
+        return shop;
+    }
+
+// 分配全服最小的可用数字编号
+    private String nextShopId() {
+        Set<Integer> used = new HashSet<>();
+        for (Shop shop : this.shops) {
+            int id = parseId(shop.id());
+            if (id > 0) {
+                used.add(id);
+            }
+        }
+        int index = 1;
+        while (used.contains(index)) {
+            index++;
+        }
+        return Integer.toString(index);
+    }
+
+// 删店：只有店主能删，须先清空库存并提走余额
+    public boolean deleteShop(ServerPlayer player, String shopId) {
+        return deleteShop(player, shopId, false);
+    }
+
+// 删店（创造模式）：ignoreOwnership 为真时不校验店主，也不再检查库存与余额
+    public boolean deleteShop(ServerPlayer player, String shopId, boolean ignoreOwnership) {
+        Shop shop = ignoreOwnership ? find(this.shops, shopId) : findOwned(player, shopId);
+        if (shop == null) {
+            return false;
+        }
+        if (!ignoreOwnership && (shop.balance() != 0L
+                || shop.entries().stream().anyMatch(entry -> entry.infinite() || entry.stock() > 0))) {
+            return false;
+        }
+        this.shops.remove(shop);
         this.setDirty();
         return true;
     }
 
-// 给店主分配一个不冲突的序号，作为店铺 id
-    private String nextShopId(String owner) {
-        int index = 1;
-        String prefix = "player:" + owner + ":";
-        boolean clash = true;
-        while (clash) {
-            clash = false;
-            String candidate = prefix + index;
-            for (Shop shop : this.shops) {
-                if (shop.id().equals(candidate)) {
-                    clash = true;
-                    index++;
-                    break;
-                }
+// 按店铺编号删除。创造模式可删任意店铺，系统店铺也会被记入存档黑名单；非创造只能删自己的玩家店铺
+    public boolean deleteShopByNumber(ServerPlayer player, int number, boolean ignoreOwner) {
+        List<Shop> all = allShops(player.server);
+        Shop target = null;
+        for (Shop candidate : all) {
+            if (candidate.numberIn(all) == number) {
+                target = candidate;
+                break;
             }
         }
-        return prefix + index;
-    }
-
-// 删店：只有店主能删
-    public boolean deleteShop(ServerPlayer player, String shopId) {
-        Shop shop = findOwned(player, shopId);
-        if (shop == null) {
+        if (target == null) {
             return false;
         }
-        this.shops.remove(shop);
+        if (target.isSystem()) {
+            if (!ignoreOwner) {
+                return false;
+            }
+            this.removedSystemShops.add(target.id());
+            this.setDirty();
+            return true;
+        }
+        if (!ignoreOwner && !target.ownerName().equals(player.getName().getString())) {
+            return false;
+        }
+        if (!ignoreOwner && (target.balance() != 0L
+                || target.entries().stream().anyMatch(entry -> entry.infinite() || entry.stock() > 0))) {
+            return false;
+        }
+        Shop shop = target;
+        this.shops.removeIf(candidate -> candidate.id().equals(shop.id()));
         this.setDirty();
         return true;
     }
@@ -214,45 +304,25 @@ public class ShopManager extends SavedData {
         return true;
     }
 
-// 提现：余额转入玩家账户，卡只当凭据
+// 提现：把店铺余额转入银行卡的卡面账户
     public boolean withdraw(ServerPlayer player, String shopId, ItemStack card) {
         Shop shop = findOwned(player, shopId);
         if (shop == null || card == null || !(card.getItem() instanceof CreditCardItem) || shop.balance() <= 0L) {
             return false;
         }
         long amount = shop.balance();
-        long credited = EconomyCompat.cardCredit(player, card, amount);
+        long before = CreditCardItem.getAccount(card);
+        long after = CreditCardItem.saturatingAdd(before, amount);
+        long credited = after - before;
         if (credited <= 0L) {
             return false;
         }
+        CreditCardItem.setAccount(card, after);
 // 只扣真正到账的部分
         replace(shop.id(), shop.entries(), amount - credited);
         player.getInventory().setChanged();
         this.setDirty();
         return true;
-    }
-
-// 旧店铺余额折进待结算
-    public void migrateOwnerBalances(ServerPlayer player, SharedEconomyData data) {
-        if (!EconomyCompat.isShared() || player == null || data == null) {
-            return;
-        }
-        String owner = player.getName().getString();
-        String key = player.getUUID().toString();
-        boolean changed = false;
-        for (int i = 0; i < this.shops.size(); i++) {
-            Shop shop = this.shops.get(i);
-            if (shop.isSystem() || !shop.ownerName().equals(owner) || shop.balance() <= 0L) {
-                continue;
-            }
-            data.addPending(key, shop.balance());
-            this.shops.set(i, new Shop(shop.id(), shop.title(), shop.ownerName(),
-                    shop.entries(), 0L, shop.playerShop()));
-            changed = true;
-        }
-        if (changed) {
-            this.setDirty();
-        }
     }
 
 // 结账
@@ -301,21 +371,18 @@ public class ShopManager extends SavedData {
                 message(player, "out_of_stock");
                 return;
             }
-            total = EconomyCompat.saturatingAdd(total, (long) entry.price() * line.qty());
+            total = CreditCardItem.saturatingAdd(total, (long) entry.price() * line.qty());
             resolved[i] = entry;
         }
 // 余额
-        long account = EconomyCompat.cardBalance(player, card);
+        long account = CreditCardItem.getAccount(card);
         if (account < total) {
             message(player, "insufficient");
             return;
         }
 
 // 扣钱并发货
-        if (!EconomyCompat.cardPay(player, card, total)) {
-            message(player, "insufficient");
-            return;
-        }
+        CreditCardItem.setAccount(card, account - total);
         for (int i = 0; i < cart.size(); i++) {
             ShopEntry entry = resolved[i];
             if (entry == null) {
@@ -325,7 +392,7 @@ public class ShopManager extends SavedData {
             Shop shop = find(all, line.shopId());
             give(player, new ItemStack(entry.item(), entry.count() * line.qty()));
             if (shop != null && shop.playerShop()) {
-                manager.applyPurchase(player, shop.id(), line.entryIndex(), line.qty(), entry.price());
+                manager.applyPurchase(shop.id(), line.entryIndex(), line.qty(), entry.price());
             }
         }
         player.getInventory().setChanged();
@@ -340,8 +407,8 @@ public class ShopManager extends SavedData {
         PacketDistributor.sendToPlayer(player, new ShopCheckoutResultPacket(true, done));
     }
 
-// 货款进店主账户，有限库存按购买次数扣减
-    private void applyPurchase(ServerPlayer buyer, String shopId, int index, int qty, int price) {
+// 货款累加进店铺余额，有限库存按购买次数扣减
+    private void applyPurchase(String shopId, int index, int qty, int price) {
         for (int i = 0; i < this.shops.size(); i++) {
             Shop shop = this.shops.get(i);
             if (!shop.id().equals(shopId)) {
@@ -352,12 +419,7 @@ public class ShopManager extends SavedData {
             int stock = e.infinite() ? e.stock() : Math.max(0, e.stock() - qty);
             entries.set(index, new ShopEntry(e.item(), e.count(), e.price(), stock));
             long income = (long) price * qty;
-            long balance = shop.balance();
-            if (EconomyCompat.isShared()) {
-                EconomyCompat.creditOwner(buyer.server, shop.ownerName(), income);
-            } else {
-                balance = EconomyCompat.saturatingAdd(balance, income);
-            }
+            long balance = CreditCardItem.saturatingAdd(shop.balance(), income);
             this.shops.set(i, new Shop(shop.id(), shop.title(), shop.ownerName(), List.copyOf(entries),
                     balance, true));
             return;
@@ -462,6 +524,11 @@ public class ShopManager extends SavedData {
             list.add(entry);
         }
         tag.put("Shops", list);
+        ListTag removed = new ListTag();
+        for (String id : this.removedSystemShops) {
+            removed.add(StringTag.valueOf(id));
+        }
+        tag.put("RemovedSystemShops", removed);
         return tag;
     }
 }

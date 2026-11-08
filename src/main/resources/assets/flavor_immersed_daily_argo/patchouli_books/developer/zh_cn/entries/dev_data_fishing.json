@@ -21,6 +21,16 @@
     },
     {
       "type": "patchouli:text",
+      "title": "蟹农乐事四条目",
+      "text": "仓库自带四份 $(thing)crabbersdelight_*.json$()，对应螃蟹 $(thing:crabbersdelight:crab$())、虾 $(thing:crabbersdelight:shrimp$())、龙虾 $(thing:crabbersdelight:clawster$())、蛤蜊 $(thing:crabbersdelight:clam$())，全部为海洋杂食、不限深度、全天可钓，挣扎默认 8。$(br2)差异只在警惕与进食速度：螃蟹 low/slow，虾 low/fast，龙虾 medium/slow，蛤蜊 low/slow。$(br2)这些物品来自可选模组，未安装时条目会被静默跳过，钓获池和行情都不会出现它们；新增或修改图鉴条目后，重载数据包即可生效。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "JEI 钓获分类",
+      "text": "$(bold)钓获图鉴$() 是 $(thing)JEI$() 中的一个独立分类，催化物为 $(thing)nameless_rod$()（南山钓竿）。翻到任一水产，右侧会展示它的上钩条件：栖息地、食性、活跃时段、警惕、进食速度与挣扎拉力。$(br2)页面数据来自服务端同步的 $(thing)data/fishing_handbook$()，登录、重载数据包后自动刷新；退出存档时会清空客户端快照与 JEI 条目，避免把上一局的水产带进下一局。$(br2)只存在于实体、没有物品图标的条目不会进入物品页，但仍会出现在手册 UI 中；未安装 JEI 或蟹农乐事都不影响正常启动。"
+    },
+    {
+      "type": "patchouli:text",
       "title": "配件：data/fishing_rod_parts",
       "text": "六个改装槽依次为鱼线、竿体、线轮、鱼饵、浮漂、铅坠，槽位决定读取哪些系数；未定义的系数按 0 处理（不影响计算）。$(br2)可写字段：$(thing)durability$()、$(thing)hardness$()、$(thing)tension$()、$(thing)stretch$()、$(thing)thickness$()、$(thing)drag$()、$(thing)reel_speed$()、$(thing)weight$()、$(thing)anti_current$()、$(thing)size$()、$(thing)set_depth$()。$(br2)示例：$(thing){\"item\": \"...:rod_bamboo\", \"durability\": 80, \"tension\": 12, \"hardness\": 1}$()"
     }

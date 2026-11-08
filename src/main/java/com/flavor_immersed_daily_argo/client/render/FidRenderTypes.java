@@ -14,24 +14,8 @@ import java.util.OptionalDouble;
 // 按简单名取到这些常量，再把拼好的 RenderType 暴露出去，供各渲染器共用。
 public final class FidRenderTypes extends RenderStateShard {
 
-// 鱼线：折线，写回主缓冲（原版那条走 ITEM_ENTITY_TARGET）。
-//
-// 「极佳」画质下水在单独缓冲里后合成，线若进了另一块缓冲就不参与主缓冲的深度比较，
-// 看上去像被水浸着。改回主缓冲并保留深度写入后，水面会按深度正确遮挡，线在水上方始终是实的。
-    public static final RenderType FISHING_LINE = RenderType.create(
-            "flavor_immersed_daily_argo:fishing_line",
-            DefaultVertexFormat.POSITION_COLOR_NORMAL,
-            VertexFormat.Mode.LINE_STRIP,
-            1536,
-            false,
-            false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RENDERTYPE_LINES_SHADER)
-                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                    .setWriteMaskState(COLOR_DEPTH_WRITE)
-                    .setCullState(NO_CULL)
-                    .createCompositeState(false));
+// 使用 1.20.1 原版鱼线类型，保留其线宽状态和输出目标。
+    public static final RenderType FISHING_LINE = RenderType.lineStrip();
 
 // 测距绳的贴地方框：2 像素宽的线，带深度测试，被地形挡住时不穿墙
     public static final RenderType CHUNK_BORDER = RenderType.create(

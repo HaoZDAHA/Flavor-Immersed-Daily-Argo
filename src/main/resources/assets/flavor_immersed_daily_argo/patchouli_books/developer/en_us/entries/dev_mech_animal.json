@@ -7,22 +7,27 @@
     {
       "type": "patchouli:text",
       "title": "Four stats and weight",
-      "text": "An animal only gets a stat panel after a player has fed it: $(bold)satiety / thirst / cleanliness / mood$(), each 0~10, plus weight in kg.$(br2)The panel is inherited by offspring; a baby raised within 8 blocks of an adult that has it gains one when it grows up.$(br2)Animals without a weight standard (cats, dogs) always show 0 and hide that row."
+      "text": "An animal only gets a stat panel after a player hand-feeds it or it eats at a trough: $(bold)satiety / thirst / cleanliness / mood$(), each 0~10, plus weight in kg.$(br2)The panel is inherited by offspring; a baby raised within 8 blocks of an adult that has it gains one when it grows up.$(br2)Stats cover every vanilla $(thing)Animal$() subclass; weight is only defined for the species listed below, so cats and dogs stay at 0 and hide that row."
     },
     {
       "type": "patchouli:text",
       "title": "Two cycles",
-      "text": "Everything is calculated on the server, in two cycles:$(br2)$(li)$(bold)Every 5 s (100 ticks)$(): +1 thirst if water is within 2 blocks; +1 cleanliness while in water or in rain.$(br)$(li)$(bold)Every 30 s (600 ticks)$(): -1 satiety, thirst and cleanliness, never below 0.$(br2)Feeding once: +3 satiety, +1 mood."
+      "text": "Everything is calculated on the server, in two cycles:$(br2)$(li)$(bold)Every 5 s (100 ticks)$(): +1 thirst if water is within 2 blocks; +1 cleanliness while in water or in rain.$(br)$(li)$(bold)Every 30 s (600 ticks)$(): -1 satiety, thirst and cleanliness, never below 0.$(br2)Feeding once: +3 satiety, +1 mood.$(br2)All amounts shown are defaults and can be changed under Husbandry values in the main config; the two cycles themselves are hard-coded in $(thing)AnimalStatsManager$()."
     },
     {
       "type": "patchouli:text",
       "title": "Mood and weight",
-      "text": "Every 30 s:$(br)$(li)All three of satiety / thirst / cleanliness ≥ 7 → mood +1.$(br)$(li)Any of them at 0 → mood -1.$(br)$(li)Otherwise mood is unchanged.$(br2)Weight follows the same check: it gains 2% of the standard weight when things are good, loses the same when bad, and is clamped between 0.7 and 1.3 times the standard."
+      "text": "Every 30 s:$(br)$(li)All three of satiety / thirst / cleanliness ≥ 7 → mood +1.$(br)$(li)Any of them at 0 → mood -1.$(br)$(li)Otherwise mood is unchanged.$(br2)Weight follows the same check: it gains $(thing)animalWeightStepRatio$() (default 2%) of the standard weight when things are good, loses the same when bad, and is clamped between 0.7 and 1.3 times the standard."
     },
     {
       "type": "patchouli:text",
       "title": "Poop and flies",
-      "text": "Each time satiety is consumed (i.e. every 30 s decay tick) there is a 25% chance to drop manure, at most 6 piles per chunk.$(br2)When manure plus dead-animal carcasses within 3 blocks reach 3, the animal gets $(bold)fly bite$(): it lasts $(bold)forever$() and caps cleanliness at 5 with an extra -5 on each decay tick. Only flea treatment cures it; removing the manure does not help an already infected animal.$(br2)These values are hard-coded in $(thing)AnimalStatsManager$()."
+      "text": "Each time satiety is consumed (i.e. every 30 s decay tick) manure is attempted at the configured chance (25% by default), at most 6 piles per chunk.$(br2)Placement first looks for an existing pile within 6 blocks and stacks around it (±2 blocks); otherwise it picks a spot within ±4 blocks of the animal, avoiding troughs and water within 4 blocks horizontally. The spot must be in a loaded chunk, standable, collision-free and dry — $(bold)no chunks are force-loaded$().$(br2)When manure plus dead-animal carcasses within 3 blocks reach 3, the animal gets $(bold)fly bite$(): it lasts $(bold)forever$() and caps cleanliness at 5 with an extra loss on each decay tick. Only flea treatment cures it; removing the manure does not help an already infected animal.$(br2)Poop chance and fly-bite loss live in Husbandry values; piles have no collision or pushing and are only picked up by aiming at them."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Troughs and continuous feeding",
+      "text": "A trough holds one of two things: $(bold)feed$() or $(bold)pure water$(), decided by the item placed in it — only one kind at a time.$(br2)On random ticks the block scans a 16×8×16 area and only attracts animals whose satiety or thirst is at or below $(thing)troughNeedThreshold$() and that accept the item; it claims a single animal at a time, so a feed trough and a water trough will not fight over the same path.$(br2)At the trough the animal takes a bite every $(thing)troughFeedInterval$() ticks for $(thing)troughRestoreAmount$(), and $(bold)keeps eating until that item hits 10 or the trough runs out$() — it does not leave after one bite. Hunger and thirst live in separate troughs, and the animal moves on to the other one by itself.$(br2)Troughs keep the full item stack in block-entity NBT, so old saves load fine; custom feed is matched by item identity, so avoid container items that return an empty container."
     },
     {
       "type": "patchouli:text",

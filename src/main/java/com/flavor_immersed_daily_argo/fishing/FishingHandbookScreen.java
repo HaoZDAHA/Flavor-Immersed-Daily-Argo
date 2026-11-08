@@ -191,7 +191,7 @@ public class FishingHandbookScreen extends Screen {
 // 列表刷新
 
     private void rebuildList() {
-        filtered = FishingHandbookData.getInstance()
+        filtered = FishingHandbookData.getClientInstance()
                 .filter(habitatSel, dietSel, activitySel, alertnessSel, speedSel)
                 .stream().filter(this::matchesCaught).toList();
         if (!filtered.contains(selected)) {
@@ -328,7 +328,7 @@ public class FishingHandbookScreen extends Screen {
 
 // 战利品列表
         if (filtered.isEmpty()) {
-            int total = FishingHandbookData.getInstance().all().size();
+            int total = FishingHandbookData.getClientInstance().all().size();
             Component empty = Component.translatable("book.flavor_immersed_daily_argo.empty", total);
             gui.drawString(font, empty, leftX, listTopY, 0x3F3F3F, false);
             return;

@@ -46,7 +46,7 @@ public class SewingMachineRenderer implements BlockEntityRenderer<SewingMachineB
         poseStack.mulPose(Axis.YP.rotationDegrees(-blockY));
 // 平铺在台面上
         poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-        poseStack.scale(1.2F, 1.2F, 1.2F);
+        poseStack.scale(0.8F, 0.8F, 0.8F);
 
         this.itemRenderer.renderStatic(garment, ItemDisplayContext.FIXED, packedLight, packedOverlay,
                 poseStack, bufferSource, machine.getLevel(), 0);
