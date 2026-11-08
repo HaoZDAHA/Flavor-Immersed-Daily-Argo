@@ -3,6 +3,8 @@ package com.flavor_immersed_daily_argo.integration.jei;
 import com.flavor_immersed_daily_argo.all.ModBlocks;
 import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.flavor_immersed_daily_argo;
+import com.flavor_immersed_daily_argo.fishing.FishingHandbookResource;
+import com.flavor_immersed_daily_argo.fishing.FishingHandbookEntry;
 import com.flavor_immersed_daily_argo.recipe.InsectBreedingRecipe;
 import com.flavor_immersed_daily_argo.recipe.InsectNetDrop;
 import com.flavor_immersed_daily_argo.recipe.ModRecipes;
@@ -31,6 +33,17 @@ public class FIDAJEIPlugin implements IModPlugin {
 
 // 保存 JEI 运行时，供订单实体按 R 打开配方
     private static IJeiRuntime runtime;
+    private static List<FishingHandbookEntry> fishingRecipes = List.of();
+
+    public static void refreshFishingRecipes() {
+        List<FishingHandbookEntry> latest = FishingHandbookResource.load();
+        if (runtime == null || fishingRecipes == latest) {
+            return;
+        }
+        runtime.getRecipeManager().hideRecipes(FishingHandbookJeiCategory.TYPE, fishingRecipes);
+        runtime.getRecipeManager().addRecipes(FishingHandbookJeiCategory.TYPE, latest);
+        fishingRecipes = latest;
+    }
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -40,6 +53,7 @@ public class FIDAJEIPlugin implements IModPlugin {
     @Override
     public void onRuntimeAvailable(IJeiRuntime runtime) {
         FIDAJEIPlugin.runtime = runtime;
+        refreshFishingRecipes();
     }
 
     @Override
@@ -63,6 +77,7 @@ public class FIDAJEIPlugin implements IModPlugin {
         registration.addRecipeCategories(new InsectBreedingCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new InsectNetCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new RiverSiltFarmingCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new FishingHandbookJeiCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -108,6 +123,10 @@ public class FIDAJEIPlugin implements IModPlugin {
             }
         }
         registration.addRecipes(RiverSiltFarmingCategory.TYPE, siltRecipes);
+
+// 南山钓竿钓获：同步晚于注册时，由运行时接口补充。
+        fishingRecipes = FishingHandbookResource.load();
+        registration.addRecipes(FishingHandbookJeiCategory.TYPE, fishingRecipes);
     }
 
     @Override
@@ -118,5 +137,7 @@ public class FIDAJEIPlugin implements IModPlugin {
                 InsectNetCategory.TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.RIVER_SILT.asItem()),
                 RiverSiltFarmingCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModItems.MOD_FISHING_ROD.get()),
+                FishingHandbookJeiCategory.TYPE);
     }
 }

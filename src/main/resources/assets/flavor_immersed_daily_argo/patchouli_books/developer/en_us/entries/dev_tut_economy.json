@@ -22,7 +22,7 @@
     {
       "type": "patchouli:text",
       "title": "4. Exchange and shop limits",
-      "text": "$(li)Exchange: edit $(thing)exchange.entries$(), or use $(thing)/fidaeco add$() and $(thing)/fidaeco delete$(); changes save instantly.$(br)$(li)Disable player shops: $(thing)shop.player_shops_enabled = false$().$(br)$(li)Limit shops per player: $(thing)max_shops_per_player$(), range 0~64; 0 forbids them entirely.$(br2)Remember: price changes affect how existing worlds feel, so run them on a test server first."
+      "text": "$(li)Exchange: edit $(thing)exchange.entries$(), or use $(thing)/fidaeco add$() and $(thing)/fidaeco delete$(); changes save instantly.$(br)$(li)Player shops: use $(thing)/fidashop list|create|delete$() to add or remove your own shops.$(br)$(li)Disable player shops: $(thing)shop.player_shops_enabled = false$().$(br)$(li)Limit shops per player: $(thing)max_shops_per_player$(), range 0~64; 0 forbids them entirely.$(br2)Remember: price changes affect how existing worlds feel, so run them on a test server first."
     }
   ]
 }

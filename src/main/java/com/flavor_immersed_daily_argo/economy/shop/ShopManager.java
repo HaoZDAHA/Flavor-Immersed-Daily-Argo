@@ -6,6 +6,7 @@ import com.flavor_immersed_daily_argo.economy.product.EconomicNews;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -18,11 +19,14 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // 玩家店铺存档。
 //
-// 只保存「玩家开的店」（系统店铺由数据包 / 配置文件驱动，不落存档），挂在主世界的 getDataStorage()，
+// 保存「玩家开的店」（系统店铺由数据包 / 配置文件驱动，不落存档），以及被管理员
+// 删掉的系统店铺 id（落存档后重新加载数据包也不会再出现）。挂在主世界的 getDataStorage()，
 // 键 flavor_immersed_daily_argo_shops。多人联机下全服共一份，任何人在商业电脑里都能买到。
 public class ShopManager extends SavedData {
 
@@ -32,6 +36,7 @@ public class ShopManager extends SavedData {
             new SavedData.Factory<>(ShopManager::new, (tag, provider) -> new ShopManager(tag), null);
 
     private final List<Shop> shops = new ArrayList<>();
+    private final Set<String> removedSystemShops = new HashSet<>();
 
     public ShopManager() {
     }
@@ -54,6 +59,46 @@ public class ShopManager extends SavedData {
             shops.add(new Shop(entry.getString("Id"), entry.getString("Title"), entry.getString("Owner"),
                     List.copyOf(entries), entry.getLong("Balance"), true));
         }
+        ListTag removed = tag.getList("RemovedSystemShops", Tag.TAG_STRING);
+        for (int i = 0; i < removed.size(); i++) {
+            removedSystemShops.add(removed.getString(i));
+        }
+        normalizeIds();
+    }
+
+// 店铺编号必须是全服唯一的正整数；旧存档的 player:<名>:<序号> 在这里迁移成数字编号
+    private void normalizeIds() {
+        Set<Integer> used = new HashSet<>();
+        for (Shop shop : this.shops) {
+            int id = parseId(shop.id());
+            if (id > 0) {
+                used.add(id);
+            }
+        }
+        Set<Integer> assigned = new HashSet<>();
+        for (int i = 0; i < this.shops.size(); i++) {
+            Shop shop = this.shops.get(i);
+            int id = parseId(shop.id());
+            if (id > 0 && assigned.add(id)) {
+                continue;
+            }
+            int next = 1;
+            while (used.contains(next)) {
+                next++;
+            }
+            used.add(next);
+            assigned.add(next);
+            this.shops.set(i, new Shop(Integer.toString(next), shop.title(), shop.ownerName(),
+                    shop.entries(), shop.balance(), shop.playerShop()));
+        }
+    }
+
+    private static int parseId(String id) {
+        try {
+            return Integer.parseInt(id);
+        } catch (NumberFormatException ignored) {
+            return -1;
+        }
     }
 
     public static ShopManager get(MinecraftServer server) {
@@ -65,11 +110,16 @@ public class ShopManager extends SavedData {
         return this.shops;
     }
 
-// 全量店铺 = 系统店铺（数据包） + 配置文件商店 + 玩家店铺
+// 全量店铺 = 系统店铺（数据包） + 配置文件商店 + 玩家店铺；被删掉的系统店铺会过滤掉
     public List<Shop> allShops(MinecraftServer server) {
-        List<Shop> result = new ArrayList<>(ShopDataLoader.SHOPS);
+        List<Shop> result = new ArrayList<>();
+        for (Shop shop : ShopDataLoader.SHOPS) {
+            if (!removedSystemShops.contains(shop.id())) {
+                result.add(shop);
+            }
+        }
         Shop configShop = EconomyConfig.configShop();
-        if (configShop != null) {
+        if (configShop != null && !removedSystemShops.contains(configShop.id())) {
             result.add(configShop);
         }
         result.addAll(this.shops);
@@ -99,33 +149,65 @@ public class ShopManager extends SavedData {
             return false;
         }
         String cleanTitle = title == null || title.isBlank() ? owner + "的小店" : title.trim();
-        this.shops.add(new Shop(nextShopId(owner), cleanTitle, owner, List.of(), 0L, true));
+        this.shops.add(new Shop(nextShopId(), cleanTitle, owner, List.of(), 0L, true));
         this.setDirty();
         return true;
     }
 
-// 给店主分配一个不冲突的序号，作为店铺 id
-    private String nextShopId(String owner) {
-        int index = 1;
-        String prefix = "player:" + owner + ":";
-        boolean clash = true;
-        while (clash) {
-            clash = false;
-            String candidate = prefix + index;
-            for (Shop shop : this.shops) {
-                if (shop.id().equals(candidate)) {
-                    clash = true;
-                    index++;
-                    break;
-                }
+// 分配全服最小的可用数字编号
+    private String nextShopId() {
+        Set<Integer> used = new HashSet<>();
+        for (Shop shop : this.shops) {
+            int id = parseId(shop.id());
+            if (id > 0) {
+                used.add(id);
             }
         }
-        return prefix + index;
+        int index = 1;
+        while (used.contains(index)) {
+            index++;
+        }
+        return Integer.toString(index);
     }
 
 // 删店：只有店主能删
     public boolean deleteShop(ServerPlayer player, String shopId) {
-        Shop shop = findOwned(player, shopId);
+        return deleteShop(player, shopId, false);
+    }
+
+// 按店铺编号删除。创造模式可删任意店铺，系统店铺也会被记入存档黑名单；非创造只能删自己的玩家店铺
+    public boolean deleteShopByNumber(ServerPlayer player, int number, boolean ignoreOwner) {
+        List<Shop> all = allShops(player.server);
+        Shop target = null;
+        for (Shop candidate : all) {
+            if (candidate.numberIn(all) == number) {
+                target = candidate;
+                break;
+            }
+        }
+        if (target == null) {
+            return false;
+        }
+        if (target.isSystem()) {
+            if (!ignoreOwner) {
+                return false;
+            }
+            this.removedSystemShops.add(target.id());
+            this.setDirty();
+            return true;
+        }
+        if (!ignoreOwner && !target.ownerName().equals(player.getName().getString())) {
+            return false;
+        }
+        Shop shop = target;
+        this.shops.removeIf(candidate -> candidate.id().equals(shop.id()));
+        this.setDirty();
+        return true;
+    }
+
+// 创造模式可无视店主身份直接删除（供管理员指令使用）
+    public boolean deleteShop(ServerPlayer player, String shopId, boolean ignoreOwner) {
+        Shop shop = ignoreOwner ? findShop(shopId) : findOwned(player, shopId);
         if (shop == null) {
             return false;
         }
@@ -329,14 +411,19 @@ public class ShopManager extends SavedData {
 
 // 工具
 
-    private Shop findOwned(ServerPlayer player, String shopId) {
-        String owner = player.getName().getString();
+    private Shop findShop(String shopId) {
         for (Shop shop : this.shops) {
-            if (shop.id().equals(shopId) && shop.ownerName().equals(owner)) {
+            if (shop.id().equals(shopId)) {
                 return shop;
             }
         }
         return null;
+    }
+
+    private Shop findOwned(ServerPlayer player, String shopId) {
+        Shop shop = findShop(shopId);
+        String owner = player.getName().getString();
+        return shop != null && shop.ownerName().equals(owner) ? shop : null;
     }
 
     private static Shop find(List<Shop> shops, String id) {
@@ -408,6 +495,11 @@ public class ShopManager extends SavedData {
             list.add(entry);
         }
         tag.put("Shops", list);
+        ListTag removed = new ListTag();
+        for (String id : this.removedSystemShops) {
+            removed.add(StringTag.valueOf(id));
+        }
+        tag.put("RemovedSystemShops", removed);
         return tag;
     }
 }

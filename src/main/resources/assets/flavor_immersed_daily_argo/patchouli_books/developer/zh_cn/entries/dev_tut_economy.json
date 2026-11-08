@@ -22,7 +22,7 @@
     {
       "type": "patchouli:text",
       "title": "四、换外汇与限店",
-      "text": "$(li)外汇：直接改 $(thing)exchange.entries$()，或用 $(thing)/fidaeco add$() 与 $(thing)/fidaeco delete$() 快速增删，改完即存。$(br)$(li)关掉玩家开店：$(thing)shop.player_shops_enabled = false$()。$(br)$(li)限制每人店铺数：$(thing)max_shops_per_player$()，范围 0~64，填 0 等于完全禁止。$(br2)最后提醒：经济数值改动会影响已有存档的物价感受，建议先在测试存档里跑一周再上正式服。"
+      "text": "$(li)外汇：直接改 $(thing)exchange.entries$()，或用 $(thing)/fidaeco add$() 与 $(thing)/fidaeco delete$() 快速增删，改完即存。$(br)$(li)玩家店铺：用 $(thing)/fidashop list|create|delete$() 直接增删自己名下的店铺。$(br)$(li)关掉玩家开店：$(thing)shop.player_shops_enabled = false$()。$(br)$(li)限制每人店铺数：$(thing)max_shops_per_player$()，范围 0~64，填 0 等于完全禁止。$(br2)最后提醒：经济数值改动会影响已有存档的物价感受，建议先在测试存档里跑一周再上正式服。"
     }
   ]
 }

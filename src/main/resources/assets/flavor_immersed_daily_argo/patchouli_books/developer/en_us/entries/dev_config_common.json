@@ -21,6 +21,16 @@
     },
     {
       "type": "patchouli:text",
+      "title": "Animal stats and trough",
+      "text": "Animal stat changes and trough behaviour are all tunable here, no source edit needed.$(br2)$(li)$(bold)animalDecayAmount$() (default 1, 0~10): how much satiety / thirst / cleanliness each 30-second decay tick removes.$(br)$(li)$(bold)animalRestoreAmount$() (default 1, 0~10): how much is regained every 5 s from drinking, standing in water or rain.$(br)$(li)$(bold)animalFeedSatiety$() (default 3) / $(bold)animalFeedMood$() (default 1): gained per hand-feed.$(br)$(li)$(bold)animalWeightStepRatio$() (default 0.02, 0~1): share of the standard weight gained or lost every 30 s.$(br)$(li)$(bold)animalPoopChance$() (default 0.25): chance to drop manure when satiety is consumed.$(br)$(li)$(bold)animalFlyBiteCleanLoss$() (default 5): extra cleanliness lost per tick while fly-bitten."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Trough and keepable whitelist",
+      "text": "$(li)$(bold)troughNeedThreshold$() (default 5): an animal comes to the trough only when satiety / thirst is at or below this.$(br)$(li)$(bold)troughRestoreAmount$() (default 5): restored by one portion.$(br)$(li)$(bold)troughEatIntervalTicks$() (default 20): ticks between two portions. Animals stay until full (10) or the trough is empty.$(br2)$(bold)The keepable whitelist is split by feed type$(), one entity id per line, e.g. $(thing)othermod:animal$():$(br)$(li)$(bold)extraFeedAnimals$() (default empty): extra animals that eat $(bold)Grass Feed$().$(br)$(li)$(bold)extraSeedFeedAnimals$() (default empty): extra animals that eat $(bold)Seed Feed$().$(br)$(li)$(bold)extraMeatFeedAnimals$() (default empty): extra animals that eat $(bold)Meat Feed$().$(br2)The three lists are independent: putting an animal in one list makes it accept only that feed, and it also gets the stat panel and trough attraction. Vanilla animals and most modded $(thing)Animal$() subclasses are already supported and do not need to be listed."
+    },
+    {
+      "type": "patchouli:text",
       "title": "Safe to ignore",
       "text": "$(li)$(thing)logDirtBlock$(), $(thing)magicNumber$(), $(thing)magicNumberIntroduction$() and $(thing)items$() come from the NeoForge example project. The mod $(bold)never reads$() them; any value is harmless.$(br2)They are kept only to keep the config layout stable, so leaving the defaults is fine."
     }

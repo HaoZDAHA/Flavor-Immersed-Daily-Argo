@@ -7,12 +7,12 @@
     {
       "type": "patchouli:text",
       "title": "先分清两类参数",
-      "text": "$(bold)能改的$()：配置文件里的全部字段、$(thing)data$() 下全部 JSON、配方与标签。改完 $(thing)/reload$() 或重启即生效，不用编译。$(br2)$(bold)改不了的$()：写死在代码里的机制常量，例如状态衰减节奏、繁殖产仔数、外卖单量与结算距离、盐堆随机刻概率。这些只能改源码后重新编译。"
+      "text": "$(bold)能改的$()：配置文件里的全部字段、$(thing)data$() 下全部 JSON、配方与标签。改完 $(thing)/reload$() 或重启即生效，不用编译。$(br2)畜牧业的状态数值（衰减 / 回补 / 喂食收益 / 体重浮动 / 拉粪概率 / 蝇虫惩罚）和食槽参数已全部移到主配置，见配置章节的「畜牧数值与食槽」。$(br2)$(bold)改不了的$()：仍写死在代码里的机制常量，例如畜牧的 600 tick 衰减周期、100 tick 饮水周期、每区块粪上限与粪便 / 蝇虫的判定半径，以及繁殖产仔数、外卖单量与结算距离、盐堆随机刻概率。这些只能改源码后重新编译。"
     },
     {
       "type": "patchouli:text",
       "title": "常量的位置",
-      "text": "$(li)畜牧：$(thing)AnimalStatsManager$() —— 衰减 600 tick、饮水 100 tick、体重 ±2%、上下限 0.7~1.3、粪便 25%、区块上限 6。$(br)$(li)繁殖：$(thing)SyringeHandler$() 与 $(thing)PregnancyHandler$() —— 妊娠 8 分钟、判定线 7、产仔 3~5。$(br)$(li)外卖：$(thing)DeliveryManager$() —— 3 单、8 分钟、200~600 格、每 10 格 1 元。$(br)$(li)盐：$(thing)SaltPanBlock$() 200 tick、$(thing)SaltPileBlock$() 1/3。"
+      "text": "$(li)畜牧：$(thing)AnimalStatsManager$() —— 衰减周期 600 tick、饮水周期 100 tick、区块粪上限 6、蝇虫判定半径 3、状态下限 / 上限 0~10；$(bold)具体数值改主配置$()。$(br)$(li)食槽：$(thing)FeedingTroughBlockEntity$() —— 招揽范围、2 秒重指路、30 秒耐心；数值同样走主配置。$(br)$(li)繁殖：$(thing)SyringeHandler$() 与 $(thing)PregnancyHandler$() —— 妊娠 8 分钟、判定线 7、产仔 3~5。$(br)$(li)外卖：$(thing)DeliveryManager$() —— 3 单、8 分钟、200~600 格、每 10 格 1 元。$(br)$(li)盐：$(thing)SaltPanBlock$() 200 tick、$(thing)SaltPileBlock$() 1/3。"
     },
     {
       "type": "patchouli:text",

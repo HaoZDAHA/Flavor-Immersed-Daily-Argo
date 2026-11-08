@@ -615,7 +615,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
                 return;
             }
             renderManageEntries(gui, mouseX, mouseY, shop);
-            gui.drawString(font, Component.translatable(shop.title()),
+            gui.drawString(font, Component.literal("#" + ShopClientData.numberOf(shop.id()) + " ")
+                    .append(Component.translatable(shop.title())),
                     leftPos + RIGHT_X, topPos + 26, GuiStyle.TEXT);
             gui.drawString(font, Component.translatable("gui.flavor_immersed_daily_argo.market.balance", shop.balance()),
                     leftPos + RIGHT_X, topPos + 38, GuiStyle.ACCENT);
@@ -644,7 +645,8 @@ public class MarketScreen extends AbstractContainerScreen<MarketMenu> {
                     : shop.id().equals(this.shopPageId);
             boolean hovered = inRow(mouseX, mouseY, LIST_X, LIST_W, row);
             GuiStyle.row(gui, leftPos + LIST_X, y, LIST_W, ROW_H - 2, hovered, selected);
-            gui.drawString(font, Component.translatable(shop.title()),
+            gui.drawString(font, Component.literal("#" + ShopClientData.numberOf(shop.id()) + " ")
+                    .append(Component.translatable(shop.title())),
                     leftPos + LIST_X + 4, y + 6, shop.isSystem() ? 0xE0E0E0 : 0xFFD24A);
         }
         gui.disableScissor();

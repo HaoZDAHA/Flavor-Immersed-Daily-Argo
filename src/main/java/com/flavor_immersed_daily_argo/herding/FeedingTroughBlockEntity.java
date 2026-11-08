@@ -1,6 +1,7 @@
 package com.flavor_immersed_daily_argo.herding;
 
 import com.flavor_immersed_daily_argo.all.ModBlockEntities;
+import com.flavor_immersed_daily_argo.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
@@ -51,12 +52,6 @@ public class FeedingTroughBlockEntity extends BlockEntity {
 // 招来之后最多等这么久，还没走到就放弃（30 秒）
     private static final int PATIENCE = 600;
 
-// 饱食度 / 口渴度掉到这个线以下，动物才会过来吃
-    private static final int NEED_THRESHOLD = 5;
-// 吃一份补多少饱食度 / 口渴度
-    private static final int FEED_RESTORE = 5;
-    private static final int WATER_RESTORE = 5;
-
 // 槽位。内容变了要写回方块实体，存档才能拿走里面的东西
     private final SimpleContainer inventory = new SimpleContainer(1) {
         @Override
@@ -72,6 +67,8 @@ public class FeedingTroughBlockEntity extends BlockEntity {
 
     private int repathCooldown;
     private int patience;
+// 连续进食时，两口之间的间隔
+    private int eatCooldown;
 
     public FeedingTroughBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.FEEDING_TROUGH_ENTITY.get(), pos, state);
@@ -158,8 +155,11 @@ public class FeedingTroughBlockEntity extends BlockEntity {
             return;
         }
         Mob current = this.eaterIn(this.eater);
-        if (current != null && this.needs(current, content)) {
-            return;
+        if (current != null) {
+// 招来的那只还没吃饱喝足，就不再招惹第二只
+            if (!this.isFull(AnimalStatsManager.getStats(current), content)) {
+                return;
+            }
         }
         this.eater = null;
         Mob found = this.findNearestNeedy(content);
@@ -169,6 +169,7 @@ public class FeedingTroughBlockEntity extends BlockEntity {
         this.eater = found.getUUID();
         this.patience = PATIENCE;
         this.repathCooldown = 0;
+        this.eatCooldown = 0;
         Vec3 center = Vec3.atCenterOf(this.worldPosition);
         found.getNavigation().moveTo(center.x, center.y, center.z, 1.0D);
     }
@@ -187,14 +188,25 @@ public class FeedingTroughBlockEntity extends BlockEntity {
             return;
         }
         FeedingTroughBlock.TroughContent content = FeedingTroughBlock.contentFor(this.inventory.getItem(SLOT));
-        if (content == null || !this.needs(mob, content)) {
+        if (content == null || this.isFull(AnimalStatsManager.getStats(mob), content)) {
             this.eater = null;
             return;
         }
+        if (this.eatCooldown > 0) {
+            this.eatCooldown--;
+        }
         if (this.reachTrough(mob)) {
-            this.feed(mob, content);
+// 吃饱喝足之前原地接着吃，两口之间隔一小段时间
+            if (this.eatCooldown <= 0) {
+                this.feed(mob, content);
+            }
         } else if (--this.patience <= 0) {
             this.eater = null;
+        } else if (--this.repathCooldown <= 0) {
+// 路上被别的 AI 拽走了就重新指路，直到吃饱为止
+            Vec3 center = Vec3.atCenterOf(this.worldPosition);
+            mob.getNavigation().moveTo(center.x, center.y, center.z, 1.0D);
+            this.repathCooldown = REPATH_INTERVAL;
         }
     }
 
@@ -229,18 +241,31 @@ public class FeedingTroughBlockEntity extends BlockEntity {
         return best;
     }
 
-// 这只动物饿 / 渴到该来吃了，而且槽里的东西正好对得上
+// 这只动物饿 / 渴到该来吃了，而且槽里的东西正好对得上。
+//
+// 还没有状态栏的原版 / 其他模组动物也算饿：喂到第一口时自动补上状态栏。
     private boolean needs(Mob mob, FeedingTroughBlock.TroughContent content) {
         if (!AnimalStatsManager.isTracked(mob)) {
             return false;
         }
         AnimalStats stats = AnimalStatsManager.getStats(mob);
+        int needThreshold = Config.TROUGH_NEED_THRESHOLD.get();
+        if (stats == null) {
+            return true;
+        }
+        return content == FeedingTroughBlock.TroughContent.WATER
+                ? stats.thirst() <= needThreshold
+                : stats.satiety() <= needThreshold;
+    }
+
+// 这一项已经满了（到了状态栏上限）
+    private boolean isFull(@Nullable AnimalStats stats, FeedingTroughBlock.TroughContent content) {
         if (stats == null) {
             return false;
         }
         return content == FeedingTroughBlock.TroughContent.WATER
-                ? stats.thirst() <= NEED_THRESHOLD
-                : stats.satiety() <= NEED_THRESHOLD;
+                ? stats.thirst() >= AnimalStats.MAX
+                : stats.satiety() >= AnimalStats.MAX;
     }
 
 // 还没到就偶尔再指一次路（只在上一段路走完时才重指）；到了返回 true
@@ -259,20 +284,29 @@ public class FeedingTroughBlockEntity extends BlockEntity {
         return false;
     }
 
-// 吃掉一份，补上对应的数值
+// 吃掉一份，补上对应的数值；没吃饱就留在槽边继续吃
     private void feed(Mob mob, FeedingTroughBlock.TroughContent content) {
         ItemStack slot = this.inventory.getItem(SLOT);
-        AnimalStats stats = AnimalStatsManager.getStats(mob);
-        if (slot.isEmpty() || stats == null) {
+        if (slot.isEmpty()) {
+            this.eater = null;
             return;
         }
+        AnimalStats stats = AnimalStatsManager.ensureStats(mob);
+        int restore = Config.TROUGH_RESTORE_AMOUNT.get();
         slot.shrink(1);
         this.inventory.setChanged();
-        AnimalStatsManager.setStats(mob, content == FeedingTroughBlock.TroughContent.WATER
-                ? stats.withThirst(stats.thirst() + WATER_RESTORE)
-                : stats.withSatiety(stats.satiety() + FEED_RESTORE));
-        this.eater = null;
+        AnimalStats updated = content == FeedingTroughBlock.TroughContent.WATER
+                ? stats.withThirst(stats.thirst() + restore)
+                : stats.withSatiety(stats.satiety() + restore);
+        AnimalStatsManager.setStats(mob, updated);
         this.updateContent();
+
+        if (slot.isEmpty() || this.isFull(updated, content)) {
+            this.eater = null;
+        } else {
+// 槽里还有、肚子还没满：原地停一会儿接着吃
+            this.eatCooldown = Config.TROUGH_EAT_INTERVAL.get();
+        }
 
         if (this.level != null) {
             this.level.playSound(null, this.worldPosition, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS, 0.8F, 1.0F);

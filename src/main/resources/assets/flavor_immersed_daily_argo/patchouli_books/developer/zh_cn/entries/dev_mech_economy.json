@@ -27,7 +27,7 @@
     {
       "type": "patchouli:text",
       "title": "店铺",
-      "text": "店铺分两类：$(br)$(li)$(bold)系统店铺$()来自 $(thing)data/<命名空间>/shop/*.json$()，以及配置 $(thing)shop.extra_entries$() 合并成的「配置文件商店」。$(br)$(li)$(bold)玩家店铺$()在商业电脑里创建，受 $(thing)player_shops_enabled$() 与 $(thing)max_shops_per_player$() 限制。$(br2)条目里的 $(thing)count$() 是每笔给多少，$(thing)price$() 是每笔总价。"
+      "text": "店铺分两类：$(br)$(li)$(bold)系统店铺$()来自 $(thing)data/<命名空间>/shop/*.json$()，以及配置 $(thing)shop.extra_entries$() 合并成的「配置文件商店」。$(br)$(li)$(bold)玩家店铺$()在商业电脑里创建，受 $(thing)player_shops_enabled$() 与 $(thing)max_shops_per_player$() 限制。$(br2)条目里的 $(thing)count$() 是每笔给多少，$(thing)price$() 是每笔总价。$(br2)每家店（含系统店铺）在商业电脑左列和 $(thing)/fidashop list$() 里都有一个数字编号，指令删店按这个编号指定；创造模式下连系统默认店铺也能删。$(br2)玩家店铺除界面外，还可用 $(thing)/fidashop list|create|delete$() 直接增删$(bold)自己名下$()的店铺；上架、改价、补货仍只能在商业电脑界面完成。"
     }
   ]
 }

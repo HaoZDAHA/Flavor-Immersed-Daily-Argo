@@ -7,7 +7,12 @@
     {
       "type": "patchouli:text",
       "title": "/fidaeco",
-      "text": "Manage exchange entries (permission level 2):$(br2)$(li)$(thing)/fidaeco list$() — list every entry$(br)$(li)$(thing)/fidaeco add <our currency> <count> <other item> <count>$() — add one$(br)$(li)$(thing)/fidaeco delete <our currency> <count> <other item> <count>$() — remove an exact match$(br2)It reads and writes $(thing)exchange.entries$() and saves immediately."
+      "text": "Manage exchange entries (permission level 2):$(br2)$(li)$(thing)/fidaeco list$() — list every entry$(br)$(li)$(thing)/fidaeco add <our currency> <count> <other item> <count>$() — add one$(br)$(li)$(thing)/fidaeco delete <our currency> <count> <other item> <count>$() — remove an exact match$(br2)It reads and writes $(thing)exchange.entries$() and saves immediately. Player shop management is on the next page."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/fidashop",
+      "text": "Manage shops (permission 2, player only). $(bold)Every shop has a number$(), including system shops; the number is the order shown in the Shopping Computer's left column and by $(thing)/fidashop list$(), starting at 1:$(br2)$(li)$(thing)/fidashop list$() — list every shop with its number, title and owner$(br)$(li)$(thing)/fidashop create <title>$() — create a player shop; the reply shows its new number, and it is still limited by $(thing)shop.player_shops_enabled$() and $(thing)shop.max_shops_per_player$()$(br)$(li)$(thing)/fidashop delete <shop number>$() — delete by number. $(bold)Creative mode can delete any shop, including the default system shops$(); a deleted system shop is recorded in the save blacklist and will not return after a datapack reload. Outside creative you may only delete your own player shops$(br2)After deleting a system shop the remaining shops are renumbered to match the current list; the GUI and $(thing)/fidashop list$() are authoritative.$(br2)Shop data lives in the world save; listing items, repricing, restocking and withdrawing still happen at the Shopping Computer."
     },
     {
       "type": "patchouli:text",

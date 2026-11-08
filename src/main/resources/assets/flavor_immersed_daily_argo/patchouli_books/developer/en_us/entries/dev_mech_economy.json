@@ -27,7 +27,7 @@
     {
       "type": "patchouli:text",
       "title": "Shops",
-      "text": "Two kinds of shops:$(br)$(li)$(bold)System shops$() from $(thing)data/<namespace>/shop/*.json$(), plus the single \"config shop\" built from $(thing)shop.extra_entries$().$(br)$(li)$(bold)Player shops$() created at a Shopping Computer, limited by $(thing)player_shops_enabled$() and $(thing)max_shops_per_player$().$(br2)In an entry, $(thing)count$() is per purchase and $(thing)price$() is the total for that purchase."
+      "text": "Two kinds of shops:$(br)$(li)$(bold)System shops$() from $(thing)data/<namespace>/shop/*.json$(), plus the single \"config shop\" built from $(thing)shop.extra_entries$().$(br)$(li)$(bold)Player shops$() created at a Shopping Computer, limited by $(thing)player_shops_enabled$() and $(thing)max_shops_per_player$().$(br2)In an entry, $(thing)count$() is per purchase and $(thing)price$() is the total for that purchase.$(br2)Every shop, system ones included, has a number in the Shopping Computer's left column and in $(thing)/fidashop list$(); the delete command uses that number, and creative mode can even remove the default system shops.$(br2)Besides the GUI, player shops can also be created and deleted with $(thing)/fidashop list|create|delete$(), but only for $(bold)your own$() shops; listing items, repricing and restocking still require the Shopping Computer."
     }
   ]
 }

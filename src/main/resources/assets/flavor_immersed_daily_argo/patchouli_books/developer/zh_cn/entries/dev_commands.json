@@ -7,7 +7,12 @@
     {
       "type": "patchouli:text",
       "title": "/fidaeco",
-      "text": "管理外汇兑换条目（权限 2）：$(br2)$(li)$(thing)/fidaeco list$()：列出当前所有兑换条目$(br)$(li)$(thing)/fidaeco add <本模组货币> <数量> <其他物品> <数量>$()：新增一条$(br)$(li)$(thing)/fidaeco delete <本模组货币> <数量> <其他物品> <数量>$()：删除完全一致的一条$(br2)指令读写的就是配置里的 $(thing)exchange.entries$()，执行后会立即保存，不用重启。"
+      "text": "管理外汇兑换条目（权限 2）：$(br2)$(li)$(thing)/fidaeco list$()：列出当前所有兑换条目$(br)$(li)$(thing)/fidaeco add <本模组货币> <数量> <其他物品> <数量>$()：新增一条$(br)$(li)$(thing)/fidaeco delete <本模组货币> <数量> <其他物品> <数量>$()：删除完全一致的一条$(br2)指令读写的就是配置里的 $(thing)exchange.entries$()，执行后会立即保存，不用重启。玩家店铺的增删见下一页。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "/fidashop",
+      "text": "管理店铺（权限 2，仅玩家可执行）。$(bold)全部店铺都有编号$()，包括系统店铺与玩家店铺；编号就是商业电脑左列和 $(thing)/fidashop list$() 显示的顺序，从 1 起：$(br2)$(li)$(thing)/fidashop list$()：列出全部店铺的编号、名称与归属$(br)$(li)$(thing)/fidashop create <店铺名>$()：创建一家玩家店铺，成功后显示新编号；仍受 $(thing)shop.player_shops_enabled$() 与 $(thing)shop.max_shops_per_player$() 限制$(br)$(li)$(thing)/fidashop delete <店铺编号>$()：按编号删店。$(bold)创造模式可删任意店铺，包括系统默认店铺$()；系统店铺删除后记入存档黑名单，重载数据包也不会回来。非创造模式只能删自己名下的玩家店铺$(br2)删掉系统店铺后，其余店铺编号会按当前列表重新排列，以界面和 $(thing)/fidashop list$() 显示为准。$(br2)店铺数据写在存档里；上架、改价、补货、提现仍要到商业电脑界面操作。"
     },
     {
       "type": "patchouli:text",

@@ -3,6 +3,8 @@ package com.flavor_immersed_daily_argo.integration.emi;
 import com.flavor_immersed_daily_argo.all.ModBlocks;
 import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.flavor_immersed_daily_argo;
+import com.flavor_immersed_daily_argo.fishing.FishingHandbookEntry;
+import com.flavor_immersed_daily_argo.fishing.FishingHandbookResource;
 import com.flavor_immersed_daily_argo.recipe.InsectBreedingRecipe;
 import com.flavor_immersed_daily_argo.recipe.InsectNetDrop;
 import com.flavor_immersed_daily_argo.recipe.ModRecipes;
@@ -47,6 +49,9 @@ public final class FIDEmiPlugin implements EmiPlugin {
     public static final EmiRecipeCategory RIVER_SILT_FARMING =
             new EmiRecipeCategory(id("river_silt_farming"), EmiStack.of(ModBlocks.RIVER_SILT.asItem()));
 
+    public static final EmiRecipeCategory FISHING =
+            new EmiRecipeCategory(id("fishing"), EmiStack.of(ModItems.MOD_FISHING_ROD.get()));
+
 // fidworkblock 的命名空间与它那套共用配方类型
     private static final String WORKBLOCK_MODID = "fidworkblock";
 
@@ -58,6 +63,15 @@ public final class FIDEmiPlugin implements EmiPlugin {
 
     static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(flavor_immersed_daily_argo.MODID, path);
+    }
+
+    // 等待 EMI 初次加载结束，避免登录时的配方/标签同步覆盖这次刷新。
+    public static boolean refreshFishingRecipes() {
+        if (!dev.emi.emi.runtime.EmiReloadManager.isLoaded()) {
+            return false;
+        }
+        dev.emi.emi.runtime.EmiReloadManager.reload();
+        return true;
     }
 
     @Override
@@ -92,6 +106,13 @@ public final class FIDEmiPlugin implements EmiPlugin {
                 id("info/river_silt")));
 
         registerWorkblockCooking(registry);
+
+// 南山钓竿钓获：使用服务端同步的当前数据包条目。
+        registry.addCategory(FISHING);
+        registry.addWorkstation(FISHING, EmiStack.of(ModItems.MOD_FISHING_ROD.get()));
+        for (FishingHandbookEntry entry : FishingHandbookResource.load()) {
+            registry.addRecipe(new FIDFishingEmiRecipe(entry));
+        }
 
 // 蚕茧缫丝：父模组的木盆页面只有「输入 → 输出」，看不出必须先装纯净水，这里补一页说明
         registry.addRecipe(new EmiInfoRecipe(

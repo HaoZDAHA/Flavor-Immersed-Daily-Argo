@@ -1,6 +1,7 @@
 package com.flavor_immersed_daily_argo.item;
 
 import com.flavor_immersed_daily_argo.all.ModEntities;
+import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.herding.AnimalStatsManager;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,9 +50,26 @@ public class AnimalFeedItem extends Item {
         return this.targets;
     }
 
+// 是否认这只动物：三类饲料各自接受自己那份 config 白名单
+    public boolean acceptsTarget(EntityType<?> type) {
+        if (this.targets.contains(type)) {
+            return true;
+        }
+        if (this == ModItems.FEED_GRASS.get()) {
+            return AnimalStatsManager.isExtraGrassFeedAnimal(type);
+        }
+        if (this == ModItems.FEED_SEED.get()) {
+            return AnimalStatsManager.isExtraSeedFeedAnimal(type);
+        }
+        if (this == ModItems.FEED_MEAT.get()) {
+            return AnimalStatsManager.isExtraMeatFeedAnimal(type);
+        }
+        return false;
+    }
+
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-        if (!this.targets.contains(target.getType()) || !(target instanceof Animal animal)) {
+        if (!acceptsTarget(target.getType()) || !(target instanceof Animal animal)) {
             return InteractionResult.PASS;
         }
         if (!animal.isAlive()) {

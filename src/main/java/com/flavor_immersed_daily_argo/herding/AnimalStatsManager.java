@@ -1,6 +1,7 @@
 package com.flavor_immersed_daily_argo.herding;
 
 import com.flavor_immersed_daily_argo.all.ModAttachments;
+import com.flavor_immersed_daily_argo.all.ModBlocks;
 import com.flavor_immersed_daily_argo.all.ModEntities;
 import com.flavor_immersed_daily_argo.all.ModItems;
 import com.flavor_immersed_daily_argo.all.ModMobEffects;
@@ -8,6 +9,9 @@ import com.flavor_immersed_daily_argo.config.Config;
 import com.flavor_immersed_daily_argo.entity.Poop;
 import com.flavor_immersed_daily_argo.forestry.ForestryNetworkManager;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -16,13 +20,17 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -90,9 +98,7 @@ public final class AnimalStatsManager {
         return WEIGHT_STANDARDS.get(type);
     }
 
-// 状态好 / 坏时体重每次结算浮动的幅度（占体重标准的比例）
-    private static final float WEIGHT_STEP_RATIO = 0.02F;
-// 体重能掉到 / 长到标准的多少倍
+// 体重能掉到 / 长到标准的多少倍（浮动幅度见 Config#ANIMAL_WEIGHT_STEP_RATIO）
     private static final float WEIGHT_MIN_RATIO = 0.7F;
     private static final float WEIGHT_MAX_RATIO = 1.3F;
 
@@ -105,23 +111,23 @@ public final class AnimalStatsManager {
 // 判断幼崽「在谁身边长大」的范围
     private static final double RAISE_RADIUS = 8.0D;
 
-// 被喂食一次涨多少饱食度 / 心情值
-    private static final int FEED_SATIETY = 3;
-    private static final int FEED_MOOD = 1;
+// 被喂食一次涨多少饱食度 / 心情值（见 Config）
 // 心情好 / 心情差的判定线
     private static final int MOOD_GOOD_LINE = 7;
 
-// 饱食度每消耗一次就拉一坨的概率
-    private static final float POOP_CHANCE = 0.25F;
 // 同一个区块里最多允许多少坨粪便，超了就这次不拉
     private static final int POOP_PER_CHUNK = 6;
+// 排泄时离食槽 / 水源至少这么远，免得把吃饭喝水的地方弄脏
+    private static final int POOP_MIN_POINT_DISTANCE = 4;
+// 找已有粪堆集中排泄时的搜索半径
+    private static final int POOP_CLUSTER_RADIUS = 6;
+// 附近还没有粪堆时，在动物周围这个半径内挑一个地方
+    private static final int POOP_SCATTER_RADIUS = 5;
 
 // 身边多少格内的粪便 / 尸体算「接触过多」
     private static final double FILTH_RADIUS = 3.0D;
 // 触发蝇虫叮咬需要接触的粪便 / 尸体数量
     private static final int FILTH_THRESHOLD = 3;
-// 蝇虫叮咬期间清洁度每次衰减掉的点数（正常是 1）
-    private static final int FLY_BITE_DECAY = 5;
 // 蝇虫叮咬期间清洁度能到的最高值
     public static final int FLY_BITE_CLEANLINESS_MAX = 5;
 
@@ -142,8 +148,58 @@ public final class AnimalStatsManager {
     private AnimalStatsManager() {
     }
 
+// config 里额外加入的可饲养动物；按配置内容缓存，避免每 tick 反复解析字符串
+    private static final class ExtraFeedCache {
+        private List<? extends String> source;
+        private Set<EntityType<?>> types = Set.of();
+    }
+
+    private static final ExtraFeedCache GRASS_EXTRA = new ExtraFeedCache();
+    private static final ExtraFeedCache SEED_EXTRA = new ExtraFeedCache();
+    private static final ExtraFeedCache MEAT_EXTRA = new ExtraFeedCache();
+
+    private static Set<EntityType<?>> extraFeedTypes(ExtraFeedCache cache,
+                                                     ModConfigSpec.ConfigValue<List<? extends String>> option) {
+        List<? extends String> ids;
+        try {
+            ids = option.get();
+        } catch (IllegalStateException configNotLoaded) {
+            return cache.types;
+        }
+        if (ids.equals(cache.source)) {
+            return cache.types;
+        }
+        Set<EntityType<?>> types = new HashSet<>();
+        for (String id : ids) {
+            BuiltInRegistries.ENTITY_TYPE.getOptional(ResourceLocation.parse(id)).ifPresent(types::add);
+        }
+        cache.source = ids;
+        cache.types = types;
+        return types;
+    }
+
+// 可饲养动物：原版 / 其他模组的所有 Animal，加上本模组与 config 白名单里的类型
     public static boolean isTracked(Entity entity) {
-        return TRACKED.contains(entity.getType());
+        return entity instanceof Animal
+                || TRACKED.contains(entity.getType())
+                || isExtraFeedAnimal(entity.getType());
+    }
+
+// 是否在任意一份饲料的白名单里
+    public static boolean isExtraFeedAnimal(EntityType<?> type) {
+        return isExtraGrassFeedAnimal(type) || isExtraSeedFeedAnimal(type) || isExtraMeatFeedAnimal(type);
+    }
+
+    public static boolean isExtraGrassFeedAnimal(EntityType<?> type) {
+        return extraFeedTypes(GRASS_EXTRA, Config.EXTRA_FEED_ANIMALS).contains(type);
+    }
+
+    public static boolean isExtraSeedFeedAnimal(EntityType<?> type) {
+        return extraFeedTypes(SEED_EXTRA, Config.EXTRA_SEED_FEED_ANIMALS).contains(type);
+    }
+
+    public static boolean isExtraMeatFeedAnimal(EntityType<?> type) {
+        return extraFeedTypes(MEAT_EXTRA, Config.EXTRA_MEAT_FEED_ANIMALS).contains(type);
     }
 
 // 猫狗：默认不排泄的宠物（见 Config#PET_EXCRETION）
@@ -166,15 +222,27 @@ public final class AnimalStatsManager {
         entity.setData(ModAttachments.ANIMAL_STATS.get(), stats);
     }
 
-// 被玩家喂食：第一次喂食让动物获得状态栏，之后每次饱食度 +3、心情值 +1
-    public static void onFed(LivingEntity entity) {
+// 拿状态栏，没有就补一份初始的：食槽喂食原版 / 其他模组动物时用
+    public static AnimalStats ensureStats(LivingEntity entity) {
         AnimalStats stats = getStats(entity);
         if (stats == null) {
+            stats = AnimalStats.fresh(initialWeight(entity));
+            setStats(entity, stats);
+        }
+        return stats;
+    }
+
+// 被玩家喂食：第一次喂食让动物获得状态栏，之后每次按配置涨饱食度 / 心情值
+    public static void onFed(LivingEntity entity) {
+        AnimalStats stats = getStats(entity);
+        int satiety = Config.ANIMAL_FEED_SATIETY.get();
+        int mood = Config.ANIMAL_FEED_MOOD.get();
+        if (stats == null) {
             setStats(entity, AnimalStats.fresh(initialWeight(entity))
-                    .withSatiety(FEED_SATIETY).withMood(FEED_MOOD));
+                    .withSatiety(satiety).withMood(mood));
             return;
         }
-        setStats(entity, stats.withSatiety(stats.satiety() + FEED_SATIETY).withMood(stats.mood() + FEED_MOOD));
+        setStats(entity, stats.withSatiety(stats.satiety() + satiety).withMood(stats.mood() + mood));
     }
 
 // 刚获得状态栏时的体重：有体重标准的按标准给，没标准的（猫狗）为 0
@@ -255,7 +323,10 @@ public final class AnimalStatsManager {
         }
     }
 
-// 饱食度消耗掉一点时，按概率在脚下拉一坨粪便。
+// 饱食度消耗掉一点时，按概率在附近拉一坨粪便。
+//
+// 选址规则：远离食槽和水源，免得弄脏吃饭喝水的地方；
+// 附近已经有粪堆时优先挨着它排，让粪便相对集中在一块区域。
 //
 // 同一个区块里最多 #POOP_PER_CHUNK 坨，免得圈里的动物一刻不停地拉、堆成山。
 // 猫狗默认不排泄（见 Config#PET_EXCRETION），免得弄脏宠物活动区；家畜家禽不受影响。
@@ -266,7 +337,7 @@ public final class AnimalStatsManager {
         if (isPet(entity.getType()) && !Config.PET_EXCRETION.get()) {
             return;
         }
-        if (level.random.nextFloat() >= POOP_CHANCE) {
+        if (level.random.nextFloat() >= Config.ANIMAL_POOP_CHANCE.get()) {
             return;
         }
         BlockPos pos = entity.blockPosition();
@@ -277,18 +348,86 @@ public final class AnimalStatsManager {
         if (level.getEntitiesOfClass(Poop.class, chunkBox).size() >= POOP_PER_CHUNK) {
             return;
         }
-        level.addFreshEntity(Poop.placed(level, entity.getX(), entity.getY(), entity.getZ()));
+        BlockPos spot = poopSpot(level, entity);
+        if (spot == null) {
+            return;
+        }
+        level.addFreshEntity(Poop.placed(level, spot.getX() + 0.5D, spot.getY(), spot.getZ() + 0.5D));
+    }
+
+// 挑一个适合排泄的位置：先找附近已有的粪堆扎堆，没有就在动物周围散开找
+    @Nullable
+    private static BlockPos poopSpot(ServerLevel level, LivingEntity entity) {
+        BlockPos origin = entity.blockPosition();
+        List<Poop> nearby = level.getEntitiesOfClass(Poop.class,
+                new AABB(origin).inflate(POOP_CLUSTER_RADIUS, 4.0D, POOP_CLUSTER_RADIUS));
+        if (!nearby.isEmpty()) {
+            Poop anchor = nearby.get(level.random.nextInt(nearby.size()));
+            BlockPos base = anchor.blockPosition();
+            for (int attempt = 0; attempt < 8; attempt++) {
+                BlockPos candidate = base.offset(level.random.nextInt(5) - 2, 0, level.random.nextInt(5) - 2);
+                BlockPos spot = groundSpot(level, candidate);
+                if (spot != null) {
+                    return spot;
+                }
+            }
+        }
+        for (int attempt = 0; attempt < 12; attempt++) {
+            int dx = level.random.nextInt(POOP_SCATTER_RADIUS * 2 + 1) - POOP_SCATTER_RADIUS;
+            int dz = level.random.nextInt(POOP_SCATTER_RADIUS * 2 + 1) - POOP_SCATTER_RADIUS;
+            if (dx * dx + dz * dz < 4) {
+                continue;
+            }
+            BlockPos spot = groundSpot(level, origin.offset(dx, 0, dz));
+            if (spot != null) {
+                return spot;
+            }
+        }
+        return null;
+    }
+
+// 候选点可能和动物不在同一高度，往上下各挪一格再试
+    @Nullable
+    private static BlockPos groundSpot(ServerLevel level, BlockPos candidate) {
+        for (int dy : new int[]{0, -1, 1}) {
+            BlockPos pos = candidate.offset(0, dy, 0);
+            if (validPoopSpot(level, pos)) {
+                return pos;
+            }
+        }
+        return null;
+    }
+
+// 能站住、不在水里、并且离食槽和水源至少 #POOP_MIN_POINT_DISTANCE 格
+    private static boolean validPoopSpot(ServerLevel level, BlockPos pos) {
+        if (!level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)) {
+            return false;
+        }
+        if (level.getFluidState(pos).is(FluidTags.WATER)) {
+            return false;
+        }
+        BlockPos min = pos.offset(-POOP_MIN_POINT_DISTANCE, -1, -POOP_MIN_POINT_DISTANCE);
+        BlockPos max = pos.offset(POOP_MIN_POINT_DISTANCE, 1, POOP_MIN_POINT_DISTANCE);
+        for (BlockPos check : BlockPos.betweenClosed(min, max)) {
+            if (level.getBlockState(check).is(ModBlocks.FEEDING_TROUGH.get())
+                    || level.getFluidState(check).is(FluidTags.WATER)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 // 自然衰减：三项基础状态各 -1，心情值与体重随基础状态的好坏浮动。
 //
-// 身上带着蝇虫叮咬时清洁度掉得飞快（一次 #FLY_BITE_DECAY 点），
+// 身上带着蝇虫叮咬时清洁度掉得飞快（一次 Config#ANIMAL_FLY_BITE_CLEAN_LOSS 点），
 // 而且这辈子都别想干净到 #FLY_BITE_CLEANLINESS_MAX 以上。
     private static AnimalStats decay(LivingEntity entity, AnimalStats stats) {
         boolean bitten = entity.hasEffect(ModMobEffects.FLY_BITE);
-        int satiety = Math.max(0, stats.satiety() - 1);
-        int thirst = Math.max(0, stats.thirst() - 1);
-        int cleanliness = Math.max(0, stats.cleanliness() - (bitten ? FLY_BITE_DECAY : 1));
+        int loss = Config.ANIMAL_DECAY_AMOUNT.get();
+        int satiety = Math.max(0, stats.satiety() - loss);
+        int thirst = Math.max(0, stats.thirst() - loss);
+        int cleanliness = Math.max(0,
+                stats.cleanliness() - (bitten ? Config.ANIMAL_FLY_BITE_CLEAN_LOSS.get() : loss));
         int mood = stats.mood();
 // 体重跟心情值走同一套判定：状态好一起长，状态差一起掉
         int weightTrend = 0;
@@ -306,7 +445,7 @@ public final class AnimalStatsManager {
     }
 
 // 按状态好坏调整体重：状态好往上长、状态差往下掉，幅度是体重标准的
-// #WEIGHT_STEP_RATIO，最终收口在标准的 #WEIGHT_MIN_RATIO~#WEIGHT_MAX_RATIO 之间。
+// Config#ANIMAL_WEIGHT_STEP_RATIO，最终收口在标准的 #WEIGHT_MIN_RATIO~#WEIGHT_MAX_RATIO 之间。
 //
 // 没有体重标准的动物（猫狗）不动。
     private static AnimalStats applyWeight(LivingEntity entity, AnimalStats stats, int trend) {
@@ -314,15 +453,17 @@ public final class AnimalStatsManager {
         if (standard == null || trend == 0) {
             return stats;
         }
-        return stats.withWeight(Mth.clamp(stats.weight() + standard * WEIGHT_STEP_RATIO * trend,
+        return stats.withWeight(Mth.clamp(stats.weight()
+                + standard * Config.ANIMAL_WEIGHT_STEP_RATIO.get().floatValue() * trend,
                 standard * WEIGHT_MIN_RATIO, standard * WEIGHT_MAX_RATIO));
     }
 
 // 玩家行为之外的自发回补：靠近水喝水、泡水或淋雨洗澡
     private static AnimalStats restore(Level level, LivingEntity entity, AnimalStats stats) {
-        int thirst = hasWaterNearby(level, entity) ? stats.thirst() + 1 : stats.thirst();
+        int amount = Config.ANIMAL_RESTORE_AMOUNT.get();
+        int thirst = hasWaterNearby(level, entity) ? stats.thirst() + amount : stats.thirst();
         int cleanliness = entity.isInWater() || level.isRainingAt(entity.blockPosition())
-                ? stats.cleanliness() + 1
+                ? stats.cleanliness() + amount
                 : stats.cleanliness();
         return stats.withThirst(thirst).withCleanliness(cleanliness, cleanlinessLimit(entity));
     }

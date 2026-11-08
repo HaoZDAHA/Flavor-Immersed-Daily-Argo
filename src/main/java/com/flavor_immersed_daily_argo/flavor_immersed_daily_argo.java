@@ -304,6 +304,7 @@ public class flavor_immersed_daily_argo {
         registrar.playToClient(FishingDataSyncPacket.TYPE, FishingDataSyncPacket.STREAM_CODEC,
                 (packet, context) -> context.enqueueWork(() -> {
                     FishingHandbookData.getInstance().applyFromJson(packet.handbook());
+                    com.flavor_immersed_daily_argo.fishing.FishingHandbookResource.onDataSynced();
                     FishingRodPartData.getInstance().applyFromJson(packet.parts());
                     WeighingTypeData.getInstance().applyFromJson(packet.weighing());
                 }));

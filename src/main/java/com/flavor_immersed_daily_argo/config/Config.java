@@ -69,9 +69,73 @@ public class Config {
                     + "do not spoil the look of a base; livestock and poultry still produce droppings either way.")
             .define("petExcretion", false);
 
+// 畜牧状态数值：整合包可以在这里调快慢，无需改源码
+    public static final ModConfigSpec.IntValue ANIMAL_DECAY_AMOUNT = BUILDER
+            .comment("How many points satiety, thirst and cleanliness lose on each 30-second decay tick.")
+            .defineInRange("animalDecayAmount", 1, 0, 10);
+
+    public static final ModConfigSpec.IntValue ANIMAL_RESTORE_AMOUNT = BUILDER
+            .comment("How many points thirst / cleanliness regain every 5 seconds from drinking water, "
+                    + "standing in water or rain.")
+            .defineInRange("animalRestoreAmount", 1, 0, 10);
+
+    public static final ModConfigSpec.IntValue ANIMAL_FEED_SATIETY = BUILDER
+            .comment("Satiety gained each time a player hand-feeds an animal.")
+            .defineInRange("animalFeedSatiety", 3, 0, 10);
+
+    public static final ModConfigSpec.IntValue ANIMAL_FEED_MOOD = BUILDER
+            .comment("Mood gained each time a player hand-feeds an animal.")
+            .defineInRange("animalFeedMood", 1, 0, 10);
+
+    public static final ModConfigSpec.DoubleValue ANIMAL_WEIGHT_STEP_RATIO = BUILDER
+            .comment("How much of the standard weight is gained or lost per 30-second tick when the animal "
+                    + "is in good or bad condition (0.02 = 2%).")
+            .defineInRange("animalWeightStepRatio", 0.02D, 0.0D, 1.0D);
+
+    public static final ModConfigSpec.DoubleValue ANIMAL_POOP_CHANCE = BUILDER
+            .comment("Chance to leave a dropping each time satiety is consumed (0.25 = 25%).")
+            .defineInRange("animalPoopChance", 0.25D, 0.0D, 1.0D);
+
+    public static final ModConfigSpec.IntValue ANIMAL_FLY_BITE_CLEAN_LOSS = BUILDER
+            .comment("Extra cleanliness lost per decay tick while the animal has fly bite.")
+            .defineInRange("animalFlyBiteCleanLoss", 5, 0, 10);
+
+// 食槽：低于阈值才来吃，吃到满才离开
+    public static final ModConfigSpec.IntValue TROUGH_NEED_THRESHOLD = BUILDER
+            .comment("An animal comes to the feeding trough only when its satiety (or thirst for water) "
+                    + "is at or below this value.")
+            .defineInRange("troughNeedThreshold", 5, 0, 9);
+
+    public static final ModConfigSpec.IntValue TROUGH_RESTORE_AMOUNT = BUILDER
+            .comment("Satiety / thirst restored by one portion from the feeding trough.")
+            .defineInRange("troughRestoreAmount", 5, 1, 10);
+
+    public static final ModConfigSpec.IntValue TROUGH_EAT_INTERVAL = BUILDER
+            .comment("Ticks between two portions while an animal keeps eating at the trough.")
+            .defineInRange("troughEatIntervalTicks", 20, 1, 200);
+
+// 额外可饲养动物：按饲料种类分别配置白名单
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> EXTRA_FEED_ANIMALS = BUILDER
+            .comment("Extra animal entity ids (e.g. \"othermod:animal\") that can be kept like livestock "
+                    + "and eat Grass Feed. They also get the animal status panel.")
+            .defineListAllowEmpty("extraFeedAnimals", List.<String>of(), () -> "", Config::validateEntityName);
+
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> EXTRA_SEED_FEED_ANIMALS = BUILDER
+            .comment("Extra animal entity ids that eat Seed Feed. They also get the animal status panel.")
+            .defineListAllowEmpty("extraSeedFeedAnimals", List.<String>of(), () -> "", Config::validateEntityName);
+
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> EXTRA_MEAT_FEED_ANIMALS = BUILDER
+            .comment("Extra animal entity ids that eat Meat Feed. They also get the animal status panel.")
+            .defineListAllowEmpty("extraMeatFeedAnimals", List.<String>of(), () -> "", Config::validateEntityName);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     private static boolean validateItemName(final Object obj) {
         return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
+    }
+
+    private static boolean validateEntityName(final Object obj) {
+        return obj instanceof String entityName
+                && BuiltInRegistries.ENTITY_TYPE.containsKey(ResourceLocation.parse(entityName));
     }
 }

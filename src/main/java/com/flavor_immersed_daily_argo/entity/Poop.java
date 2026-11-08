@@ -22,6 +22,19 @@ public class Poop extends Entity {
 
     public Poop(EntityType<? extends Poop> type, Level level) {
         super(type, level);
+// 地上的粪堆不该参与碰撞，否则会把动物的寻路 / 走位卡住
+        this.noPhysics = true;
+    }
+
+// 同样是为了不挡路：动物经过时直接穿过去，不会互相推挤
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return false;
     }
 
 // 在指定位置放一坨静静躺着的粪便

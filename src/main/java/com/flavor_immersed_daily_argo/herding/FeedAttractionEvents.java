@@ -40,18 +40,19 @@ public final class FeedAttractionEvents {
         mob.goalSelector.addGoal(TEMPT_PRIORITY, new FeedTemptGoal(mob));
     }
 
-// 生物是否出现在任意一份饲料的名单里
+// 生物是否出现在任意一份饲料的名单里（含 config 三份白名单里的动物）
     private static boolean isFeedTarget(EntityType<?> type) {
         return AnimalFeedItem.GRASS_TARGETS.contains(type)
                 || AnimalFeedItem.SEED_TARGETS.contains(type)
                 || AnimalFeedItem.MEAT_TARGETS.contains(type)
-                || AquaticFeedItem.AQUATIC_TARGETS.contains(type);
+                || AquaticFeedItem.AQUATIC_TARGETS.contains(type)
+                || AnimalStatsManager.isExtraFeedAnimal(type);
     }
 
 // 手上这份饲料认不认这只动物
     private static boolean isFeedFor(Mob mob, ItemStack stack) {
         if (stack.getItem() instanceof AnimalFeedItem feed) {
-            return feed.getTargets().contains(mob.getType());
+            return feed.acceptsTarget(mob.getType());
         }
         if (stack.getItem() instanceof AquaticFeedItem feed) {
             return feed.getTargets().contains(mob.getType());
