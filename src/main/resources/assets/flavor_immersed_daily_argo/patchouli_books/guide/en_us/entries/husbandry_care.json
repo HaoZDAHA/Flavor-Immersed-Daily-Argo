@@ -19,6 +19,11 @@
     {
       "type": "patchouli:text",
       "text": "$(bold)Flea Treatment$()$(br)Right-click an animal to use one: Cleanliness jumps to full and the $(bold)flea bites$() are washed away."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Feeding, manure and names",
+      "text": "Animals become eligible for timed manure attempts only after actual player feeding. Eating from a trough alone does not grant that eligibility. Servers can tune hand-feeding cooldown, trough pacing and manure timing separately.$(br2)Animals no longer use the custom sneak-right-click naming screen; use vanilla name tags instead. Scarecrows retain their right-click naming screen."
     }
   ]
 }

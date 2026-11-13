@@ -18,6 +18,10 @@ import java.util.List;
 // cardSlot：玩家选中的银行卡所在的背包槽位（0–35 主背包 / 40 副手）
 public record ShopCheckoutPacket(List<CartLine> cart, int cardSlot) implements CustomPacketPayload {
 
+    public static final int MAX_LINES = 128;
+    public static final int MAX_QTY_PER_ENTRY = 4096;
+    public static final int MAX_ITEMS_PER_CHECKOUT = 65_536;
+
     public static final Type<ShopCheckoutPacket> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(flavor_immersed_daily_argo.MODID, "shop_checkout"));
 
@@ -33,6 +37,9 @@ public record ShopCheckoutPacket(List<CartLine> cart, int cardSlot) implements C
             },
             buf -> {
                 int size = buf.readVarInt();
+                if (size < 0 || size > MAX_LINES) {
+                    throw new io.netty.handler.codec.DecoderException("Invalid shop cart size: " + size);
+                }
                 List<CartLine> cart = new ArrayList<>(size);
                 for (int i = 0; i < size; i++) {
                     cart.add(new CartLine(buf.readUtf(), buf.readVarInt(), buf.readVarInt()));

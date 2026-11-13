@@ -75,6 +75,10 @@ public class AnimalFeedItem extends Item {
         if (!animal.isAlive()) {
             return InteractionResult.PASS;
         }
+// 所有实际喂食（含幼崽催熟）共用玩家喂食冷却。
+        if (!player.level().isClientSide && !AnimalStatsManager.canFeed(animal)) {
+            return InteractionResult.FAIL;
+        }
 // 幼崽：一口饲料催熟一段生长期
         if (feedBaby(animal, stack, player)) {
             return InteractionResult.sidedSuccess(player.level().isClientSide);
@@ -106,6 +110,7 @@ public class AnimalFeedItem extends Item {
         if (!player.level().isClientSide) {
             growUpOneStep(animal);
             stack.consume(1, player);
+            AnimalStatsManager.onFed(animal);
         }
         return true;
     }

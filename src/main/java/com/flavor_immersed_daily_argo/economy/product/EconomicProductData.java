@@ -38,6 +38,10 @@ public final class EconomicProductData {
         for (EconomicProduct product : fromConfig()) {
             merged.putIfAbsent(product.item(), product);
         }
+        // Explicit data-pack/config prices win. Automatic prices only fill missing products.
+        for (EconomicProduct product : AutomaticProductDiscovery.products()) {
+            merged.putIfAbsent(product.item(), product);
+        }
         return List.copyOf(merged.values());
     }
 

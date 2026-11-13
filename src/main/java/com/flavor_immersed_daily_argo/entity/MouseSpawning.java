@@ -122,7 +122,10 @@ public final class MouseSpawning {
         int minZ = (pos.getZ() >> 4) << 4;
         AABB chunkBox = new AABB(minX, level.getMinBuildHeight(), minZ,
                 minX + 16, level.getMaxBuildHeight(), minZ + 16);
-        return level.getEntitiesOfClass(Mouse.class, chunkBox).size();
+        int chunkX = pos.getX() >> 4;
+        int chunkZ = pos.getZ() >> 4;
+        return level.getEntitiesOfClass(Mouse.class, chunkBox, mouse -> mouse.isAlive()
+                && mouse.chunkPosition().x == chunkX && mouse.chunkPosition().z == chunkZ).size();
     }
 
 // 落脚点周围有没有成熟作物

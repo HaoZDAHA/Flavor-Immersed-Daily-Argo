@@ -22,12 +22,17 @@
     {
       "type": "patchouli:text",
       "title": "畜牧数值与食槽",
-      "text": "动物的状态变化和食槽行为都可以在这里调，不用改源码。$(br2)$(li)$(bold)animalDecayAmount$()（默认 1，0~10）：每 30 秒衰减时饱食 / 口渴 / 清洁各掉多少。$(br)$(li)$(bold)animalRestoreAmount$()（默认 1，0~10）：每 5 秒从饮水、泡水、淋雨回补多少。$(br)$(li)$(bold)animalFeedSatiety$()（默认 3）／$(bold)animalFeedMood$()（默认 1）：玩家手喂一次涨多少。$(br)$(li)$(bold)animalWeightStepRatio$()（默认 0.02，0~1）：状态好坏时每 30 秒体重浮动占标准的比例。$(br)$(li)$(bold)animalPoopChance$()（默认 0.25）：每次饱食度消耗后拉粪的概率。$(br)$(li)$(bold)animalFlyBiteCleanLoss$()（默认 5）：蝇虫叮咬时每次结算额外掉多少清洁度。"
+      "text": "动物的状态变化和食槽行为都可以在这里调，不用改源码。$(br2)$(li)$(bold)animalDecayAmount$()（默认 1，0~10）：每 30 秒衰减时饱食 / 口渴 / 清洁各掉多少。$(br)$(li)$(bold)animalRestoreAmount$()（默认 1，0~10）：每 5 秒从饮水、泡水、淋雨回补多少。$(br)$(li)$(bold)animalFeedSatiety$()（默认 3）／$(bold)animalFeedMood$()（默认 1）：玩家手喂一次涨多少。$(br)$(li)$(bold)animalFeedCooldownTicks$()（默认 20，0~72000）：同一只动物两次手喂的最短间隔，20 tick = 1 秒；填 0 关闭限制。食槽的进食节奏另由 $(thing)troughEatIntervalTicks$() 控制。$(br)$(li)$(bold)animalWeightStepRatio$()（默认 0.02，0~1）：状态好坏时每 30 秒体重浮动占标准的比例。$(br)$(li)$(bold)animalPoopChance$()（默认 0.25）：每次独立排泄尝试的概率，填 0 禁用；不是每次饱食度消耗都尝试。$(br)$(li)$(bold)animalFlyBiteCleanLoss$()（默认 5）：蝇虫叮咬时每次结算额外掉多少清洁度。"
     },
     {
       "type": "patchouli:text",
       "title": "食槽与可饲养白名单",
-      "text": "$(li)$(bold)troughNeedThreshold$()（默认 5）：饱食度／口渴度低于等于这个值，动物才会来食槽。$(br)$(li)$(bold)troughRestoreAmount$()（默认 5）：食槽一份料补多少。$(br)$(li)$(bold)troughEatIntervalTicks$()（默认 20）：连续进食时两口之间隔多少 tick。动物会一直吃到满（10）或槽空才离开。$(br2)$(bold)可饲养白名单按饲料分三份$()，每行一个实体 id，例如 $(thing)othermod:animal$()：$(br)$(li)$(bold)extraFeedAnimals$()（默认空）：额外吃$(bold)草谷饲料$()的动物。$(br)$(li)$(bold)extraSeedFeedAnimals$()（默认空）：额外吃$(bold)稻谷饲料$()的动物。$(br)$(li)$(bold)extraMeatFeedAnimals$()（默认空）：额外吃$(bold)鲜肉饲料$()的动物。$(br2)三份名单互不干扰：写进哪一份，动物就只认那一种饲料，同时获得状态栏与食槽吸引。原版和大多数模组的 $(thing)Animal$() 子类本来就自动纳入，不需要写进名单。"
+      "text": "$(li)$(bold)troughNeedThreshold$()（默认 5）：饱食度／口渴度低于等于这个值，动物才会来食槽。$(br)$(li)$(bold)troughRestoreAmount$()（默认 5）：食槽一份料补多少。$(br)$(li)$(bold)troughEatIntervalTicks$()（默认 20，范围 1~72000）：连续进食时两口之间隔多少 tick。动物会一直吃到满（10）或槽空才离开。$(br2)$(bold)可饲养白名单按饲料分三份$()，每行一个实体 id，例如 $(thing)othermod:animal$()：$(br)$(li)$(bold)extraFeedAnimals$()（默认空）：额外吃$(bold)草谷饲料$()的动物。$(br)$(li)$(bold)extraSeedFeedAnimals$()（默认空）：额外吃$(bold)稻谷饲料$()的动物。$(br)$(li)$(bold)extraMeatFeedAnimals$()（默认空）：额外吃$(bold)鲜肉饲料$()的动物。$(br2)三份名单互不干扰：写进哪一份，动物就只认那一种饲料，同时获得状态栏与食槽吸引。原版和大多数模组的 $(thing)Animal$() 子类本来就自动纳入，不需要写进名单。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "排泄间隔与自然生成上限",
+      "text": "$(li)$(bold)animalPoopIntervalTicks$()（默认 600）：独立排泄尝试间隔，20 tick = 1 秒。$(br)$(li)只有被玩家实际喂过、获得资格标记的动物才参与排泄；食槽进食可恢复状态，但不授予这个资格。$(br)$(li)$(bold)animalChunkLimit$()（默认 2）：本模组陆生与水生动物合计的每区块自然生成上限；0 禁止这类自然生成。田鼠仍独立使用 $(thing)mouseChunkLimit$()。$(br2)此上限不删除已有动物，也不拦刷怪蛋、指令或其他模组的生成。"
     },
     {
       "type": "patchouli:text",

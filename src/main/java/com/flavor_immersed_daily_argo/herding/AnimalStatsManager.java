@@ -11,6 +11,7 @@ import com.flavor_immersed_daily_argo.forestry.ForestryNetworkManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -47,8 +48,8 @@ import java.util.Set;
 // 清洁度：泡在水里或淋雨时每 5 秒 +1；
 // 饱食度：被喂食 +3、心情值 +1（见 #onFed）。
 //
-// 状态栏本身不会凭空出现：只有被玩家喂食过的动物才会有。拥有状态栏的动物生下的后代
-// 会继承；在拥有状态栏的同类成年个体身边长大的幼崽，长大成人时也会补上。
+// 玩家喂食、自动食槽、后代继承和同类抚育都可能初始化状态栏。
+// 排泄资格独立持久化：只有这只动物实际被玩家直接喂食过才有，不从状态栏或父母推断。
 public final class AnimalStatsManager {
 
 // 拥有状态栏的动物：禽类、家畜、宠物
@@ -110,6 +111,12 @@ public final class AnimalStatsManager {
     private static final int WATER_RADIUS = 2;
 // 判断幼崽「在谁身边长大」的范围
     private static final double RAISE_RADIUS = 8.0D;
+
+// 上次被玩家喂食的游戏时刻，存在实体的持久化数据里，用来限制进食频率
+    private static final String LAST_FEED_KEY = "flavor_immersed_daily_argo:last_fed";
+    private static final String PLAYER_FED_KEY = "flavor_immersed_daily_argo:player_fed";
+    private static final String LAST_POOP_ATTEMPT_KEY = "flavor_immersed_daily_argo:last_poop_attempt";
+    private static final String LAST_TROUGH_EAT_KEY = "flavor_immersed_daily_argo:last_trough_eat";
 
 // 被喂食一次涨多少饱食度 / 心情值（见 Config）
 // 心情好 / 心情差的判定线
@@ -207,7 +214,7 @@ public final class AnimalStatsManager {
         return type == EntityType.CAT || type == EntityType.WOLF;
     }
 
-// 这只动物的状态栏；还没被喂食过则返回 null
+// 这只动物的状态栏；尚未由任何途径初始化则返回 null（不代表玩家喂食资格）。
     @Nullable
     public static AnimalStats getStats(LivingEntity entity) {
         AnimalStats stats = entity.getExistingDataOrNull(ModAttachments.ANIMAL_STATS.get());
@@ -234,6 +241,16 @@ public final class AnimalStatsManager {
 
 // 被玩家喂食：第一次喂食让动物获得状态栏，之后每次按配置涨饱食度 / 心情值
     public static void onFed(LivingEntity entity) {
+        if (entity.level().isClientSide) {
+            return;
+        }
+        CompoundTag data = entity.getPersistentData();
+        long now = entity.level().getGameTime();
+        if (!hasBeenPlayerFed(entity)) {
+            data.putLong(LAST_POOP_ATTEMPT_KEY, now);
+        }
+        data.putBoolean(PLAYER_FED_KEY, true);
+        data.putLong(LAST_FEED_KEY, now);
         AnimalStats stats = getStats(entity);
         int satiety = Config.ANIMAL_FEED_SATIETY.get();
         int mood = Config.ANIMAL_FEED_MOOD.get();
@@ -243,6 +260,40 @@ public final class AnimalStatsManager {
             return;
         }
         setStats(entity, stats.withSatiety(stats.satiety() + satiety).withMood(stats.mood() + mood));
+    }
+
+// last_fed 仅由旧版直接玩家喂食写入，可安全兼容；附件/食槽/遗传不代表被玩家喂过。
+    public static boolean hasBeenPlayerFed(LivingEntity entity) {
+        CompoundTag data = entity.getPersistentData();
+        return data.getBoolean(PLAYER_FED_KEY) || data.contains(LAST_FEED_KEY);
+    }
+
+// 这只动物现在能不能被玩家喂食：按 animalFeedCooldownTicks 限制进食频率
+    public static boolean canFeed(LivingEntity entity) {
+        int cooldown = Config.ANIMAL_FEED_COOLDOWN_TICKS.get();
+        if (cooldown <= 0) {
+            return true;
+        }
+        CompoundTag data = entity.getPersistentData();
+        if (!data.contains(LAST_FEED_KEY)) {
+            return true;
+        }
+        long elapsed = entity.level().getGameTime() - data.getLong(LAST_FEED_KEY);
+        return elapsed < 0 || elapsed >= cooldown;
+    }
+
+// 自动食槽有独立进食时钟，切换食槽也不能绕过；不写入玩家喂食标记。
+    public static boolean canEatFromTrough(LivingEntity entity) {
+        CompoundTag data = entity.getPersistentData();
+        if (!data.contains(LAST_TROUGH_EAT_KEY)) {
+            return true;
+        }
+        long elapsed = entity.level().getGameTime() - data.getLong(LAST_TROUGH_EAT_KEY);
+        return elapsed < 0 || elapsed >= Config.TROUGH_EAT_INTERVAL.get();
+    }
+
+    public static void onTroughEaten(LivingEntity entity) {
+        entity.getPersistentData().putLong(LAST_TROUGH_EAT_KEY, entity.level().getGameTime());
     }
 
 // 刚获得状态栏时的体重：有体重标准的按标准给，没标准的（猫狗）为 0
@@ -267,6 +318,7 @@ public final class AnimalStatsManager {
     public static void serverTick(LivingEntity entity) {
         Level level = entity.level();
         long clock = level.getGameTime() + entity.getId();
+        tickExcretion(entity);
         if (clock % RESTORE_INTERVAL != 0) {
             return;
         }
@@ -280,16 +332,12 @@ public final class AnimalStatsManager {
         }
         stats = ensureWeight(entity, stats);
         if (clock % DECAY_INTERVAL == 0) {
-// 只有本来就有饱食度可消耗，才谈得上「消化完拉一坨」
-            boolean hadSatiety = stats.satiety() > 0;
             stats = decay(entity, stats);
 // 所在区块有「兴盛」林业网点时，牲畜心情额外 +1（林业网点的加成之一）
             if (ForestryNetworkManager.isProsperous(level, entity.blockPosition())) {
                 stats = stats.withMood(stats.mood() + 1);
             }
-            if (hadSatiety) {
-                tryDropPoop(entity);
-            }
+
         }
         stats = restore(level, entity, stats);
         setStats(entity, stats);
@@ -323,7 +371,29 @@ public final class AnimalStatsManager {
         }
     }
 
-// 饱食度消耗掉一点时，按概率在附近拉一坨粪便。
+// 玩家喂过的动物按可配置时间间隔尝试排泄；自动食槽或后代继承不授予资格。
+    private static void tickExcretion(LivingEntity entity) {
+        if (!entity.isAlive() || !hasBeenPlayerFed(entity)) {
+            return;
+        }
+        AnimalStats stats = getStats(entity);
+        if (stats == null || stats.satiety() <= 0) {
+            return;
+        }
+        CompoundTag data = entity.getPersistentData();
+        long now = entity.level().getGameTime();
+        if (!data.contains(LAST_POOP_ATTEMPT_KEY) || data.getLong(LAST_POOP_ATTEMPT_KEY) > now) {
+            data.putLong(LAST_POOP_ATTEMPT_KEY, now);
+            return;
+        }
+        if (now - data.getLong(LAST_POOP_ATTEMPT_KEY) < Config.ANIMAL_POOP_INTERVAL_TICKS.get()) {
+            return;
+        }
+        data.putLong(LAST_POOP_ATTEMPT_KEY, now);
+        tryDropPoop(entity);
+    }
+
+// 到达排泄间隔后，按概率在附近拉一坨粪便。
 //
 // 选址规则：远离食槽和水源，免得弄脏吃饭喝水的地方；
 // 附近已经有粪堆时优先挨着它排，让粪便相对集中在一块区域。

@@ -131,6 +131,9 @@ public class flavor_immersed_daily_argo {
         modEventBus.addListener(FIDDataGenerators::gatherData);
 
 // 配置
+        modContainer.registerConfig(ModConfig.Type.CLIENT,
+                com.flavor_immersed_daily_argo.config.ClientConfig.SPEC,
+                "flavor_immersed_daily_argo-client.toml");
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         modContainer.registerConfig(ModConfig.Type.COMMON, EconomyConfig.SPEC,
                 "flavor_immersed_daily_argo-economy.toml");
@@ -250,7 +253,7 @@ public class flavor_immersed_daily_argo {
     }
 
     private void registerPackets(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar("1");
+        PayloadRegistrar registrar = event.registrar("2");
         registrar.playToServer(OpenRodModPacket.TYPE, OpenRodModPacket.STREAM_CODEC,
                 (packet, context) -> {
                     ServerPlayer player = (ServerPlayer) context.player();
@@ -336,7 +339,7 @@ public class flavor_immersed_daily_argo {
                         TaczGunSoundClient.play(packet);
                     }
                 }));
-// 家养动物 / 稻草人：客户端在取名界面确认后，由服务端写入实体的自定义名称
+// 仅保留稻草人的取名入口；动物不再接受此包（命名牌仍走原版交互）。
         registrar.playToServer(AnimalRenamePacket.TYPE, AnimalRenamePacket.STREAM_CODEC,
                 (packet, context) -> context.enqueueWork(() -> {
                     ServerPlayer player = (ServerPlayer) context.player();
@@ -344,14 +347,12 @@ public class flavor_immersed_daily_argo {
                     if (target == null || player.distanceToSqr(target) > 64.0D) {
                         return;
                     }
-                    boolean scarecrow = target instanceof Scarecrow;
-                    if (!scarecrow && !(target instanceof LivingEntity living && AnimalStatsManager.isTracked(living))) {
+                    if (!(target instanceof Scarecrow)) {
                         return;
                     }
                     String name = packet.name().trim();
                     target.setCustomName(name.isEmpty() ? null : Component.literal(name));
-// 动物的名字显示在状态栏面板上，不挂头顶；稻草人没有面板，名字就挂在头顶
-                    target.setCustomNameVisible(scarecrow);
+                    target.setCustomNameVisible(true);
                 }));
 // 无人机遥控器：解绑 / 开关电源 / 设定自动航线 / 起降操控。只有把这架无人机绑给自己的人能操作
         registrar.playToServer(UavActionPacket.TYPE, UavActionPacket.STREAM_CODEC,
@@ -485,17 +486,20 @@ public class flavor_immersed_daily_argo {
                         case DELETE -> shopMessage(player,
                                 manager.deleteShop(player, packet.shopId()) ? "deleted" : "not_owner");
                         case ADD_ENTRY -> {
-// 先上架、成功了再扣手上的货；失败（不是店主 / 价格非法）时不能把物品吞掉
+// 先上架、成功了再扣手上的货；失败（不是店主 / 价格非法 / 论组但不足一组）时不吞物品
                             ItemStack held = player.getMainHandItem();
                             if (held.isEmpty()) {
                                 shopMessage(player, "no_goods");
                             } else {
-                                boolean listed = manager.addEntry(player, packet.shopId(), held.copy(), packet.price());
-                                if (listed) {
-                                    held.shrink(held.getCount());
+                                int used = manager.addEntry(player, packet.shopId(), held.copy(), packet.price(),
+                                        packet.perStack());
+                                if (used > 0) {
+                                    held.shrink(used);
                                     player.getInventory().setChanged();
+                                    shopMessage(player, "listed");
+                                } else {
+                                    shopMessage(player, packet.perStack() ? "not_enough_for_stack" : "not_owner");
                                 }
-                                shopMessage(player, listed ? "listed" : "not_owner");
                             }
                         }
                         case REMOVE_ENTRY -> shopMessage(player,
@@ -504,23 +508,25 @@ public class flavor_immersed_daily_argo {
                                 manager.setPrice(player, packet.shopId(), packet.index(), packet.price())
                                         ? "repriced" : "not_owner");
                         case RESTOCK -> {
-// 补货同理：先补、成功了再扣，物品与条目对不上时原样留在手里
+// 补货同理：先补、成功了再扣，物品对不上或不足一个出售单位时原样留在手里
                             ItemStack held = player.getMainHandItem();
                             if (held.isEmpty()) {
                                 shopMessage(player, "no_goods");
                             } else {
-                                boolean restocked = manager.restock(player, packet.shopId(), packet.index(), held.copy());
-                                if (restocked) {
-                                    held.shrink(held.getCount());
+                                int used = manager.restock(player, packet.shopId(), packet.index(), held.copy());
+                                if (used > 0) {
+                                    held.shrink(used);
                                     player.getInventory().setChanged();
+                                    shopMessage(player, "restocked");
+                                } else {
+                                    shopMessage(player, "not_enough_for_stack");
                                 }
-                                shopMessage(player, restocked ? "restocked" : "not_owner");
                             }
                         }
                         case WITHDRAW -> {
 // index 在这里是玩家在背包里选中的银行卡槽位
                             int slot = packet.index();
-                            ItemStack card = slot < 0 || slot > 40
+                            ItemStack card = !((slot >= 0 && slot < 36) || slot == 40)
                                     ? ItemStack.EMPTY : player.getInventory().getItem(slot);
                             shopMessage(player,
                                     manager.withdraw(player, packet.shopId(), card) ? "withdrawn" : "no_card");

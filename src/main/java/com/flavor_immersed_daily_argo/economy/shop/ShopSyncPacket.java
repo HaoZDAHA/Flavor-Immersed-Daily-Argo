@@ -3,7 +3,7 @@ package com.flavor_immersed_daily_argo.economy.shop;
 import com.flavor_immersed_daily_argo.economy.product.EconomicNews;
 import com.flavor_immersed_daily_argo.economy.product.EconomicProductNetwork;
 import com.flavor_immersed_daily_argo.flavor_immersed_daily_argo;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ public record ShopSyncPacket(List<Shop> shops, List<EconomicNews> news) implemen
     public static final Type<ShopSyncPacket> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(flavor_immersed_daily_argo.MODID, "shop_sync"));
 
-    public static final StreamCodec<FriendlyByteBuf, ShopSyncPacket> STREAM_CODEC = StreamCodec.of(
+    public static final StreamCodec<RegistryFriendlyByteBuf, ShopSyncPacket> STREAM_CODEC = StreamCodec.of(
             (buf, packet) -> {
                 ShopNetwork.writeShops(buf, packet.shops());
                 EconomicProductNetwork.writeNews(buf, packet.news());

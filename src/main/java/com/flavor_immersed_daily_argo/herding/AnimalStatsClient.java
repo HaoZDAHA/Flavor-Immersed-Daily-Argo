@@ -1,6 +1,5 @@
 package com.flavor_immersed_daily_argo.herding;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -8,12 +7,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
-// 空手右键动物的两种客户端表现：
-//
-// 直接右键：在屏幕上浮出这只动物的状态栏（AnimalStatsHud）；
-// 潜行右键：打开取名界面（AnimalRenameScreen），确认后交给服务端写入。
-//
-// 这里不取消事件，原版空手右键本来就没有行为，不需要拦截。
+// 空手直接右键查看动物状态栏。潜行右键不再打开命名界面。
+// 不取消事件，保留原版/其他模组交互；命名牌仍走原版物品交互。
 @EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
 public final class AnimalStatsClient {
 
@@ -34,9 +29,7 @@ public final class AnimalStatsClient {
                 || event.getEntity().distanceToSqr(target) > REACH_SQR) {
             return;
         }
-        if (event.getEntity().isSecondaryUseActive()) {
-            Minecraft.getInstance().setScreen(new AnimalRenameScreen(target));
-        } else {
+        if (!event.getEntity().isSecondaryUseActive()) {
             AnimalStatsHud.show(target);
         }
     }

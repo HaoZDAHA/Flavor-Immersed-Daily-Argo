@@ -20,7 +20,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 // 玩家店铺存档。
@@ -33,7 +35,7 @@ public class ShopManager extends SavedData {
     public static final String DATA_NAME = "flavor_immersed_daily_argo_shops";
 
     private static final SavedData.Factory<ShopManager> FACTORY =
-            new SavedData.Factory<>(ShopManager::new, (tag, provider) -> new ShopManager(tag), null);
+            new SavedData.Factory<>(ShopManager::new, ShopManager::new, null);
 
     private final List<Shop> shops = new ArrayList<>();
     private final Set<String> removedSystemShops = new HashSet<>();
@@ -41,7 +43,7 @@ public class ShopManager extends SavedData {
     public ShopManager() {
     }
 
-    private ShopManager(CompoundTag tag) {
+    private ShopManager(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
         ListTag list = tag.getList("Shops", Tag.TAG_COMPOUND);
         for (int i = 0; i < list.size(); i++) {
             CompoundTag entry = list.getCompound(i);
@@ -49,12 +51,26 @@ public class ShopManager extends SavedData {
             ListTag entriesTag = entry.getList("Entries", Tag.TAG_COMPOUND);
             for (int j = 0; j < entriesTag.size(); j++) {
                 CompoundTag e = entriesTag.getCompound(j);
-                ResourceLocation rl = ResourceLocation.tryParse(e.getString("Item"));
-                Item item = rl == null ? Items.AIR : BuiltInRegistries.ITEM.get(rl);
-                if (item == Items.AIR) {
+                ItemStack goods;
+                if (e.contains("Stack", Tag.TAG_COMPOUND)) {
+                    goods = ItemStack.parse(registries, e.getCompound("Stack")).orElse(ItemStack.EMPTY);
+                } else {
+                    ResourceLocation rl = ResourceLocation.tryParse(e.getString("Item"));
+                    Item item = rl == null ? Items.AIR : BuiltInRegistries.ITEM.get(rl);
+                    goods = item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
+                }
+                if (goods.isEmpty()) {
                     continue;
                 }
-                entries.add(new ShopEntry(item, e.getInt("Count"), e.getInt("Price"), e.getInt("Stock")));
+                // Count was already the purchase lot size in old saves. Never reinterpret
+                // Count=1 as a whole stack: doing so would multiply both stock and delivered goods.
+                int count = e.contains("Count", Tag.TAG_ANY_NUMERIC) ? e.getInt("Count") : 1;
+                int price = e.getInt("Price");
+                int stock = e.getInt("Stock");
+                if (count <= 0 || price < 0 || stock < 0 || (long) count * stock > Integer.MAX_VALUE) {
+                    continue;
+                }
+                entries.add(new ShopEntry(goods, count, price, stock));
             }
             shops.add(new Shop(entry.getString("Id"), entry.getString("Title"), entry.getString("Owner"),
                     List.copyOf(entries), entry.getLong("Balance"), true));
@@ -148,7 +164,11 @@ public class ShopManager extends SavedData {
         if (countShops(owner) >= EconomyConfig.MAX_SHOPS_PER_PLAYER.get()) {
             return false;
         }
-        String cleanTitle = title == null || title.isBlank() ? owner + "的小店" : title.trim();
+        // Empty is the persisted default-title marker; never render localized text on the server.
+        String cleanTitle = title == null || title.isBlank() ? "" : title.trim();
+        if (cleanTitle.length() > 64) {
+            cleanTitle = cleanTitle.substring(0, 64);
+        }
         this.shops.add(new Shop(nextShopId(), cleanTitle, owner, List.of(), 0L, true));
         this.setDirty();
         return true;
@@ -216,28 +236,35 @@ public class ShopManager extends SavedData {
         return true;
     }
 
-// 上架：取走手上整叠物品作为库存；同物品同价则并入库存增量
-    public boolean addEntry(ServerPlayer player, String shopId, ItemStack goods, int price) {
+// 上架：perStack=false 论个（一次买 1 件），true 论组（一次买一整组）。
+// 返回实际从手上消耗的物品数，0 表示上架失败；论组时手上不足一组也返回 0
+    public int addEntry(ServerPlayer player, String shopId, ItemStack goods, int price, boolean perStack) {
         Shop shop = findOwned(player, shopId);
-        if (shop == null || goods == null || goods.isEmpty() || price < 0) {
-            return false;
+        if (shop == null || goods == null || goods.isEmpty() || price <= 0) {
+            return 0;
+        }
+        int unit = perStack ? Math.max(1, goods.getMaxStackSize()) : 1;
+        int units = goods.getCount() / unit;
+        if (units <= 0) {
+            return 0;
         }
         List<ShopEntry> entries = new ArrayList<>(shop.entries());
-        int amount = goods.getCount();
         for (int i = 0; i < entries.size(); i++) {
             ShopEntry e = entries.get(i);
-            if (e.item() == goods.getItem() && e.price() == price) {
-                entries.set(i, new ShopEntry(e.item(), e.count(), e.price(), e.stock() + amount));
+            if (e.matches(goods) && e.price() == price && e.count() == unit) {
+                if (!canIncreaseStock(e, units)) {
+                    return 0;
+                }
+                entries.set(i, e.withStock(e.stock() + units));
                 replace(shop.id(), entries, shop.balance());
                 this.setDirty();
-                return true;
+                return units * unit;
             }
         }
-// 玩家上架：一次买 1 件，库存 = 整叠件数
-        entries.add(new ShopEntry(goods.getItem(), 1, price, amount));
+        entries.add(new ShopEntry(goods, unit, price, units));
         replace(shop.id(), entries, shop.balance());
         this.setDirty();
-        return true;
+        return units * unit;
     }
 
 // 下架：把剩余库存退回店主背包，删除条目
@@ -249,7 +276,7 @@ public class ShopManager extends SavedData {
         ShopEntry entry = shop.entries().get(index);
         int back = entry.infinite() ? 0 : Math.max(0, entry.count() * entry.stock());
         if (back > 0) {
-            give(player, new ItemStack(entry.item(), back));
+            give(player, entry.createStack(back));
         }
         List<ShopEntry> entries = new ArrayList<>(shop.entries());
         entries.remove(index);
@@ -261,32 +288,43 @@ public class ShopManager extends SavedData {
 // 改价
     public boolean setPrice(ServerPlayer player, String shopId, int index, int price) {
         Shop shop = findOwned(player, shopId);
-        if (shop == null || index < 0 || index >= shop.entries().size() || price < 0) {
+        if (shop == null || index < 0 || index >= shop.entries().size() || price <= 0) {
             return false;
         }
         List<ShopEntry> entries = new ArrayList<>(shop.entries());
         ShopEntry e = entries.get(index);
-        entries.set(index, new ShopEntry(e.item(), e.count(), price, e.stock()));
+        entries.set(index, e.withPrice(price));
         replace(shop.id(), entries, shop.balance());
         this.setDirty();
         return true;
     }
 
-// 补货：手上整叠物品须与条目同物品，整叠并入该条目库存
-    public boolean restock(ServerPlayer player, String shopId, int index, ItemStack goods) {
+// 补货：按条目原本的出售单位（论个 / 论组）折算，返回实际消耗的物品数，0 表示失败
+    public int restock(ServerPlayer player, String shopId, int index, ItemStack goods) {
         Shop shop = findOwned(player, shopId);
         if (shop == null || index < 0 || index >= shop.entries().size() || goods == null || goods.isEmpty()) {
-            return false;
+            return 0;
         }
         List<ShopEntry> entries = new ArrayList<>(shop.entries());
         ShopEntry e = entries.get(index);
-        if (e.item() != goods.getItem()) {
-            return false;
+        if (!e.matches(goods)) {
+            return 0;
         }
-        entries.set(index, new ShopEntry(e.item(), e.count(), e.price(), e.stock() + goods.getCount()));
+        int unit = Math.max(1, e.count());
+        int units = goods.getCount() / unit;
+        if (units <= 0 || !canIncreaseStock(e, units)) {
+            return 0;
+        }
+        entries.set(index, e.withStock(e.stock() + units));
         replace(shop.id(), entries, shop.balance());
         this.setDirty();
-        return true;
+        return units * unit;
+    }
+
+    private static boolean canIncreaseStock(ShopEntry entry, int units) {
+        long stock = (long) entry.stock() + units;
+        return entry.stock() >= 0 && entry.count() > 0 && stock <= Integer.MAX_VALUE
+                && stock * entry.count() <= Integer.MAX_VALUE;
     }
 
 // 提现：把店铺余额写进这张卡的卡面账户，余额清零
@@ -295,7 +333,11 @@ public class ShopManager extends SavedData {
         if (shop == null || card == null || !(card.getItem() instanceof CreditCardItem) || shop.balance() <= 0L) {
             return false;
         }
-        CreditCardItem.setAccount(card, CreditCardItem.getAccount(card) + shop.balance());
+        long account = CreditCardItem.getAccount(card);
+        if (account > Long.MAX_VALUE - shop.balance()) {
+            return false;
+        }
+        CreditCardItem.setAccount(card, account + shop.balance());
         replace(shop.id(), shop.entries(), 0L);
         player.getInventory().setChanged();
         this.setDirty();
@@ -310,11 +352,11 @@ public class ShopManager extends SavedData {
 //
 // cardSlot：玩家在背包里选中的银行卡所在格（0–35 主背包 / 40 副手）
     public static void checkout(ServerPlayer player, List<CartLine> cart, int cardSlot) {
-        if (cart.isEmpty()) {
+        if (cart == null || cart.isEmpty()) {
             message(player, "cart_empty");
             return;
         }
-        if (cardSlot < 0 || cardSlot > 40) {
+        if (!((cardSlot >= 0 && cardSlot < 36) || cardSlot == 40)) {
             message(player, "no_card");
             return;
         }
@@ -326,41 +368,84 @@ public class ShopManager extends SavedData {
         ShopManager manager = get(player.server);
         List<Shop> all = manager.allShops(player.server);
 
-// 先整体校验：店铺 / 下标 / 库存 / 余额（逐行对齐，无效行留空）
-        long total = 0L;
-        ShopEntry[] resolved = new ShopEntry[cart.size()];
-        for (int i = 0; i < cart.size(); i++) {
-            CartLine line = cart.get(i);
-            Shop shop = find(all, line.shopId());
-            if (shop == null || line.entryIndex() < 0 || line.entryIndex() >= shop.entries().size()) {
-                continue;
+// 先合并重复行再整单验证：不能用多行分别通过库存校验来超卖，也不能以负数量反向扣费。
+        if (cart.size() > ShopCheckoutPacket.MAX_LINES) {
+            message(player, "invalid_cart");
+            return;
+        }
+        record EntryKey(String shopId, int index) { }
+        record Purchase(Shop shop, int index, ShopEntry entry, int qty) { }
+        Map<EntryKey, Integer> quantities = new LinkedHashMap<>();
+        for (CartLine line : cart) {
+            if (line == null || line.shopId() == null || line.qty() <= 0
+                    || line.qty() > ShopCheckoutPacket.MAX_QTY_PER_ENTRY) {
+                message(player, "invalid_cart");
+                return;
             }
-            ShopEntry entry = shop.entries().get(line.entryIndex());
-            if (!entry.infinite() && entry.stock() < line.qty()) {
+            EntryKey key = new EntryKey(line.shopId(), line.entryIndex());
+            long combined = (long) quantities.getOrDefault(key, 0) + line.qty();
+            if (combined > ShopCheckoutPacket.MAX_QTY_PER_ENTRY) {
+                message(player, "invalid_cart");
+                return;
+            }
+            quantities.put(key, (int) combined);
+        }
+        List<Purchase> purchases = new ArrayList<>();
+        Map<String, Long> sellerReceipts = new LinkedHashMap<>();
+        long total = 0L;
+        long itemTotal = 0L;
+        for (Map.Entry<EntryKey, Integer> line : quantities.entrySet()) {
+            Shop shop = find(all, line.getKey().shopId());
+            int index = line.getKey().index();
+            int qty = line.getValue();
+            if (shop == null || index < 0 || index >= shop.entries().size()) {
+                message(player, "invalid_cart");
+                return;
+            }
+            ShopEntry entry = shop.entries().get(index);
+            if (entry.count() <= 0 || entry.price() < 0 || entry.item() == Items.AIR
+                    || (shop.playerShop() && entry.infinite())) {
+                message(player, "invalid_cart");
+                return;
+            }
+            if (!entry.infinite() && entry.stock() < qty) {
                 message(player, "out_of_stock");
                 return;
             }
-            total += (long) entry.price() * line.qty();
-            resolved[i] = entry;
+            long items = (long) entry.count() * qty;
+            itemTotal += items;
+            if (items > ShopCheckoutPacket.MAX_ITEMS_PER_CHECKOUT
+                    || itemTotal > ShopCheckoutPacket.MAX_ITEMS_PER_CHECKOUT) {
+                message(player, "invalid_cart");
+                return;
+            }
+            long cost = (long) entry.price() * qty;
+            total = Math.addExact(total, cost);
+            if (shop.playerShop()) {
+                long receipt = sellerReceipts.getOrDefault(shop.id(), 0L) + cost;
+                if (shop.balance() < 0 || shop.balance() > Long.MAX_VALUE - receipt) {
+                    message(player, "invalid_cart");
+                    return;
+                }
+                sellerReceipts.put(shop.id(), receipt);
+            }
+            purchases.add(new Purchase(shop, index, entry, qty));
         }
-        long account = CreditCardItem.getAccount(card);
-        if (account < total) {
+        if (CreditCardItem.getSpendable(card) < total) {
             message(player, "insufficient");
             return;
         }
 
-// 扣钱并发货
-        CreditCardItem.setAccount(card, account - total);
-        for (int i = 0; i < cart.size(); i++) {
-            ShopEntry entry = resolved[i];
-            if (entry == null) {
-                continue;
-            }
-            CartLine line = cart.get(i);
-            Shop shop = find(all, line.shopId());
-            give(player, new ItemStack(entry.item(), entry.count() * line.qty()));
-            if (shop != null && shop.playerShop()) {
-                manager.applyPurchase(shop.id(), line.entryIndex(), line.qty(), entry.price());
+// 所有校验完成后再扣钱、发货；count 是每份件数，price 是每份总价，二者不会重复相乘。
+        if (!CreditCardItem.tryPay(card, total)) {
+            message(player, "insufficient");
+            return;
+        }
+        for (Purchase purchase : purchases) {
+            ShopEntry entry = purchase.entry();
+            give(player, entry.createStack(entry.count() * purchase.qty()));
+            if (purchase.shop().playerShop()) {
+                manager.applyPurchase(purchase.shop().id(), purchase.index(), purchase.qty(), entry.price());
             }
         }
         player.getInventory().setChanged();
@@ -385,7 +470,7 @@ public class ShopManager extends SavedData {
             List<ShopEntry> entries = new ArrayList<>(shop.entries());
             ShopEntry e = entries.get(index);
             int stock = e.infinite() ? e.stock() : Math.max(0, e.stock() - qty);
-            entries.set(index, new ShopEntry(e.item(), e.count(), e.price(), stock));
+            entries.set(index, e.withStock(stock));
             this.shops.set(i, new Shop(shop.id(), shop.title(), shop.ownerName(), List.copyOf(entries),
                     shop.balance() + (long) price * qty, true));
             return;
@@ -486,6 +571,7 @@ public class ShopManager extends SavedData {
             for (ShopEntry e : shop.entries()) {
                 CompoundTag eTag = new CompoundTag();
                 eTag.putString("Item", BuiltInRegistries.ITEM.getKey(e.item()).toString());
+                eTag.put("Stack", e.prototype().save(registries));
                 eTag.putInt("Count", e.count());
                 eTag.putInt("Price", e.price());
                 eTag.putInt("Stock", e.stock());

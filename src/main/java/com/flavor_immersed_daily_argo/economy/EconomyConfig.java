@@ -28,6 +28,12 @@ public final class EconomyConfig {
     public static final ModConfigSpec SPEC;
     public static final ModConfigSpec.ConfigValue<List<? extends String>> EXCHANGES;
     public static final ModConfigSpec.ConfigValue<List<? extends String>> FOOD_BLACKLIST;
+    public static final ModConfigSpec.BooleanValue ORDER_ALLOW_ALL_FOOD_MODS;
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> ORDER_EXTRA_FOOD_MODS;
+    public static final ModConfigSpec.BooleanValue AUTO_PRODUCTS_ENABLED;
+    public static final ModConfigSpec.IntValue AUTO_PRODUCTS_MIN_PRICE;
+    public static final ModConfigSpec.IntValue AUTO_PRODUCTS_MAX_PRICE;
+    public static final ModConfigSpec.ConfigValue<List<? extends String>> AUTO_PRODUCTS_BLACKLIST;
 // 是否允许玩家开店
     public static final ModConfigSpec.BooleanValue PLAYER_SHOPS_ENABLED;
 // 每位玩家最多能开几家店
@@ -46,6 +52,21 @@ public final class EconomyConfig {
     public static final ModConfigSpec.ConfigValue<List<? extends String>> WEIGHT_FISH_ENTRIES;
 // 生鱼没单独写价时用的每斤价
     public static final ModConfigSpec.DoubleValue WEIGHT_FISH_DEFAULT_PER_JIN;
+// 外卖配送费区间（元）：按距离折算后再夹到这两条线之间
+    public static final ModConfigSpec.IntValue TAKEOUT_MIN_FEE;
+    public static final ModConfigSpec.IntValue TAKEOUT_MAX_FEE;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_RAW_MIN;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_RAW_MAX;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_SIMPLE_MIN;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_SIMPLE_MAX;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_COMPLEX_MIN;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_COMPLEX_MAX;
+    public static final ModConfigSpec.DoubleValue FOOD_ORDER_COST_MULTIPLIER;
+    public static final ModConfigSpec.IntValue FOOD_ORDER_PROCESSING_FEE;
+    public static final ModConfigSpec.DoubleValue FISH_PRICE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue ANIMAL_PRICE_MULTIPLIER;
+    public static final ModConfigSpec.IntValue ANIMAL_MIN_BASE_PRICE;
+    public static final ModConfigSpec.DoubleValue AUTO_PRODUCT_PRICE_MULTIPLIER;
 
 // 畜类默认收购价：标准体重下的价格 + 超出标准体重每公斤加价
     private static final List<String> DEFAULT_ANIMAL_PRICES = List.of(
@@ -104,6 +125,51 @@ public final class EconomyConfig {
                         "每行一条物品注册名，例如 minecraft:rotten_flesh。")
                 .defineListAllowEmpty("food_blacklist", List.of(), () -> "",
                         value -> value instanceof String);
+        ORDER_ALLOW_ALL_FOOD_MODS = builder
+                .comment("允许订单从全部模组选择食物，黑名单仍生效。默认关闭。",
+                        "Allow foods from all namespaces in orders; the food blacklist still applies.")
+                .define("allow_all_food_mods", false);
+        ORDER_EXTRA_FOOD_MODS = builder
+                .comment("额外允许进入订单的模组命名空间（精确匹配）。默认仅允许 flavor_immersed_daily 前缀。",
+                        "Additional exact mod ids allowed in food orders. The flavor_immersed_daily prefix is always allowed.")
+                .defineListAllowEmpty("extra_food_mods", List.<String>of(), () -> "",
+                        value -> value instanceof String s && s.matches("[a-z0-9_.-]+"));
+        TAKEOUT_MIN_FEE = builder
+                .comment("外卖配送费的最低值（元）。按距离算出来的配送费低于这个数时取这个数。")
+                .defineInRange("min_delivery_fee", 5, 0, 1_000_000);
+        TAKEOUT_MAX_FEE = builder
+                .comment("外卖配送费的最高值（元）。按距离算出来的配送费高于这个数时取这个数。")
+                .defineInRange("max_delivery_fee", 60, 0, 1_000_000);
+        builder.pop();
+
+        builder.comment("做菜订单收益 / Cooking-order rewards per serving").push("food_orders");
+        FOOD_ORDER_RAW_MIN = builder.comment("生食每份奖励下限 / Minimum raw-food reward per serving")
+                .defineInRange("raw_min", 2, 0, 1_000_000);
+        FOOD_ORDER_RAW_MAX = builder.comment("生食每份奖励上限 / Maximum raw-food reward per serving")
+                .defineInRange("raw_max", 6, 0, 1_000_000);
+        FOOD_ORDER_SIMPLE_MIN = builder.comment("简单料理每份奖励下限 / Minimum simple-dish reward")
+                .defineInRange("simple_min", 12, 0, 1_000_000);
+        FOOD_ORDER_SIMPLE_MAX = builder.comment("简单料理每份奖励上限 / Maximum simple-dish reward")
+                .defineInRange("simple_max", 24, 0, 1_000_000);
+        FOOD_ORDER_COMPLEX_MIN = builder.comment("复杂料理每份奖励下限 / Minimum complex-dish reward")
+                .defineInRange("complex_min", 30, 0, 1_000_000);
+        FOOD_ORDER_COMPLEX_MAX = builder.comment("复杂料理常规每份奖励上限；原料成本保护可超过 / Normal complex-dish reward cap; cost protection may exceed it")
+                .defineInRange("complex_max", 80, 0, 1_000_000);
+        FOOD_ORDER_COST_MULTIPLIER = builder.comment("可识别配方的每份原料收购价值保护倍率 / Ingredient opportunity-cost margin per serving")
+                .defineInRange("ingredient_margin", 1.35D, 1.0D, 10.0D);
+        FOOD_ORDER_PROCESSING_FEE = builder.comment("料理每份基础加工费 / Processing fee per cooked serving")
+                .defineInRange("processing_fee", 4, 0, 1000);
+        builder.pop();
+
+        builder.comment("经济平衡系数，不修改已有基础报价或配送费 / Balance multipliers; delivery fees unchanged").push("balance");
+        FISH_PRICE_MULTIPLIER = builder.comment("生鱼每斤价倍率 / Fish price multiplier")
+                .defineInRange("fish_price_multiplier", 1.5D, 0.0D, 100.0D);
+        ANIMAL_PRICE_MULTIPLIER = builder.comment("活畜标准价及超重价倍率 / Livestock base and overweight price multiplier")
+                .defineInRange("animal_price_multiplier", 2.0D, 0.0D, 100.0D);
+        ANIMAL_MIN_BASE_PRICE = builder.comment("有正收购价的小型活畜最低标准价 / Minimum standard price for positively priced livestock")
+                .defineInRange("animal_min_base_price", 24, 0, 1_000_000);
+        AUTO_PRODUCT_PRICE_MULTIPLIER = builder.comment("其他模组自动产物的基准价格倍率，原5~20变为40~160 / Automatic-product base multiplier, before daily fluctuation")
+                .defineInRange("auto_product_price_multiplier", 8.0D, 0.0D, 100.0D);
         builder.pop();
 
         builder.comment("商业电脑（市场店铺）").push("shop");
@@ -133,6 +199,25 @@ public final class EconomyConfig {
         PRODUCT_VOLATILITY = builder
                 .comment("每日涨跌幅度上限，按基准收购价的百分比算；例如 25 表示最多涨跌四分之一。")
                 .defineInRange("volatility_percent", 25, 0, 100);
+        builder.pop();
+
+        builder.comment("其他模组农牧产物自动识别 / Other-mod farming products").push("auto_products");
+        AUTO_PRODUCTS_ENABLED = builder
+                .comment("自动识别其他模组的农作物与动物掉落物并添加到出货箱和行情。",
+                        "Automatically buy other-mod crops and animal drops identified by tags and loot tables.")
+                .define("enabled", true);
+        AUTO_PRODUCTS_MIN_PRICE = builder
+                .comment("自动识别产物的最低基准价（元/一组，按物品堆叠上限）。",
+                        "Minimum automatic base price per stack; daily market volatility still applies.")
+                .defineInRange("min_price", 5, 1, 1_000_000);
+        AUTO_PRODUCTS_MAX_PRICE = builder
+                .comment("自动识别产物的最高基准价。写反时交换上下限；同物品基准价保持确定性。",
+                        "Maximum automatic base price. Reversed bounds are normalized; prices are deterministic.")
+                .defineInRange("max_price", 20, 1, 1_000_000);
+        AUTO_PRODUCTS_BLACKLIST = builder
+                .comment("自动识别黑名单：物品id、模组:* 或 #物品标签；不覆盖手工配置/数据包的显式价格。",
+                        "Blacklist item ids, namespace:* or #item_tag. Explicit product prices retain priority.")
+                .defineListAllowEmpty("blacklist", List.<String>of(), () -> "", value -> value instanceof String);
         builder.pop();
 
         builder.comment("按重量收购（畜类 / 生鱼）").push("weight_price");

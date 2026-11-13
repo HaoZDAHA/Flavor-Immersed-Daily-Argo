@@ -172,6 +172,9 @@ public final class AnimalSpawning {
                 mob.finalizeSpawn(level, level.getCurrentDifficultyAt(entity.blockPosition()),
                         MobSpawnType.NATURAL, null);
             }
+            if (!NaturalAnimalSpawnLimits.allowsAnimal(level, entity.blockPosition())) {
+                continue;
+            }
             level.addFreshEntity(entity);
             return;
         }
@@ -243,6 +246,9 @@ public final class AnimalSpawning {
             double x = pos.getX() + 0.5D + (random.nextDouble() - 0.5D) * 3.0D;
             double z = pos.getZ() + 0.5D + (random.nextDouble() - 0.5D) * 3.0D;
             entity.moveTo(x, pos.getY(), z, random.nextFloat() * 360.0F, 0.0F);
+            if (!NaturalAnimalSpawnLimits.allowsAnimal(level, entity.blockPosition())) {
+                continue;
+            }
             if (entity instanceof Mob mob) {
                 mob.finalizeSpawn(level, level.getCurrentDifficultyAt(entity.blockPosition()),
                         MobSpawnType.NATURAL, null);

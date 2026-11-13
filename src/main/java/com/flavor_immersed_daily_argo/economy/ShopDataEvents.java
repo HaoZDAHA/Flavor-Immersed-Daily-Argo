@@ -25,6 +25,7 @@ public final class ShopDataEvents {
     public static void onAddReloadListener(AddReloadListenerEvent event) {
         event.addListener(new ShopDataLoader());
         event.addListener(new EconomicProductLoader());
+        event.addListener(new com.flavor_immersed_daily_argo.economy.product.AutomaticProductDiscovery());
     }
 
 // 物品标签绑定完成后，用已绑定的物品注册表把两个数据包里的标签条目重新展开一次。
@@ -38,5 +39,6 @@ public final class ShopDataEvents {
         }
         ShopDataLoader.rebuild();
         EconomicProductLoader.rebuild();
+        com.flavor_immersed_daily_argo.economy.product.AutomaticProductDiscovery.invalidate();
     }
 }

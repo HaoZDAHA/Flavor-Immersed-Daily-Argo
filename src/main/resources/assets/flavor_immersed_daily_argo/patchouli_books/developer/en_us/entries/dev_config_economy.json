@@ -7,7 +7,7 @@
     {
       "type": "patchouli:text",
       "title": "flavor_immersed_daily_argo-economy.toml",
-      "text": "All economy settings live in $(thing)config/flavor_immersed_daily_argo-economy.toml$(), in five sections: $(thing)exchange$(), $(thing)takeout$(), $(thing)shop$(), $(thing)products$() and $(thing)weight_price$().$(br2)This is the file pack authors edit most; back it up before making changes on a live server."
+      "text": "Economy settings live in $(thing)config/flavor_immersed_daily_argo-economy.toml$(), with six sections: $(thing)exchange$(), $(thing)takeout$(), $(thing)shop$(), $(thing)products$(), $(thing)auto_products$() and $(thing)weight_price$(). Back up the file before editing."
     },
     {
       "type": "patchouli:text",
@@ -16,8 +16,8 @@
     },
     {
       "type": "patchouli:text",
-      "title": "takeout",
-      "text": "$(bold)takeout.food_blacklist$(), one item id per line.$(br2)Food listed here never appears on the receipt printer's daily menu — useful for keeping rotten flesh or spider eyes off the menu, or blocking a broken food from an add-on.$(br2)Example: $(thing)minecraft:rotten_flesh$()"
+      "title": "takeout: menu and delivery fee",
+      "text": "By default orders only select foods whose namespace starts with $(thing)flavor_immersed_daily$().$(br)$(li)$(bold)takeout.extra_food_mods$() (default empty): additional exact mod ids to allow.$(br)$(li)$(bold)takeout.allow_all_food_mods$() (default false): allow all namespaces. The food blacklist still wins.$(br2)$(bold)takeout.food_blacklist$(), one item id per line.$(br2)Food listed here never appears on the receipt printer's daily menu — useful for keeping rotten flesh or spider eyes off the menu, or blocking a broken food from an add-on.$(br2)Example: $(thing)minecraft:rotten_flesh$()$(br2)The delivery fee is derived from the drop-off distance (1 yuan per 10 blocks) and then clamped into this range:$(br)$(li)$(bold)takeout.min_delivery_fee$() (default 5, 0~1000000): lowest fee.$(br)$(li)$(bold)takeout.max_delivery_fee$() (default 60, 0~1000000): highest fee.$(br2)Set both to the same value for a flat fee; if the maximum is below the minimum, the minimum is used."
     },
     {
       "type": "patchouli:text",
@@ -33,6 +33,16 @@
       "type": "patchouli:text",
       "title": "weight_price",
       "text": "$(li)$(bold)weight_price.animal_entries$(): one $(thing)entity id,standard-weight price,price per extra kg$() per line; 17 livestock and poultry entries ship as defaults, e.g. $(thing)minecraft:cow,900,3$().$(br)$(li)$(bold)weight_price.fish_entries$(): one $(thing)item id,price per jin$() per line, e.g. $(thing)flavor_immersed_daily_argo:raw_grass_carp,6.0$().$(br)$(li)$(bold)weight_price.fish_default_price_per_jin$() (default 6.0): used for fish without their own price.$(br2)The fish side only applies to $(bold)weighable items$() - the list comes from the $(thing)weighing_types$() data pack, so entries for mods that are not installed are ignored automatically. Put an external mod's fish into $(thing)weighing_types$() and they join the price list too."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "auto_products: discovery",
+      "text": "$(li)$(bold)auto_products.enabled$() (default true): discover third-party farming products for the Purchasing Box and price listings.$(br)$(li)$(bold)auto_products.min_price$() / $(bold)auto_products.max_price$() (defaults 5 / 20): base yuan per item's full stack (its maximum stack size). Reversed bounds are swapped; the base price for an item is deterministic.$(br)$(li)$(bold)auto_products.blacklist$() (default empty): item ids, $(thing)namespace:*$() or $(thing)#item_tag$().$(br2)Discovery never overrides an explicit data-pack or manual $(thing)products.entries$() price."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Discovery limits",
+      "text": "Only third-party content is auto-discovered: $(thing)minecraft$() and the $(thing)flavor_immersed_daily$() prefix are excluded. Sources include common farming tags, $(thing)CropBlock$() loot tables and standard entity loot tables of $(thing)Animal$() / $(thing)WaterAnimal$(). Prototype entities are not spawned into the world.$(br2)Custom scripts and runtime or dynamic drops cannot be safely inferred. Add missing items and explicit prices through $(thing)products.entries$() or a data pack."
     }
   ]
 }

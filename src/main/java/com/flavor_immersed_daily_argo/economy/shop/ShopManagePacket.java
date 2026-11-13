@@ -16,7 +16,9 @@ import net.minecraft.resources.ResourceLocation;
 // text：建店时的店名
 // index：条目下标（改价 / 下架 / 补货），提现时改作银行卡槽位
 // price：价格
-public record ShopManagePacket(Action action, String shopId, String text, int index, int price) implements CustomPacketPayload {
+// perStack：上架时按「组」计价出售（一次买一整组），false 表示论个
+public record ShopManagePacket(Action action, String shopId, String text, int index, int price, boolean perStack)
+        implements CustomPacketPayload {
 
 // 开店页能做的七件事
     public enum Action {
@@ -39,14 +41,20 @@ public record ShopManagePacket(Action action, String shopId, String text, int in
                 buf.writeUtf(packet.text() == null ? "" : packet.text());
                 buf.writeVarInt(packet.index());
                 buf.writeVarInt(packet.price());
+                buf.writeBoolean(packet.perStack());
             },
             buf -> {
-                Action action = Action.values()[buf.readVarInt()];
+                int actionId = buf.readVarInt();
+                if (actionId < 0 || actionId >= Action.values().length) {
+                    throw new io.netty.handler.codec.DecoderException("Invalid shop action: " + actionId);
+                }
+                Action action = Action.values()[actionId];
                 String shopId = buf.readUtf();
                 String text = buf.readUtf();
                 int index = buf.readVarInt();
                 int price = buf.readVarInt();
-                return new ShopManagePacket(action, shopId, text, index, price);
+                boolean perStack = buf.readBoolean();
+                return new ShopManagePacket(action, shopId, text, index, price, perStack);
             });
 
     @Override

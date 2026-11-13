@@ -22,7 +22,7 @@
     {
       "type": "patchouli:text",
       "title": "粪便与蝇虫",
-      "text": "饱食度每消耗一次（也就是每 30 秒的衰减结算）有 $(thing)animalPoopChance$() 的概率（默认 25%）拉一份粪便，每个区块最多同时 6 份。$(br2)$(bold)选址$()：离食槽和水源至少 4 格；附近已有粪堆时优先挨着它排，让粪便集中在一块区域，不会弄脏吃饭喝水的地方。$(br2)粪便实体不参与碰撞、也推不动，动物经过时不会被卡住寻路。$(br2)3 格范围内的粪便与死动物尸体合计达到 3 份时，动物会招来「蝇虫叮咬」：效果是$(bold)无限时长$()，清洁度上限被压到 5、每次结算额外 -$(thing)animalFlyBiteCleanLoss$()（默认 5），只有「体外驱虫药」能清掉，清理粪便并不能治好已感染的那只。"
+      "text": "只有玩家实际喂食后标记为可排泄的动物，才每 $(thing)animalPoopIntervalTicks$()（默认 600 tick）独立尝试一次排泄，每次概率为 $(thing)animalPoopChance$()（默认 25%，0 禁用），每区块最多 6 份。食槽只补状态，不授予排泄资格；该计时独立于饱食度衰减。$(br2)$(bold)选址$()：离食槽和水源至少 4 格；附近已有粪堆时优先挨着它排，让粪便集中在一块区域，不会弄脏吃饭喝水的地方。$(br2)粪便实体不参与碰撞、也推不动，动物经过时不会被卡住寻路。$(br2)3 格范围内的粪便与死动物尸体合计达到 3 份时，动物会招来「蝇虫叮咬」：效果是$(bold)无限时长$()，清洁度上限被压到 5、每次结算额外 -$(thing)animalFlyBiteCleanLoss$()（默认 5），只有「体外驱虫药」能清掉，清理粪便并不能治好已感染的那只。"
     },
     {
       "type": "patchouli:text",
@@ -32,12 +32,17 @@
     {
       "type": "patchouli:text",
       "title": "自然生成流程",
-      "text": "模组动物的自然生成全部写在 $(thing)AnimalSpawning$() 的 $(thing)ServerTickEvent.Post$() 里手动刷，没有用 $(thing)biome_modifier$()、$(thing)SpawnPlacementRegisterEvent$() 或 $(thing)add_spawns$()，避免与前置模组的 worldgen 打架；田鼠沿用同样的思路，实现在 $(thing)MouseSpawning$()。$(br2)每 400 tick（20 秒）结算一次：三项动物开关全关就直接返回，否则遍历每个 $(thing)ServerLevel$()，先确认 $(thing)doMobSpawning$() 游戏规则为真，再给每名玩家掷一次 0.35 的概率。"
+      "text": "模组动物的自然生成全部写在 $(thing)AnimalSpawning$() 的 $(thing)ServerTickEvent.Post$() 里手动刷，没有用 $(thing)biome_modifier$()、$(thing)SpawnPlacementRegisterEvent$() 或 $(thing)add_spawns$()，避免与前置模组的 worldgen 打架；田鼠沿用同样的思路，实现在 $(thing)MouseSpawning$()。$(br2)每 400 tick（20 秒）结算一次：三项动物开关全关就直接返回，否则遍历每个 $(thing)ServerLevel$()，先确认 $(thing)doMobSpawning$() 游戏规则为真，再给每名玩家掷一次 0.35 的概率。$(br2)生成前检查 $(thing)animalChunkLimit$()（默认 2）：本模组陆生和水生共用一个区块上限，达到后不再生成；田鼠由独立上限控制。"
     },
     {
       "type": "patchouli:text",
       "title": "落点与种类",
       "text": "$(bold)陆地$()：在玩家 8~32 格外随机取一列，用地表高度图落点，脚下须是泥土类 / 沙子 / 沙砾 / 泥巴，上方两格空气，成组刷 1~3 只。群系决定种类：竹林→竹鼠，沼泽 / 红树林→牛蛙，河流 / 沙滩→鸭，其余在鸭、鹅、鹌鹑、鸽、火鸡中随机。$(br2)$(bold)水产$()：同样取随机列，用 $(thing)OCEAN_FLOOR$() 取水柱最底格并确认是水；群系名含 $(thing)ocean$() 的走海水、其余走淡水。候选来自钓鱼手册，只取 $(thing)entity$() 属于本模组的条目，先按 $(thing)habitat$() 分淡海水，再优先挑 $(thing)biomes$() 命中的——新加的鱼只要补好手册条目就会自动参与自然生成。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "动物命名",
+      "text": "不再对动物开放潜行右键命名窗口，命名请求也会在服务端拒绝；动物仍可使用原版命名牌命名。稻草人的右键命名界面保留。"
     }
   ]
 }

@@ -873,6 +873,16 @@ public class ModLangs extends LanguageProvider {
         add("message." + MODID + ".economy.command.remove_failed", "No such exchange entry");
         add("message." + MODID + ".economy.command.empty", "No exchange entries configured");
         add("message." + MODID + ".economy.command.list_header", "Exchange entries (%s):");
+        add("message." + MODID + ".economy.command.shop_created", "Shop created: %s (No. %s)");
+        add("message." + MODID + ".economy.command.shop_created_plain", "Shop created: %s");
+        add("message." + MODID + ".economy.command.shop_deleted", "Deleted shop #%s");
+        add("message." + MODID + ".economy.command.shop_create_failed",
+                "Cannot create: player shops are disabled or you hit the limit");
+        add("message." + MODID + ".economy.command.shop_delete_failed",
+                "Cannot delete: no such number, that system shop needs creative mode, or the shop is not yours (creative can delete any shop)");
+        add("message." + MODID + ".economy.command.shop_empty", "There are no shops at all");
+        add("message." + MODID + ".economy.command.shop_list_header", "All shops (%s):");
+        add("message." + MODID + ".economy.command.shop_players_only", "Shop commands can only be run by players");
         add("message." + MODID + ".forestry.created", "Forestry station marked");
         add("message." + MODID + ".forestry.removed", "Removed the forestry station in this chunk");
         add("message." + MODID + ".forestry.none_here", "You have no forestry station in this chunk");
@@ -1040,6 +1050,16 @@ public class ModLangs extends LanguageProvider {
         add("emi.category." + MODID + ".cooking_pressurecooker", "Pressure Cooker");
         add("emi.category." + MODID + ".cooking_fryingpan", "Deep Fryer");
         add("emi.category." + MODID + ".cooking_choppingboard", "Cutting Board");
+// 南山钓竿钓获（JEI / EMI 共用）
+        jei("fishing.category", "Nanshan Rod Catches");
+        jei("fish.habitat", "Water: %s");
+        jei("fish.depth", "Depth: %s");
+        jei("fish.diet", "Diet: %s");
+        jei("fish.activity", "Activity: %s");
+        jei("fish.alertness", "Alertness: %s");
+        jei("fish.feeding", "Feeding Speed: %s");
+        jei("fish.tension", "Fight Tension: %s");
+        add("emi.category." + MODID + ".fishing", "Nanshan Rod Catches");
     }
 
 // 界面与按键
@@ -1063,6 +1083,19 @@ public class ModLangs extends LanguageProvider {
         gui("steelyard_unweighable", "This cannot be weighed");
         gui("steelyard_weight", "Weight %s jin");
         add("msg." + MODID + ".heavy_catch", "§6%1$s §eweighed §6%2$s §e— a whopping §6%3$s jin§e!");
+// 钓鱼过程中的提示
+        add("msg." + MODID + ".no_bite", "§eThe float has not moved yet — wait for a bite");
+        add("msg." + MODID + ".no_species",
+                "§7Nothing worth catching bites in this water: the bait may be wrong — herbivores take plant bait, carnivores meat bait, scavengers rotten bait, live-bait fish take worms (omnivores are not picky)");
+        add("msg." + MODID + ".bite_failed",
+                "§c%1$s spat the hook and fled§7: bite chance is only %2$s and your rig is too showy (%3$s) — %4$s and %5$s stand out too much; use a thinner line, a smaller float, or add a sinker for current resistance");
+        add("msg." + MODID + ".fight_timeout",
+                "§cThe fish broke free§7: you only had %1$s seconds — %2$s has too little drag, %3$s too little stretch, or %4$s is too stiff, so the reeling window was too short");
+        add("msg." + MODID + ".fight_escaped",
+                "§cReeling failed§7: the fish pulled the progress back to the bottom — keep your view locked on the float and hold steady for a few beats");
+        add("msg." + MODID + ".fight_give_up", "§7You put the rod away and the fish escaped");
+        add("msg." + MODID + ".fight_stats",
+                "§aCaught %1$s §7· took %2$s s · %3$s pulls · %4$s durability · tension %5$s/%6$s");
         add("msg." + MODID + ".rod_pod_bite", "§eThe rod on the pod is rattling — go grab it!");
         add("msg." + MODID + ".rod_pod_need_cast", "§eCast the hook first, then set the rod on it");
         gui("coop_hatch", "Hatching");
@@ -1090,11 +1123,15 @@ public class ModLangs extends LanguageProvider {
         gui("sewing_machine_hint", "Drag empty area to rotate · Scroll to zoom · Right-click to switch hidden face");
         gui("sewing_machine_hint_voxel", "L-click place voxel (1 silk) · R-click remove · Drag to build");
 // 自助取款机（银行卡界面）
+        gui("fishing_pull", "Pull direction (orange)");
+        gui("fishing_counter_pull", "Move mouse opposite (green)");
+        gui("fishing_keep_aim", "Keep aiming at the bobber");
         gui("atm", "ATM");
 // 准星落在小票打印机外卖小哥身上时的小提示
         gui("rider.order", "Deliver: %s × %s");
         gui("rider.reward", "Reward: %s yuan");
         gui("rider.recipe_hint", "Press %s to view the recipe");
+        gui("stat.hint", "Sneak to close immediately");
 // 小票打印机界面右上角的出单开关
         gui("receipt_printer.switch_on", "Taking Orders: ON");
         gui("receipt_printer.switch_off", "Taking Orders: OFF");
@@ -1126,6 +1163,11 @@ public class ModLangs extends LanguageProvider {
         gui("nav_phone_compass_distance", "Distance %s blocks");
         gui("nav_phone_hint", "Click an order to accept it; the takeout bag only appears after you accept. Click an accepted order to track it (click again to stop); accepted orders can be cancelled");
 // 商业电脑界面
+        gui("market.delete_confirm_title", "Delete this shop?");
+        gui("market.delete_confirm_warning", "This cannot be undone.");
+        gui("market.delete_confirm_action", "Delete Shop");
+        gui("market.card_page", "Cards %s–%s / %s (scroll)");
+        gui("market.card_auto_deposit", "Card cash is deposited if needed.");
         gui("market", "Shopping Computer");
         gui("market.news", "News");
         gui("market.shopping", "Shopping");
@@ -1158,13 +1200,16 @@ public class ModLangs extends LanguageProvider {
         gui("market.cancel", "Cancel");
         gui("market.no_card", "No bank card in your inventory");
         gui("market.card_anonymous", "Bearer Card");
-        gui("market.list_item", "List Held Item");
+        gui("market.list_item", "List (price per item)");
+        gui("market.list_item_stack", "List (price per stack)");
+        gui("market.per_purchase", "%1$s per purchase");
         gui("market.delist", "Delist Selected");
         gui("market.set_price", "Set Selected Price");
         gui("market.restock", "Restock (Held Item)");
         gui("market.withdraw", "Withdraw to Card");
         gui("market.shop_name_hint", "Type a shop name, then click \"Create Shop\"");
         gui("market.price_hint", "Price");
+        gui("market.price_required", "Enter a price on the right before listing");
         gui("market.balance", "Revenue: ¥%s");
         gui("shop.config_shop", "Municipal Shop");
         add("message." + MODID + ".shop.created", "Shop created");
@@ -1173,6 +1218,8 @@ public class ModLangs extends LanguageProvider {
         add("message." + MODID + ".shop.delisted", "Item delisted");
         add("message." + MODID + ".shop.repriced", "Price updated");
         add("message." + MODID + ".shop.restocked", "Restocked");
+        add("message." + MODID + ".shop.not_enough_for_stack",
+                "Listing/restocking failed: not enough for one sale unit (per-stack needs a full stack), the item does not match, or the shop is not yours");
         add("message." + MODID + ".shop.withdrawn", "Withdrawn to bank card");
         add("message." + MODID + ".shop.no_card", "No usable bank card found");
         add("message." + MODID + ".shop.no_goods", "You are not holding any item");
@@ -1251,6 +1298,36 @@ public class ModLangs extends LanguageProvider {
         gui("forestry.default_name", "Station %s, %s");
         gui("forestry.rename", "Rename");
         gui("forestry.rename.title", "Name This Station");
+// Cross-language review: keep nested server messages as translatable components.
+        add("compat.flavor_immersed_daily_argo.processing.bleed", "Bleed");
+        add("compat.flavor_immersed_daily_argo.processing.skin", "Skin");
+        add("compat.flavor_immersed_daily_argo.processing.debone", "Debone");
+        add("compat.flavor_immersed_daily_argo.processing.eviscerate", "Eviscerate");
+        add("compat.flavor_immersed_daily_argo.processing.cut_meat", "Cut Meat");
+        add("compat.flavor_immersed_daily_argo.processing.cut", "Carve");
+        add("compat.flavor_immersed_daily_argo.processing.remove", "Remove");
+        add("compat.flavor_immersed_daily_argo.processing.scale", "Scale");
+        add("compat.flavor_immersed_daily_argo.processing.gut", "Gut");
+        add("compat.flavor_immersed_daily_argo.processing.chop", "Chop");
+        add("compat.flavor_immersed_daily_argo.processing.rinse", "Rinse");
+        add("compat.flavor_immersed_daily_argo.processing.reel_silk", "Reel Silk");
+        add("compat.flavor_immersed_daily_argo.processing.pluck", "Pluck");
+// Cross-language review: keep nested server messages as translatable components.
+        add("gui.flavor_immersed_daily_argo.market.price_each", "¥%s/ea");
+        add("gui.flavor_immersed_daily_argo.market.price_stack", "¥%s/stack");
+        add("gui.flavor_immersed_daily_argo.market.price_batch", "¥%s/%s items");
+        add("gui.flavor_immersed_daily_argo.market.stock_units", "Stock: %s lots");
+        add("gui.flavor_immersed_daily_argo.market.purchase_quantity", "%s per buy");
+        add("gui.flavor_immersed_daily_argo.market.default_shop_name", "%s's Shop");
+        add("message.flavor_immersed_daily_argo.shop.invalid_cart", "Cart changed or has invalid quantities; please select the items again");
+        add("message.flavor_immersed_daily_argo.economy.command.owner_system", "System");
+        add("message.flavor_immersed_daily_argo.economy.command.owner_player", "Player: %s");
+        add("message.flavor_immersed_daily_argo.time.minutes_seconds", "%s min %s sec");
+        add("message.flavor_immersed_daily_argo.time.seconds", "%s sec");
+        add("message.flavor_immersed_daily_argo.forestry.quality.excellent", "Excellent");
+        add("message.flavor_immersed_daily_argo.forestry.quality.good", "Good");
+        add("message.flavor_immersed_daily_argo.forestry.quality.fair", "Fair");
+        add("message.flavor_immersed_daily_argo.forestry.quality.poor", "Poor");
     }
 
 // 钓鱼手册
@@ -1262,6 +1339,7 @@ public class ModLangs extends LanguageProvider {
         book("filter.activity", "Activity");
         book("filter.alertness", "Alertness");
         book("filter.feeding", "Feeding Speed");
+        book("filter.caught", "Catch Status");
         book("habitat.fresh", "Freshwater");
         book("habitat.ocean", "Saltwater");
         book("habitat.both", "Fresh & Saltwater");

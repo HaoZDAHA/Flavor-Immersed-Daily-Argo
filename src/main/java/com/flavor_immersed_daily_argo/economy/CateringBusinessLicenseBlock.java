@@ -245,7 +245,7 @@ public class CateringBusinessLicenseBlock extends Block {
         }
         ItemStack order = new ItemStack(foods.get(level.random.nextInt(foods.size())));
         order.setCount(1 + level.random.nextInt(3));
-        long reward = (long) order.getCount() * (3 + level.random.nextInt(4));
+        long reward = FoodOrderRewards.reward(level, order);
         customer.setHome(pos);
         customer.setOrder(order, reward);
         customer.moveTo(spot.getX() + 0.5D, spot.getY(), spot.getZ() + 0.5D,

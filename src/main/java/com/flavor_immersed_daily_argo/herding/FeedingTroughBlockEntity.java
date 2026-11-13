@@ -286,6 +286,9 @@ public class FeedingTroughBlockEntity extends BlockEntity {
 
 // 吃掉一份，补上对应的数值；没吃饱就留在槽边继续吃
     private void feed(Mob mob, FeedingTroughBlock.TroughContent content) {
+        if (!AnimalStatsManager.canEatFromTrough(mob)) {
+            return;
+        }
         ItemStack slot = this.inventory.getItem(SLOT);
         if (slot.isEmpty()) {
             this.eater = null;
@@ -299,6 +302,7 @@ public class FeedingTroughBlockEntity extends BlockEntity {
                 ? stats.withThirst(stats.thirst() + restore)
                 : stats.withSatiety(stats.satiety() + restore);
         AnimalStatsManager.setStats(mob, updated);
+        AnimalStatsManager.onTroughEaten(mob);
         this.updateContent();
 
         if (slot.isEmpty() || this.isFull(updated, content)) {

@@ -1,5 +1,6 @@
 package com.flavor_immersed_daily_argo.forestry;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 
@@ -95,17 +96,11 @@ public final class ForestryWater {
     }
 
 // 综合水质文案
-    public static String qualityText(int comprehensive) {
-        if (comprehensive >= 85) {
-            return "优";
-        }
-        if (comprehensive >= 70) {
-            return "良";
-        }
-        if (comprehensive >= 50) {
-            return "中";
-        }
-        return "差";
+    public static Component qualityText(int comprehensive) {
+        String grade = comprehensive >= 85 ? "excellent"
+                : comprehensive >= 70 ? "good"
+                : comprehensive >= 50 ? "fair" : "poor";
+        return Component.translatable("message.flavor_immersed_daily_argo.forestry.quality." + grade);
     }
 
 // 每日随机漂移：五项指标小幅游走，并让浊度反过来影响有机物质与溶解氧

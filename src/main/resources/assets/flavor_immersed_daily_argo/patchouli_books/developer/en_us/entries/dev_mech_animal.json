@@ -22,7 +22,7 @@
     {
       "type": "patchouli:text",
       "title": "Poop and flies",
-      "text": "Each time satiety is consumed (i.e. every 30 s decay tick) there is a $(thing)animalPoopChance$() chance (default 25%) to drop manure, at most 6 piles per chunk.$(br2)$(bold)Placement$(): at least 4 blocks away from troughs and water; when manure is already nearby the new pile is placed next to it, so droppings cluster in one area away from feeding / drinking spots.$(br2)Manure has no collision and cannot be pushed, so it never blocks an animal's pathing.$(br2)When manure plus dead-animal carcasses within 3 blocks reach 3, the animal gets $(bold)fly bite$(): it lasts $(bold)forever$() and caps cleanliness at 5 with an extra -$(thing)animalFlyBiteCleanLoss$() (default 5) on each decay tick. Only flea treatment cures it; removing the manure does not help an already infected animal."
+      "text": "Only animals marked eligible after actual player feeding attempt manure every $(thing)animalPoopIntervalTicks$() (default 600 ticks), independently of stat decay. Each attempt uses $(thing)animalPoopChance$() (default 25%; 0 disables it), with at most 6 piles per chunk. Trough feeding restores stats but does not grant manure eligibility.$(br2)$(bold)Placement$(): at least 4 blocks away from troughs and water; when manure is already nearby the new pile is placed next to it, so droppings cluster in one area away from feeding / drinking spots.$(br2)Manure has no collision and cannot be pushed, so it never blocks an animal's pathing.$(br2)When manure plus dead-animal carcasses within 3 blocks reach 3, the animal gets $(bold)fly bite$(): it lasts $(bold)forever$() and caps cleanliness at 5 with an extra -$(thing)animalFlyBiteCleanLoss$() (default 5) on each decay tick. Only flea treatment cures it; removing the manure does not help an already infected animal."
     },
     {
       "type": "patchouli:text",
@@ -32,12 +32,17 @@
     {
       "type": "patchouli:text",
       "title": "How spawning runs",
-      "text": "All natural spawning of this mod's animals is hand-rolled in $(thing)AnimalSpawning$() from $(thing)ServerTickEvent.Post$(); it uses neither $(thing)biome_modifier$(), $(thing)SpawnPlacementRegisterEvent$() nor $(thing)add_spawns$(), so it cannot clash with the parent mod's worldgen. Field mice follow the same pattern in $(thing)MouseSpawning$().$(br2)It ticks every 400 ticks (20 s): if all three animal switches are off it returns immediately. Otherwise it walks every $(thing)ServerLevel$(), checks the $(thing)doMobSpawning$() gamerule, then rolls a 0.35 chance per player."
+      "text": "All natural spawning of this mod's animals is hand-rolled in $(thing)AnimalSpawning$() from $(thing)ServerTickEvent.Post$(); it uses neither $(thing)biome_modifier$(), $(thing)SpawnPlacementRegisterEvent$() nor $(thing)add_spawns$(), so it cannot clash with the parent mod's worldgen. Field mice follow the same pattern in $(thing)MouseSpawning$().$(br2)It ticks every 400 ticks (20 s): if all three animal switches are off it returns immediately. Otherwise it walks every $(thing)ServerLevel$(), checks the $(thing)doMobSpawning$() gamerule, then rolls a 0.35 chance per player.$(br2)Before adding animals, $(thing)animalChunkLimit$() (default 2) limits this mod's land and aquatic animals together per chunk. Field mice have their own cap."
     },
     {
       "type": "patchouli:text",
       "title": "Placement and species",
       "text": "$(bold)Land$(): a random column 8~32 blocks from the player, resolved with the surface heightmap. The block below must be dirt-like / sand / gravel / mud and the two blocks above must be air; 1~3 animals spawn as a group. Biome picks the species: bamboo jungle → bamboo rat, swamp / mangrove → bullfrog, river / beach → duck, otherwise a random duck, goose, quail, pigeon or turkey.$(br2)$(bold)Water$(): same random column, then $(thing)OCEAN_FLOOR$() gives the bottom block of the water column, which must actually be water. Biome names containing $(thing)ocean$() count as saltwater, everything else as freshwater. Candidates come from the fishing handbook: only entries whose $(thing)entity$() belongs to this mod, filtered by $(thing)habitat$(), preferring entries whose $(thing)biomes$() match - so a new fish joins spawning as soon as its handbook entry exists."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Naming animals",
+      "text": "Sneak-right-click no longer opens the custom animal naming screen, and the server rejects such naming packets. Vanilla name tags still work on animals. The scarecrow's right-click naming screen remains available."
     }
   ]
 }

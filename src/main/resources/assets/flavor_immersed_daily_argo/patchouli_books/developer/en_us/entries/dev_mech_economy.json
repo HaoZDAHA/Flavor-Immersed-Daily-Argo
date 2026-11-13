@@ -22,12 +22,17 @@
     {
       "type": "patchouli:text",
       "title": "Delivery orders",
-      "text": "$(li)Candidate pool: all food items minus $(thing)food_blacklist$(), shuffled with the day's seed and cut to $(bold)40$() — the whole server sees the same menu on a given day.$(br)$(li)At most $(bold)3$() active orders; each times out after $(bold)8 minutes$().$(br)$(li)Pickup is 24~80 blocks from the player, drop-off 200~600 blocks.$(br)$(li)Pay = drop-off distance ÷ 10 (rounded, minimum 1), i.e. 20~60 yuan."
+      "text": "$(li)Candidate pool: foods from the flavor_immersed_daily namespace prefix by default, expanded by takeout.extra_food_mods / takeout.allow_all_food_mods, then filtered by $(thing)food_blacklist$(), shuffled with the day's seed and cut to $(bold)40$() — the whole server sees the same menu on a given day.$(br)$(li)At most $(bold)3$() active orders; each times out after $(bold)8 minutes$().$(br)$(li)Pickup is 24~80 blocks from the player, drop-off 200~600 blocks.$(br)$(li)Pay = drop-off distance ÷ 10 (rounded), then clamped into the range formed by $(thing)takeout.min_delivery_fee$() and $(thing)takeout.max_delivery_fee$() (default 5~60 yuan)."
     },
     {
       "type": "patchouli:text",
       "title": "Shops",
-      "text": "Two kinds of shops:$(br)$(li)$(bold)System shops$() from $(thing)data/<namespace>/shop/*.json$(), plus the single \"config shop\" built from $(thing)shop.extra_entries$().$(br)$(li)$(bold)Player shops$() created at a Shopping Computer, limited by $(thing)player_shops_enabled$() and $(thing)max_shops_per_player$().$(br2)In an entry, $(thing)count$() is per purchase and $(thing)price$() is the total for that purchase.$(br2)Every shop, system ones included, has a number in the Shopping Computer's left column and in $(thing)/fidashop list$(); the delete command uses that number, and creative mode can even remove the default system shops.$(br2)Besides the GUI, player shops can also be created and deleted with $(thing)/fidashop list|create|delete$(), but only for $(bold)your own$() shops; listing items, repricing and restocking still require the Shopping Computer."
+      "text": "Two kinds of shops:$(br)$(li)$(bold)System shops$() from $(thing)data/<namespace>/shop/*.json$(), plus the single \"config shop\" built from $(thing)shop.extra_entries$().$(br)$(li)$(bold)Player shops$() created at a Shopping Computer, limited by $(thing)player_shops_enabled$() and $(thing)max_shops_per_player$().$(br2)In an entry, $(thing)count$() is per purchase and $(thing)price$() is the total for that purchase.$(br2)When listing, players choose per item or per stack: a per-item entry has $(thing)count$() = 1 and the held stack goes in piece by piece; a per-stack entry has $(thing)count$() = the item's max stack size (usually 64), requires a full stack in hand, and buyers take a whole stack at once. Restocking converts using the entry's own unit, leaving any remainder in hand.$(br2)Every shop, system ones included, has a number in the Shopping Computer's left column and in $(thing)/fidashop list$(); the delete command uses that number, and creative mode can even remove the default system shops.$(br2)Besides the GUI, player shops can also be created and deleted with $(thing)/fidashop list|create|delete$(), but only for $(bold)your own$() shops; listing items, repricing and restocking still require the Shopping Computer."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Third-party product discovery",
+      "text": "$(thing)auto_products$() is enabled by default; discovered products get a deterministic base price of 5~20 yuan per full item stack. Discovery uses common tags, crops and standard animal loot tables, excluding vanilla and the flavor_immersed_daily prefix. Explicit data-pack/manual prices take priority; add dynamic drops manually. See Economy Config for limits and blacklist syntax."
     }
   ]
 }

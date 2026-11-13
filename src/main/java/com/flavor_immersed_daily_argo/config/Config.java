@@ -39,6 +39,11 @@ public class Config {
             .comment("How many mice may exist in a single chunk at the same time. Reaching this number stops further spawns in that chunk.")
             .defineInRange("mouseChunkLimit", 2, 1, 64);
 
+    public static final ModConfigSpec.IntValue ANIMAL_CHUNK_LIMIT = BUILDER
+            .comment("Maximum animals per chunk for natural/world-generation spawns (land and aquatic combined, excluding mice). "
+                    + "Default 2. Existing animals count, but are never removed. Eggs, breeding and commands are not blocked; 0 stops natural spawns.")
+            .defineInRange("animalChunkLimit", 2, 0, 64);
+
     public static final ModConfigSpec.BooleanValue MOUSE_NATURAL_SPAWNING = BUILDER
             .comment("Whether mice spawn naturally around mature crops. Off by default; "
                     + "temporarily toggle in game with /mouse spawn <true|false>, or use a mouse spawn egg.")
@@ -79,6 +84,12 @@ public class Config {
                     + "standing in water or rain.")
             .defineInRange("animalRestoreAmount", 1, 0, 10);
 
+// 进食频率：同一只动物两次被玩家喂食之间的最短间隔；0 表示不限
+    public static final ModConfigSpec.IntValue ANIMAL_FEED_COOLDOWN_TICKS = BUILDER
+            .comment("Minimum ticks between two hand-feedings of the same animal (20 ticks = 1 second). "
+                    + "0 removes the limit. Trough feeding is paced by troughEatIntervalTicks instead.")
+            .defineInRange("animalFeedCooldownTicks", 20, 0, 72000);
+
     public static final ModConfigSpec.IntValue ANIMAL_FEED_SATIETY = BUILDER
             .comment("Satiety gained each time a player hand-feeds an animal.")
             .defineInRange("animalFeedSatiety", 3, 0, 10);
@@ -92,8 +103,13 @@ public class Config {
                     + "is in good or bad condition (0.02 = 2%).")
             .defineInRange("animalWeightStepRatio", 0.02D, 0.0D, 1.0D);
 
+    public static final ModConfigSpec.IntValue ANIMAL_POOP_INTERVAL_TICKS = BUILDER
+            .comment("Ticks between excretion attempts per player-fed animal (20 ticks = 1 second, default 600 = 30 seconds). "
+                    + "Independent of hunger decay; only animals directly fed by a player may excrete. Trough feeding does not qualify.")
+            .defineInRange("animalPoopIntervalTicks", 600, 1, 72000);
+
     public static final ModConfigSpec.DoubleValue ANIMAL_POOP_CHANCE = BUILDER
-            .comment("Chance to leave a dropping each time satiety is consumed (0.25 = 25%).")
+            .comment("Chance to leave a dropping on each animalPoopIntervalTicks attempt while fed and not starving (0.25 = 25%; 0 disables excretion).")
             .defineInRange("animalPoopChance", 0.25D, 0.0D, 1.0D);
 
     public static final ModConfigSpec.IntValue ANIMAL_FLY_BITE_CLEAN_LOSS = BUILDER
@@ -112,7 +128,7 @@ public class Config {
 
     public static final ModConfigSpec.IntValue TROUGH_EAT_INTERVAL = BUILDER
             .comment("Ticks between two portions while an animal keeps eating at the trough.")
-            .defineInRange("troughEatIntervalTicks", 20, 1, 200);
+            .defineInRange("troughEatIntervalTicks", 20, 1, 72000);
 
 // 额外可饲养动物：按饲料种类分别配置白名单
     public static final ModConfigSpec.ConfigValue<List<? extends String>> EXTRA_FEED_ANIMALS = BUILDER

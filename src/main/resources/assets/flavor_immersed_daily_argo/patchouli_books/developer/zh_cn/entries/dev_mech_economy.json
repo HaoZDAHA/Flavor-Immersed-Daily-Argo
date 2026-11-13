@@ -22,12 +22,17 @@
     {
       "type": "patchouli:text",
       "title": "外卖订单",
-      "text": "$(li)候选池：所有食物（排除 $(thing)food_blacklist$()），按当日种子洗牌后取前 $(bold)40$() 种，所以同一天全服菜单一致。$(br)$(li)同时在途订单上限 $(bold)3$() 单，单笔超时 $(bold)8 分钟$()。$(br)$(li)取餐点距玩家 24~80 格，送达点距玩家 200~600 格。$(br)$(li)报酬 = 送达距离 ÷ 10（四舍五入，最低 1 元），即 20~60 元。"
+      "text": "$(li)候选池：默认仅 flavor_immersed_daily 前缀命名空间的食物，按 takeout.extra_food_mods / takeout.allow_all_food_mods 扩展，再排除 $(thing)food_blacklist$()，按当日种子洗牌后取前 $(bold)40$() 种，所以同一天全服菜单一致。$(br)$(li)同时在途订单上限 $(bold)3$() 单，单笔超时 $(bold)8 分钟$()。$(br)$(li)取餐点距玩家 24~80 格，送达点距玩家 200~600 格。$(br)$(li)报酬 = 送达距离 ÷ 10（四舍五入），再夹进配置 $(thing)takeout.min_delivery_fee$() 与 $(thing)takeout.max_delivery_fee$() 组成的区间（默认 5~60 元）。"
     },
     {
       "type": "patchouli:text",
       "title": "店铺",
-      "text": "店铺分两类：$(br)$(li)$(bold)系统店铺$()来自 $(thing)data/<命名空间>/shop/*.json$()，以及配置 $(thing)shop.extra_entries$() 合并成的「配置文件商店」。$(br)$(li)$(bold)玩家店铺$()在商业电脑里创建，受 $(thing)player_shops_enabled$() 与 $(thing)max_shops_per_player$() 限制。$(br2)条目里的 $(thing)count$() 是每笔给多少，$(thing)price$() 是每笔总价。$(br2)每家店（含系统店铺）在商业电脑左列和 $(thing)/fidashop list$() 里都有一个数字编号，指令删店按这个编号指定；创造模式下连系统默认店铺也能删。$(br2)玩家店铺除界面外，还可用 $(thing)/fidashop list|create|delete$() 直接增删$(bold)自己名下$()的店铺；上架、改价、补货仍只能在商业电脑界面完成。"
+      "text": "店铺分两类：$(br)$(li)$(bold)系统店铺$()来自 $(thing)data/<命名空间>/shop/*.json$()，以及配置 $(thing)shop.extra_entries$() 合并成的「配置文件商店」。$(br)$(li)$(bold)玩家店铺$()在商业电脑里创建，受 $(thing)player_shops_enabled$() 与 $(thing)max_shops_per_player$() 限制。$(br2)条目里的 $(thing)count$() 是每笔给多少，$(thing)price$() 是每笔总价。$(br2)玩家上架时可选「论个」或「论组」：论个的条目 $(thing)count$() = 1，手上整叠按件数入库；论组的条目 $(thing)count$() = 该物品最大堆叠数（通常 64），手上必须满一组才上得去，买家一次买走一整组。补货按条目原本的单位折算，多出来的零头留在手上。$(br2)每家店（含系统店铺）在商业电脑左列和 $(thing)/fidashop list$() 里都有一个数字编号，指令删店按这个编号指定；创造模式下连系统默认店铺也能删。$(br2)玩家店铺除界面外，还可用 $(thing)/fidashop list|create|delete$() 直接增删$(bold)自己名下$()的店铺；上架、改价、补货仍只能在商业电脑界面完成。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "自动第三方产物",
+      "text": "$(thing)auto_products$() 默认开启，自动产物基准价默认每物品整组 5~20 元。通用标签、作物与标准动物掉落表用于识别，原版与 flavor_immersed_daily 前缀不在自动范围内。显式数据包/手工价格优先；动态掉落请手工补充，详见经济配置章节。"
     }
   ]
 }

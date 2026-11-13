@@ -1,6 +1,7 @@
 package com.flavor_immersed_daily_argo.economy.shop;
 
 import java.util.List;
+import net.minecraft.network.chat.Component;
 
 // 一家店铺。
 //
@@ -9,6 +10,14 @@ import java.util.List;
 // 只有玩家店铺参与 balance 结算与库存扣减，全服任何人（含未打开界面者）买到的货
 // 都会把货款记进店主的 balance。
 public record Shop(String id, String title, String ownerName, List<ShopEntry> entries, long balance, boolean playerShop) {
+
+    public Component titleComponent() {
+        if (this.playerShop && (this.title == null || this.title.isBlank()
+                || this.title.equals(this.ownerName + "的小店"))) {
+            return Component.translatable("gui.flavor_immersed_daily_argo.market.default_shop_name", this.ownerName);
+        }
+        return this.playerShop ? Component.literal(this.title) : Component.translatable(this.title);
+    }
 
 // 是不是系统店铺：没有店主就是
     public boolean isSystem() {

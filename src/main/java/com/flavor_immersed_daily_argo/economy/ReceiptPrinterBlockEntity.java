@@ -286,7 +286,7 @@ public class ReceiptPrinterBlockEntity extends BlockEntity implements MenuProvid
         if (spot == null) {
             return;
         }
-        long reward = (long) order.getCount() * (3 + serverLevel.random.nextInt(4));
+        long reward = FoodOrderRewards.reward(serverLevel, order);
         rider.setHome(pos);
         rider.setOrder(order, reward);
         rider.moveTo(spot.getX() + 0.5D, spot.getY(), spot.getZ() + 0.5D,

@@ -124,10 +124,12 @@ public final class EconomyCommands {
         for (int i = 0; i < all.size(); i++) {
             Shop shop = all.get(i);
             int number = shop.numberIn(all);
-            String owner = shop.isSystem() ? "系统" : "玩家：" + shop.ownerName();
+            Component owner = shop.isSystem()
+                    ? Component.translatable("message.flavor_immersed_daily_argo.economy.command.owner_system")
+                    : Component.translatable("message.flavor_immersed_daily_argo.economy.command.owner_player", shop.ownerName());
             context.getSource().sendSuccess(() -> Component.literal("· #" + number + " ")
-                    .append(Component.translatable(shop.title()))
-                    .append(Component.literal(" [" + owner + "]")), false);
+                    .append(shop.titleComponent())
+                    .append(Component.literal(" [")).append(owner).append(Component.literal("]")), false);
         }
         return all.size();
     }

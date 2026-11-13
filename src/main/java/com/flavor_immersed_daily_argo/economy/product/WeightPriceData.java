@@ -63,9 +63,16 @@ public final class WeightPriceData {
                 continue;
             }
             try {
+                double base = Math.max(0.0D, Double.parseDouble(parts[1].trim()));
+                double extra = Math.max(0.0D, Double.parseDouble(parts[2].trim()));
+                double multiplier = EconomyConfig.ANIMAL_PRICE_MULTIPLIER.get();
+                if (!Double.isFinite(base) || !Double.isFinite(extra)) {
+                    continue;
+                }
                 result.add(new AnimalPrice(type,
-                        Math.max(0.0D, Double.parseDouble(parts[1].trim())),
-                        Math.max(0.0D, Double.parseDouble(parts[2].trim()))));
+                        base > 0.0D && multiplier > 0.0D
+                                ? Math.max(EconomyConfig.ANIMAL_MIN_BASE_PRICE.get(), base * multiplier) : 0.0D,
+                        extra * multiplier));
             } catch (NumberFormatException ignored) {
 // 价格写坏就跳过这一条
             }
@@ -122,7 +129,11 @@ public final class WeightPriceData {
             }
         }
         List<FishPrice> result = new ArrayList<>(prices.size());
-        prices.forEach((item, price) -> result.add(new FishPrice(item, price)));
+        prices.forEach((item, price) -> {
+            if (Double.isFinite(price)) {
+                result.add(new FishPrice(item, price * EconomyConfig.FISH_PRICE_MULTIPLIER.get()));
+            }
+        });
         result.sort(Comparator.comparing(price -> BuiltInRegistries.ITEM.getKey(price.item()).toString()));
         return List.copyOf(result);
     }

@@ -15,6 +15,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
+import net.minecraft.world.entity.animal.horse.Donkey;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +37,7 @@ import java.util.Optional;
 // 袋子装了什么存在 ModDataComponents#CAPTURED_ENTITY 里（整份实体 NBT），
 // 因此放出来时自定义名称、驯服状态、血量等都会原样保留；客户端靠这份组件把贴图
 // 切换成 poultry_catching_net_full。
+@EventBusSubscriber(modid = "flavor_immersed_daily_argo")
 public class PoultryCatchingNetItem extends Item {
 
 // 放出时与玩家之间留出的水平距离
@@ -51,9 +58,29 @@ public class PoultryCatchingNetItem extends Item {
         return getStored(stack) != null;
     }
 
-// 能不能装：所有动物类实体，不分幼崽与成年
+// 不捕获坐骑链或装箱坐骑：避免乘客被丢下或装载物品跟随出售而丢失。
     public static boolean canCapture(LivingEntity entity) {
-        return entity instanceof Animal;
+        return entity instanceof Animal && entity.isAlive() && !entity.isRemoved()
+                && !entity.isPassenger() && !entity.isVehicle()
+                && !(entity instanceof AbstractChestedHorse horse && horse.hasChest());
+    }
+
+    // Donkey#mobInteract mounts/opens inventory before Item#interactLivingEntity is reached.
+    // Only an empty sack takes priority; all other donkey interactions keep their native path.
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onDonkeyInteract(PlayerInteractEvent.EntityInteract event) {
+        if (event.getEntity().isSpectator() || !(event.getTarget() instanceof Donkey donkey)) {
+            return;
+        }
+        ItemStack held = event.getItemStack();
+        if (!(held.getItem() instanceof PoultryCatchingNetItem sack) || isFull(held)) {
+            return;
+        }
+        InteractionResult result = canCapture(donkey)
+                ? sack.interactLivingEntity(held, event.getEntity(), donkey, event.getHand())
+                : InteractionResult.FAIL;
+        event.setCancellationResult(result);
+        event.setCanceled(true);
     }
 
 // 把生物存成 NBT。
@@ -84,7 +111,7 @@ public class PoultryCatchingNetItem extends Item {
 
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
-        if (isFull(stack) || !canCapture(target)) {
+        if (player.isSpectator() || isFull(stack) || !canCapture(target)) {
             return InteractionResult.PASS;
         }
         if (!player.level().isClientSide) {
@@ -117,9 +144,11 @@ public class PoultryCatchingNetItem extends Item {
                 if (entity instanceof Mob mob) {
                     mob.setPersistenceRequired();
                 }
-                level.addFreshEntity(entity);
-                stack.remove(ModDataComponents.CAPTURED_ENTITY.get());
-                stack.remove(ModDataComponents.CAPTURED_WEIGHT.get());
+                // UUID collisions or another mod canceling the join must not erase the saved animal.
+                if (level.addFreshEntity(entity)) {
+                    stack.remove(ModDataComponents.CAPTURED_ENTITY.get());
+                    stack.remove(ModDataComponents.CAPTURED_WEIGHT.get());
+                }
             }
         }
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);

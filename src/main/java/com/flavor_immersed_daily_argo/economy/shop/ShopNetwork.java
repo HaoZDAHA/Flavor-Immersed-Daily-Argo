@@ -1,21 +1,16 @@
 package com.flavor_immersed_daily_argo.economy.shop;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// 店铺列表的编解码：Shop / ShopEntry 里带着 Item 实例，不能直接序列化，
-// 统一按物品注册名（ResourceLocation）编解码。
+/** Full stack prototypes, including components, are shared by initial menu data and live sync. */
 public final class ShopNetwork {
+    private ShopNetwork() { }
 
-    private ShopNetwork() {
-    }
-
-    public static void writeShops(FriendlyByteBuf buf, List<Shop> shops) {
+    public static void writeShops(RegistryFriendlyByteBuf buf, List<Shop> shops) {
         buf.writeVarInt(shops.size());
         for (Shop shop : shops) {
             buf.writeUtf(shop.id());
@@ -25,7 +20,7 @@ public final class ShopNetwork {
             buf.writeBoolean(shop.playerShop());
             buf.writeVarInt(shop.entries().size());
             for (ShopEntry entry : shop.entries()) {
-                buf.writeResourceLocation(BuiltInRegistries.ITEM.getKey(entry.item()));
+                ItemStack.STREAM_CODEC.encode(buf, entry.prototype());
                 buf.writeVarInt(entry.count());
                 buf.writeVarInt(entry.price());
                 buf.writeVarInt(entry.stock());
@@ -33,8 +28,9 @@ public final class ShopNetwork {
         }
     }
 
-    public static List<Shop> readShops(FriendlyByteBuf buf) {
+    public static List<Shop> readShops(RegistryFriendlyByteBuf buf) {
         int shopCount = buf.readVarInt();
+        if (shopCount < 0 || shopCount > 100_000) throw new IllegalArgumentException("Invalid shop count");
         List<Shop> shops = new ArrayList<>(shopCount);
         for (int i = 0; i < shopCount; i++) {
             String id = buf.readUtf();
@@ -43,14 +39,14 @@ public final class ShopNetwork {
             long balance = buf.readVarLong();
             boolean playerShop = buf.readBoolean();
             int entryCount = buf.readVarInt();
+            if (entryCount < 0 || entryCount > 100_000) throw new IllegalArgumentException("Invalid entry count");
             List<ShopEntry> entries = new ArrayList<>(entryCount);
             for (int j = 0; j < entryCount; j++) {
-                ResourceLocation rl = buf.readResourceLocation();
-                Item item = BuiltInRegistries.ITEM.get(rl);
+                ItemStack stack = ItemStack.STREAM_CODEC.decode(buf);
                 int count = buf.readVarInt();
                 int price = buf.readVarInt();
                 int stock = buf.readVarInt();
-                entries.add(new ShopEntry(item, count, price, stock));
+                entries.add(new ShopEntry(stack, count, price, stock));
             }
             shops.add(new Shop(id, title, owner, List.copyOf(entries), balance, playerShop));
         }

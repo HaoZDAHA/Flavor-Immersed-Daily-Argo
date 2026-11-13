@@ -5,7 +5,7 @@ import com.flavor_immersed_daily_argo.economy.product.EconomicProductNetwork;
 import com.flavor_immersed_daily_argo.economy.product.WeightPriceNetwork;
 import com.flavor_immersed_daily_argo.economy.shop.ShopClientData;
 import com.flavor_immersed_daily_argo.economy.shop.ShopNetwork;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,7 +24,7 @@ public class MarketMenu extends AbstractContainerMenu {
     public static final int IMAGE_HEIGHT = 200;
 
 // 客户端：从登录包读全量店铺列表、今日经济产物新闻与按重量收购的价目
-    public MarketMenu(int containerId, Inventory playerInv, FriendlyByteBuf extraData) {
+    public MarketMenu(int containerId, Inventory playerInv, RegistryFriendlyByteBuf extraData) {
         this(containerId, playerInv);
         ShopClientData.setShops(ShopNetwork.readShops(extraData));
         ShopClientData.setNews(EconomicProductNetwork.readNews(extraData));

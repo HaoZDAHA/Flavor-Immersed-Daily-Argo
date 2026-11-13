@@ -5,9 +5,39 @@
     { "tag": "c:seeds" },
     { "tag": "c:seeds" },
     { "tag": "c:seeds" },
-    { "tag": "fid:meat" },
-    { "tag": "fid:meat" },
-    { "tag": "fid:meat" },
+    [
+      { "tag": "fid:meat" },
+      { "tag": "c:foods/raw_meat" },
+      { "item": "minecraft:beef" },
+      { "item": "minecraft:porkchop" },
+      { "item": "minecraft:chicken" },
+      { "item": "minecraft:mutton" },
+      { "item": "minecraft:rabbit" },
+      { "item": "minecraft:cod" },
+      { "item": "minecraft:salmon" }
+    ],
+    [
+      { "tag": "fid:meat" },
+      { "tag": "c:foods/raw_meat" },
+      { "item": "minecraft:beef" },
+      { "item": "minecraft:porkchop" },
+      { "item": "minecraft:chicken" },
+      { "item": "minecraft:mutton" },
+      { "item": "minecraft:rabbit" },
+      { "item": "minecraft:cod" },
+      { "item": "minecraft:salmon" }
+    ],
+    [
+      { "tag": "fid:meat" },
+      { "tag": "c:foods/raw_meat" },
+      { "item": "minecraft:beef" },
+      { "item": "minecraft:porkchop" },
+      { "item": "minecraft:chicken" },
+      { "item": "minecraft:mutton" },
+      { "item": "minecraft:rabbit" },
+      { "item": "minecraft:cod" },
+      { "item": "minecraft:salmon" }
+    ],
     { "item": "minecraft:short_grass" },
     { "item": "minecraft:short_grass" },
     { "item": "minecraft:short_grass" }

@@ -1,0 +1,14 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.flavor_immersed_daily_argo.compat.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ParentButcheringJeiLanguageMixin",
+    "ParentButcheringEmiLanguageMixin",
+    "ParentBasinJeiLanguageMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

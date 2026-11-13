@@ -172,11 +172,13 @@ public class DeliveryRider extends Animal implements FoodOrder {
     }
 
 // 「3 分 20 秒」这样的剩余时间文案
-    private String formatRemaining() {
+    private Component formatRemaining() {
         int seconds = (this.getRemainingTicks() + 19) / 20;
         int minutes = seconds / 60;
         int rest = seconds % 60;
-        return minutes > 0 ? minutes + " 分 " + rest + " 秒" : rest + " 秒";
+        return minutes > 0
+                ? Component.translatable("message.flavor_immersed_daily_argo.time.minutes_seconds", minutes, rest)
+                : Component.translatable("message.flavor_immersed_daily_argo.time.seconds", rest);
     }
 
 // 生物属性

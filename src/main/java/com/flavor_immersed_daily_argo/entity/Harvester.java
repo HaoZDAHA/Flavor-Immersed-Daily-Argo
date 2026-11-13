@@ -133,12 +133,15 @@ public class Harvester extends Mob implements MenuProvider, HasCustomInventorySc
 
 // 骑乘
 
-// 直接控制骑乘者Y轴位置，避免1.21.1中getPassengersRidingOffset()废弃导致的高度异常
+// 直接控制骑乘者Y轴位置，避免getPassengersRidingOffset()废弃/版本差异导致的高度异常。
+// 坐面是机身顶面：模型中心那块 addBox(-25,-3,-74,36,8,20) 在部件坐标里顶到 16px，
+// 换算成世界高度正好 1.0 格。此前写 18/16 会比坐面高 2px，看上去像悬着一小段空气。
+    private static final double SEAT_HEIGHT = 16.0 / 16.0;
+
     @Override
     public void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (!this.hasPassenger(passenger)) return;
-        double y = this.getY() + (18.0 / 16.0);
-        moveFunction.accept(passenger, this.getX(), y, this.getZ());
+        moveFunction.accept(passenger, this.getX(), this.getY() + SEAT_HEIGHT, this.getZ());
     }
 
 // 骑乘时按E打开收割机背包

@@ -136,6 +136,8 @@ configurations {
 }
 
 dependencies {
+    // Minecraft already provides Gson in production; standalone loot fixtures need it on the test classpath too.
+    testImplementation 'com.google.code.gson:gson:2.10.1'
     compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
@@ -217,6 +219,46 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// These pure-Java checks use a main entry point, not JUnit or game startup.
+// Keep the class out of the framework runner; still run it on every check/build.
+tasks.named('test', Test).configure {
+    exclude '**/FishingPullDynamicsTest.class'
+    exclude '**/AutomaticProductRulesTest.class'
+    exclude '**/FoodOrderPricingTest.class'
+}
+def verifyFishingPull = tasks.register('verifyFishingPull', JavaExec) {
+    group = 'verification'
+    description = 'Checks fishing pull bearing, contact timing and mouse sensitivity gain.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.flavor_immersed_daily_argo.fishing.FishingPullDynamicsTest'
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+def verifyAutomaticProducts = tasks.register('verifyAutomaticProducts', JavaExec) {
+    group = 'verification'
+    description = 'Checks automatic farming-product classification, blacklist boundaries and prices.'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.flavor_immersed_daily_argo.economy.product.AutomaticProductRulesTest'
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+def verifyFoodOrderPricing = tasks.register('verifyFoodOrderPricing', JavaExec) {
+    group = 'verification'
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.flavor_immersed_daily_argo.economy.FoodOrderPricingTest'
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+tasks.named('check').configure {
+    dependsOn verifyFishingPull, verifyAutomaticProducts, verifyFoodOrderPricing
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.

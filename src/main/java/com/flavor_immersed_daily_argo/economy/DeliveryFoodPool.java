@@ -13,8 +13,8 @@ import java.util.List;
 
 // 小票打印机的「每日菜单」。
 //
-// 候选池是当前游戏里所有模组（含原版）注册的、带食物组件的物品，剔除
-// EconomyConfig#FOOD_BLACKLIST 里写下的物品后，按游戏天数确定性地抽 40 种。
+// 默认只扫描 namespace 以 flavor_immersed_daily 开头的食物；额外模组白名单
+// 或全模组开关可扩大范围。黑名单最后生效，再按游戏天数确定性地抽 40 种。
 // 同一天里所有打印机看到的是同一批，换天才会重新洗牌。
 public final class DeliveryFoodPool {
 
@@ -27,13 +27,16 @@ public final class DeliveryFoodPool {
 // 全部候选食物（已剔除黑名单），每次重新扫描，随数据包 / 模组变化而更新
     public static List<Item> candidates() {
         List<? extends String> blacklist = EconomyConfig.FOOD_BLACKLIST.get();
+        List<? extends String> extraMods = EconomyConfig.ORDER_EXTRA_FOOD_MODS.get();
+        boolean allowAll = EconomyConfig.ORDER_ALLOW_ALL_FOOD_MODS.get();
         List<Item> result = new ArrayList<>();
         for (Item item : BuiltInRegistries.ITEM) {
             if (item == Items.AIR || new ItemStack(item).get(DataComponents.FOOD) == null) {
                 continue;
             }
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(item);
-            if (id != null && blacklist.contains(id.toString())) {
+            if (id == null || !allowsNamespace(id.getNamespace(), allowAll, extraMods)
+                    || blacklist.contains(id.toString())) {
                 continue;
             }
             result.add(item);
@@ -58,6 +61,10 @@ public final class DeliveryFoodPool {
             pool.set(j, tmp);
         }
         return pool.subList(0, Math.min(DAILY_COUNT, pool.size()));
+    }
+
+    public static boolean allowsNamespace(String namespace, boolean allowAll, List<? extends String> extraMods) {
+        return allowAll || namespace.startsWith("flavor_immersed_daily") || extraMods.contains(namespace);
     }
 
     private static List<Item> candidateCopy() {

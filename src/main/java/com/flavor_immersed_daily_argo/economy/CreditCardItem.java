@@ -24,8 +24,8 @@ import java.util.List;
 //
 // 持卡主人：绑定一位玩家；空着就是还没绑定，谁打开卡（直接右键或走自助取款机）就先绑谁。
 // 卡面账户 / 金融价值：存款余额。存钱时把卡里槽位的纸币折算进来，取钱时再换回纸币。
-// 卡内 9 个槽位：只能放六种纸币。纯存储——里面的钱不参与卡面账户结算，
-// 想让它变成账户里的钱，得拿着卡去自助取款机主动「存入」。
+// 卡内 9 个槽位：只能放六种纸币。平时与卡面账户分开保存；商业电脑付款时账户不足，
+// 会自动存入此卡内纸币再付款。自助取款机仍可主动「存入」。
 //
 // 右键这张卡就能直接打开卡内 9 格的存储界面存取纸币；存/取账户、改主人则要拿着卡去自助取款机。
 public class CreditCardItem extends Item {
@@ -77,6 +77,51 @@ public class CreditCardItem extends Item {
 
     public static void setAccount(ItemStack card, long value) {
         card.set(ModDataComponents.CARD_ACCOUNT.get(), Math.max(0L, value));
+    }
+
+// 商业电脑付款：先用账户，不足时把此卡内纸币自动存入并付款；失败不改卡。
+    public static long getCashValue(ItemStack card) {
+        long cash = 0L;
+        for (ItemStack stack : getItems(card)) {
+            if (isMoney(stack)) {
+                cash += (long) Math.max(0, MoneyItem.valueOf(stack)) * stack.getCount();
+            }
+        }
+        return cash;
+    }
+
+    public static long getSpendable(ItemStack card) {
+        long account = Math.max(0L, getAccount(card));
+        long cash = getCashValue(card);
+        return cash > Long.MAX_VALUE - account ? Long.MAX_VALUE : account + cash;
+    }
+
+    public static boolean tryPay(ItemStack card, long amount) {
+        if (card.isEmpty() || !(card.getItem() instanceof CreditCardItem) || amount < 0L) {
+            return false;
+        }
+        long account = Math.max(0L, getAccount(card));
+        if (account >= amount) {
+            setAccount(card, account - amount);
+            return true;
+        }
+        long needed = amount - account;
+        long cash = getCashValue(card);
+        if (cash < needed) {
+            return false;
+        }
+        List<ItemStack> stored = getItems(card);
+        for (int i = 0; i < stored.size(); i++) {
+            ItemStack stack = stored.get(i);
+            if (isMoney(stack) && MoneyItem.valueOf(stack) > 0) {
+                stored.set(i, ItemStack.EMPTY);
+            }
+        }
+        setItems(card, stored);
+        // Spend the previous account and needed cash; unspent deposited cash remains in the account.
+        // Writing cash-needed avoids overflowing account+cash for a nearly-full account.
+        setAccount(card, cash - needed);
+        return true;
     }
 
 // 卡内 9 槽

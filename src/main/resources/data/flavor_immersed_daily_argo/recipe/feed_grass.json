@@ -8,9 +8,27 @@
     { "item": "minecraft:short_grass" },
     { "item": "minecraft:short_grass" },
     { "item": "minecraft:short_grass" },
-    { "tag": "c:crops" },
-    { "tag": "c:crops" },
-    { "tag": "c:crops" }
+    [
+      { "tag": "c:crops" },
+      { "item": "minecraft:wheat" },
+      { "item": "minecraft:carrot" },
+      { "item": "minecraft:potato" },
+      { "item": "minecraft:beetroot" }
+    ],
+    [
+      { "tag": "c:crops" },
+      { "item": "minecraft:wheat" },
+      { "item": "minecraft:carrot" },
+      { "item": "minecraft:potato" },
+      { "item": "minecraft:beetroot" }
+    ],
+    [
+      { "tag": "c:crops" },
+      { "item": "minecraft:wheat" },
+      { "item": "minecraft:carrot" },
+      { "item": "minecraft:potato" },
+      { "item": "minecraft:beetroot" }
+    ]
   ],
   "result": {
     "id": "flavor_immersed_daily_argo:feed_grass",

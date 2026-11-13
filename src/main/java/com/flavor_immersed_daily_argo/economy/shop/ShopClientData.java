@@ -103,6 +103,15 @@ public final class ShopClientData {
     }
 
     private static void setQty(String shopId, int entryIndex, int qty) {
+        Shop shop = findShop(shopId);
+        if (shop == null || entryIndex < 0 || entryIndex >= shop.entries().size()) {
+            return;
+        }
+        ShopEntry entry = shop.entries().get(entryIndex);
+        int limit = entry.infinite() ? ShopCheckoutPacket.MAX_QTY_PER_ENTRY
+                : Math.min(entry.stock(), ShopCheckoutPacket.MAX_QTY_PER_ENTRY);
+        limit = Math.min(limit, ShopCheckoutPacket.MAX_ITEMS_PER_CHECKOUT / Math.max(1, entry.count()));
+        qty = Math.max(0, Math.min(qty, limit));
         for (int i = 0; i < CART.size(); i++) {
             CartLine line = CART.get(i);
             if (line.shopId().equals(shopId) && line.entryIndex() == entryIndex) {
@@ -114,7 +123,7 @@ public final class ShopClientData {
                 return;
             }
         }
-        if (qty > 0) {
+        if (qty > 0 && CART.size() < ShopCheckoutPacket.MAX_LINES) {
             CART.add(new CartLine(shopId, entryIndex, qty));
         }
     }

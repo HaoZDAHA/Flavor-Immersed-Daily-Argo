@@ -270,9 +270,20 @@ public final class DeliveryManager {
         int destX = originX + (int) Math.round(Math.cos(destAngle) * destDistance);
         int destZ = originZ + (int) Math.round(Math.sin(destAngle) * destDistance);
 
-        long money = Math.max(1L, Math.round(destDistance / BLOCKS_PER_YUAN));
+        long money = deliveryFee(destDistance);
         long deadline = level.getGameTime() + TIMEOUT_TICKS;
         return new DeliveryOrder(random.nextLong(), originX, originZ, destX, destZ, deadline, money);
+    }
+
+// 配送费：按终点距离每 10 格 1 元折算，再夹进配置的价格区间
+    private static long deliveryFee(double destDistance) {
+        long raw = Math.round(destDistance / BLOCKS_PER_YUAN);
+        int min = EconomyConfig.TAKEOUT_MIN_FEE.get();
+        int max = EconomyConfig.TAKEOUT_MAX_FEE.get();
+        if (max < min) {
+            max = min;
+        }
+        return Math.max(min, Math.min(max, raw));
     }
 
 // 在距玩家 min~max 格的位置随机取点，并尽量落到实地（固体方块之上、不碰水）。

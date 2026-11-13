@@ -7,7 +7,7 @@
     {
       "type": "patchouli:text",
       "title": "flavor_immersed_daily_argo-economy.toml",
-      "text": "经济玩法单独放在 $(thing)config/flavor_immersed_daily_argo-economy.toml$()，共五个分组：$(thing)exchange$()、$(thing)takeout$()、$(thing)shop$()、$(thing)products$()、$(thing)weight_price$()。$(br2)这是整包作者最常改的文件，建议改之前在服务器上先备份一份。"
+      "text": "经济配置位于 $(thing)config/flavor_immersed_daily_argo-economy.toml$()，有六个分组：$(thing)exchange$()、$(thing)takeout$()、$(thing)shop$()、$(thing)products$()、$(thing)auto_products$() 和 $(thing)weight_price$()。$(br2)修改前请备份。"
     },
     {
       "type": "patchouli:text",
@@ -16,8 +16,8 @@
     },
     {
       "type": "patchouli:text",
-      "title": "takeout：外卖菜单",
-      "text": "$(bold)takeout.food_blacklist$()，每行一个物品注册名。$(br2)被列进黑名单的食物不会出现在小票打印机的每日菜单里——用来挡住腐肉、蜘蛛眼这类「能吃但不该上桌」的东西，或者屏蔽某个附属模组的变态食物。$(br2)示例：$(thing)minecraft:rotten_flesh$()"
+      "title": "takeout：外卖菜单与配送费",
+      "text": "默认订单只选择命名空间以 $(thing)flavor_immersed_daily$() 开头的食物。$(br)$(li)$(bold)takeout.extra_food_mods$()（默认空）：额外允许的准确模组 id。$(br)$(li)$(bold)takeout.allow_all_food_mods$()（默认 false）：允许全部命名空间；食物黑名单仍优先。$(br2)$(bold)takeout.food_blacklist$()，每行一个物品注册名。$(br2)被列进黑名单的食物不会出现在小票打印机的每日菜单里——用来挡住腐肉、蜘蛛眼这类「能吃但不该上桌」的东西，或者屏蔽某个附属模组的变态食物。$(br2)示例：$(thing)minecraft:rotten_flesh$()$(br2)配送费按终点距离折算（每 10 格 1 元）后，再夹进下面这个区间：$(br)$(li)$(bold)takeout.min_delivery_fee$()（默认 5，0~1000000）：最低配送费。$(br)$(li)$(bold)takeout.max_delivery_fee$()（默认 60，0~1000000）：最高配送费。$(br2)两条线设成一样就得到固定配送费；最大值小于最小值时按最小值算。"
     },
     {
       "type": "patchouli:text",
@@ -33,6 +33,16 @@
       "type": "patchouli:text",
       "title": "weight_price：按重量收购",
       "text": "$(li)$(bold)weight_price.animal_entries$()：每行 $(thing)实体注册名,标准体重价,超出每公斤加价$()，默认已列好 17 种家畜家禽，例如 $(thing)minecraft:cow,900,3$()。$(br)$(li)$(bold)weight_price.fish_entries$()：每行 $(thing)物品注册名,每斤价$()，例如 $(thing)flavor_immersed_daily_argo:raw_grass_carp,6.0$()。$(br)$(li)$(bold)weight_price.fish_default_price_per_jin$()（默认 6.0）：生鱼没单独写价时用这个每斤价。$(br2)生鱼这一侧只对$(bold)能称重的物品$()生效——名单来自数据包 $(thing)weighing_types$()，所以配置里写了、但对应模组没装的鱼会被自动忽略；把外部模组的鱼写进 $(thing)weighing_types$() 即可让它们一并进入行情。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "auto_products：自动识别",
+      "text": "$(li)$(bold)auto_products.enabled$()（默认 true）：自动识别第三方农牧产物并加入出货箱及行情。$(br)$(li)$(bold)auto_products.min_price$() / $(bold)auto_products.max_price$()（默认 5 / 20）：每个物品一组（其最大堆叠数）的基准元价区间；上下限写反会交换，同物品基准价保持确定性。$(br)$(li)$(bold)auto_products.blacklist$()（默认空）：支持物品 id、$(thing)namespace:*$() 或 $(thing)#物品标签$()。$(br2)自动识别不覆盖数据包或手工 $(thing)products.entries$() 的显式价格。"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "识别范围与手工补充",
+      "text": "只自动识别第三方内容，排除 $(thing)minecraft$() 及 $(thing)flavor_immersed_daily$() 前缀。识别依据包括通用农产标签、$(thing)CropBlock$() 作物掉落表，以及 $(thing)Animal$() / $(thing)WaterAnimal$() 的标准实体掉落表。不会把实体原型刷进世界。$(br2)特殊脚本、运行时随机或自定义动态掉落无法安全猜测。漏识别时请用 $(thing)products.entries$() 或数据包补充明确物品和价格。"
     }
   ]
 }

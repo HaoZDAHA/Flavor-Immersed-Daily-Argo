@@ -24,25 +24,8 @@ public final class FishBucketEvents {
     private FishBucketEvents() {
     }
 
-// 本模组的水产属于玩家养的东西，不该因为玩家走远被自然刷新掉。
-//
-// 原版 AbstractFish#removeWhenFarAway 返回 true，鱼、虾、蟹、龟都会被
-// checkDespawn 在距离玩家过远时直接 discard。这里在实体进入世界（含区块重载）
-// 时给本模组的水产打上持久化标记，之后 checkDespawn 不会再把它刷掉。
-    @SubscribeEvent
-    public static void onEntityJoin(EntityJoinLevelEvent event) {
-        if (event.getLevel().isClientSide()) {
-            return;
-        }
-        if (!(event.getEntity() instanceof AbstractFish fish)) {
-            return;
-        }
-        if (!flavor_immersed_daily_argo.MODID.equals(
-                BuiltInRegistries.ENTITY_TYPE.getKey(fish.getType()).getNamespace())) {
-            return;
-        }
-        fish.setPersistenceRequired();
-    }
+// 陆生与水生动物的持久化统一由 NaturalAnimalSpawnLimits 在准入后设置。
+// 此处不提前打标，避免新自然生成的鱼绕过数量限制；已存在动物不会因上限被清理。
 
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {

@@ -1,6 +1,10 @@
 package com.flavor_immersed_daily_argo.fishing;
 
+import com.flavor_immersed_daily_argo.config.ClientConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.neoforged.neoforge.client.event.CalculatePlayerTurnEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleTypes;
@@ -27,8 +31,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 // 脚步：不要朝浮漂方向走 —— 原地站定稳住身形、或往背离浮漂的方向撤，
 // 都算合格；只有主动朝鱼走过去才算失手。
 //
-// 两者同时满足的 tick 会上报给服务端累加进度。设计上没有任何 HUD，
-// 玩家只能靠浮漂抖动与镜头被拽的手感判断该往哪边操作。
+// 两者同时满足的 tick 会上报给服务端累加进度。准星周围的 FPS 式亮弧定位即时发力方向，
+// 亮弧、镜头扭矩与反拉阻滞共用一份脉冲模型，不再以累计镜头偏移猜测受力侧。
 //
 // 遛鱼期间玩家被约束在「阶段开始时所在位置」附近的小圆圈内：既不必为了凑进度一路后撤，
 // 也不会被鱼拽着跑远，更不会被拖进水里 —— 表现为与鱼在原地拔河。
@@ -45,10 +49,8 @@ public final class FishingFightClient {
     private static final double VIEW_DOT_THRESHOLD = 0.85D;
 // 移动方向与「朝向浮漂」方向的点积低于该值才算合格（只有主动朝鱼走才失手）
     private static final double MOVE_DOT_THRESHOLD = 0.25D;
-// 视角被鱼拽走的主拉力幅度（度）。两条正弦周期分别约 2.4 秒 / 5 秒，
-// 保证一次遛鱼里镜头被反复拽动多次，玩家能清楚看见「鱼在往哪边拉」。
-    private static final float DRIFT_DEG_A = 22.0F;
-    private static final float DRIFT_DEG_B = 13.0F;
+// 快速发力、短暂顶住、卸力；镜头、方向弧和鼠标反馈使用相同的 tick 时间。
+    private static final FishingPullDynamics PULL = new FishingPullDynamics();
 // 与配件无关的基础紧张抖动强度（档位）。遛鱼一开始画面就带小幅颤动，
 // 配件显眼度算出的 #shakeAmount 在此之上叠加 —— 钓组越显眼，晃得越厉害。
     private static final float BASE_SHAKE = 1.1F;
@@ -110,6 +112,7 @@ public final class FishingFightClient {
         soundTimer = 0;
         tensionFactor = (float) packet.params().tensionFactor();
         shakeAmount = (float) packet.params().shakeAmount();
+        PULL.reset(packet.hookId() * 341873128712L + player.getUUID().getLeastSignificantBits(), tensionFactor);
     }
 
     private static void reset() {
@@ -121,6 +124,8 @@ public final class FishingFightClient {
         soundTimer = 0;
         tensionFactor = 1.0F;
         shakeAmount = 0.0F;
+        effectTicks = 0.0F;
+        PULL.reset(0L, 1.0F);
     }
 
     @SubscribeEvent
@@ -130,7 +135,10 @@ public final class FishingFightClient {
         }
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
-        if (player == null || minecraft.level == null
+        if (minecraft.isPaused()) {
+            return;
+        }
+        if (player == null || minecraft.level == null || player.isDeadOrDying()
                 || !(minecraft.level.getEntity(hookId) instanceof FishingHook hook)) {
             reset();
             return;
@@ -188,7 +196,9 @@ public final class FishingFightClient {
             return;
         }
         Vec3 delta = player.getDeltaMovement();
-        player.setDeltaMovement(delta.add(dirToFish.scale(DRAG_SPEED * tensionFactor)));
+        float load = PULL.sample(effectTicks).strength();
+        player.setDeltaMovement(delta.add(dirToFish.scale(DRAG_SPEED * Math.min(tensionFactor, 2.0F)
+                * (0.25F + load * 1.25F))));
     }
 
 // 把玩家约束在「阶段开始时所在位置」为圆心、#ARENA_RADIUS 为半径的圆圈内。
@@ -295,30 +305,117 @@ public final class FishingFightClient {
                 0.55F + random.nextFloat() * 0.25F, 0.7F + random.nextFloat() * 0.6F, false);
     }
 
-// 鱼把镜头往旁边拽走的主拉力（度），周期约 2.4 秒 / 5 秒，幅度按「鱼最大拉力 / 钓竿最大拉力」缩放
+// 方向弧与镜头共用同一脉冲，不再从镜头累计偏移反推拉力。
     private static float cameraDrift(float time) {
-        return (Mth.sin(time * 0.13F) * DRIFT_DEG_A + Mth.sin(time * 0.061F + 1.7F) * DRIFT_DEG_B) * tensionFactor;
+        return PULL.sample(time).yaw();
     }
 
 // 综合抖动强度：基础紧张感 + 配件加成（钓组越显眼晃得越厉害）
     private static float shakeIntensity() {
-        return BASE_SHAKE + shakeAmount;
+        return Math.min(3.0F, BASE_SHAKE + shakeAmount);
     }
 
-// 鱼挣扎时的画面颤动（度）。三轴都用「低频摇摆 + 高频细颤」两层不通约的正弦叠加，
-// 走不出规律、像真的在跟鱼拔河，凸显紧张感。
+// 只在受力时叠加少量细震；主方向由脉冲决定，不让高频抖动干扰定位。
     private static float cameraWobbleYaw(float time) {
-        return (Mth.sin(time * 0.42F) * 1.1F + Mth.sin(time * 0.19F + 0.9F) * 0.8F
-                + Mth.sin(time * 1.63F + 2.4F) * 0.35F) * shakeIntensity();
+        return Mth.sin(time * 2.4F) * 0.10F * shakeIntensity() * PULL.sample(time).strength();
     }
 
     private static float cameraWobblePitch(float time) {
-        return (Mth.cos(time * 0.31F) * 0.9F + Mth.sin(time * 1.87F + 1.2F) * 0.28F) * shakeIntensity();
+        FishingPullDynamics.Sample pull = PULL.sample(time);
+        return pull.pitch() + Mth.sin(time * 2.1F) * 0.08F * shakeIntensity() * pull.strength();
     }
 
 // 横滚抖动：画面轻微倾斜，颤动感最明显，幅度最小以免晕
     private static float cameraWobbleRoll(float time) {
-        return (Mth.sin(time * 0.27F) * 0.7F + Mth.sin(time * 1.41F + 0.5F) * 0.22F) * shakeIntensity();
+        FishingPullDynamics.Sample pull = PULL.sample(time);
+        return Mth.sin(time * 2.8F) * (0.10F * pull.strength() + 0.25F * pull.impact());
+    }
+
+    private static boolean hasLiveFight(Minecraft minecraft) {
+        return active && minecraft.player != null && minecraft.level != null
+                && !minecraft.player.isDeadOrDying()
+                && minecraft.level.getEntity(hookId) instanceof FishingHook hook
+                && hook.getPlayerOwner() == minecraft.player;
+    }
+
+    /** Directional contact only: do not freeze the world, write Options, or count render frames. */
+    @SubscribeEvent
+    public static void onCalculatePlayerTurn(CalculatePlayerTurnEvent event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!hasLiveFight(minecraft) || !ClientConfig.FISHING_PULL_RESISTANCE.get()
+                || minecraft.screen != null || minecraft.isPaused() || !minecraft.isWindowActive()
+                || !minecraft.mouseHandler.isMouseGrabbed() || event.getCinematicCameraEnabled()) {
+            // Leave cinematic smoothing untouched; its filter does not have a linear instantaneous gain.
+            return;
+        }
+        float time = effectTicks + minecraft.getTimer().getGameTimeDeltaPartialTick(false);
+        double mouseX = minecraft.mouseHandler.getXVelocity();
+        double mouseY = minecraft.mouseHandler.getYVelocity()
+                * (minecraft.options.invertYMouse().get() ? -1.0D : 1.0D);
+        if (PULL.counterInput(time, mouseX, mouseY)) {
+            // One quiet line-contact cue per tug, never a damage sound or continuous rattling.
+            minecraft.level.playLocalSound(minecraft.player.getX(), minecraft.player.getY(), minecraft.player.getZ(),
+                    SoundEvents.CROSSBOW_LOADING_MIDDLE.value(), SoundSource.PLAYERS, 0.18F, 0.75F, false);
+        }
+        // NeoForge exposes one sensitivity scalar, not per-axis deltas. Both axes are damped
+        // only while the raw movement is opposing the current tug. Perpendicular/forward input stays free.
+        double gain = PULL.mouseGain(time, mouseX, mouseY);
+        if (gain < 1.0D) {
+            event.setMouseSensitivity(FishingPullDynamics.sensitivityForGain(event.getMouseSensitivity(), gain));
+        }
+    }
+
+    /** Live pull bearing in two thin, translucent, concentric pixel arcs. */
+    @SubscribeEvent
+    public static void onRenderGui(RenderGuiEvent.Post event) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!hasLiveFight(minecraft) || !ClientConfig.SHOW_FISHING_PULL_DIRECTION.get()
+                || minecraft.screen != null || minecraft.options.hideGui) {
+            return;
+        }
+        float time = effectTicks + event.getPartialTick().getGameTimeDeltaPartialTick(false);
+        FishingPullDynamics.Sample pull = PULL.sample(time);
+        if (Math.hypot(pull.forceX(), pull.forceY()) < 1.0E-4D) {
+            return;
+        }
+        GuiGraphics gui = event.getGuiGraphics();
+        // GuiGraphics.fill flushes per pixel unless enclosed in one managed batch.
+        gui.drawManaged(() -> drawPullArc(gui, gui.guiWidth() / 2, gui.guiHeight() / 2, pull));
+    }
+
+    private static void drawPullArc(GuiGraphics gui, int centerX, int centerY, FishingPullDynamics.Sample pull) {
+        double length = Math.hypot(pull.forceX(), pull.forceY());
+        if (length < 1.0E-4D) {
+            return;
+        }
+        // The indicator follows current force even while the contact effect holds the camera.
+        double dirX = pull.forceX() / length;
+        double dirY = pull.forceY() / length;
+        int contactInset = pull.impact() > 0.5F ? 2 : 0;
+        double outerRadius = 36 - contactInset;
+        double innerRadius = 28 - contactInset;
+        double fillLimit = Math.cos(Math.toRadians(30.0D));
+        double outlineLimit = Math.cos(Math.toRadians(33.0D));
+        // Two concentric arcs: 2px light strokes with a 1px dark outline. Fixed alpha
+        // per color, hard pixel edges; no glow, spatial gradient, or opacity animation.
+        // Classify both rings in one pass so transparent pixels are never overdrawn.
+        for (int y = -39; y < 39; y++) {
+            for (int x = -39; x < 39; x++) {
+                double distance = Math.hypot(x + 0.5D, y + 0.5D);
+                double ringDistance = Math.min(Math.abs(distance - outerRadius),
+                        Math.abs(distance - innerRadius));
+                if (ringDistance > 2.0D) {
+                    continue;
+                }
+                double dot = ((x + 0.5D) * dirX + (y + 0.5D) * dirY) / distance;
+                if (dot < outlineLimit) {
+                    continue;
+                }
+                boolean interior = ringDistance <= 1.0D && dot >= fillLimit;
+                int color = interior ? 0x99F0F0F0 : 0x66373737;
+                gui.fill(centerX + x, centerY + y, centerX + x + 1, centerY + y + 1, color);
+            }
+        }
     }
 
     @SubscribeEvent
